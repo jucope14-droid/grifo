@@ -174,7 +174,6 @@ input:checked+.sl:before{transform:translateX(19px)}
     <nav class="nav-links">
       <a href="#catalogo">Apostilas</a>
       <a href="#colecoes">Coleções</a>
-      <a href="#peticoes">Petições</a>
       <a href="#sobre">Sobre</a>
     </nav>
 
@@ -215,17 +214,7 @@ input:checked+.sl:before{transform:translateX(19px)}
   </div>
 </section>
 
-<section class="section" id="peticoes" style="border-top:1px solid var(--line)">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <h2>Minutas de Petições</h2>
-        <div class="sub">Modelos prontos para usar, adaptados à prática jurídica.</div>
-      </div>
-    </div>
-    <div id="peticoes-grid"><div class="skel-grid"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div></div>
-  </div>
-</section>
+<section class="trust" id="sobre">
   <div class="wrap">
     <div class="trust-grid">
       <div class="trust-item"><div class="ti-n">01</div><h4>Escolha a apostila</h4><p>Navegue pelo catálogo, filtre pelo seu curso e encontre o que precisa.</p></div>
@@ -316,16 +305,11 @@ async function loadProducts() {
     document.getElementById('catalog').innerHTML = '<p style="text-align:center;padding:40px;color:var(--ink-40)">Erro ao carregar. Recarregue a página.</p>';
     return;
   }
-
-  // Separa petições do catálogo principal
-  const peticoes = data.filter(p => p.categoria === 'Petições');
-  products = data.filter(p => p.categoria !== 'Petições');
-
-  const cats = new Set(products.map(p => p.categoria));
+  products = data;
+  const cats = new Set(data.map(p => p.categoria));
   document.getElementById('statCount').textContent = data.length;
   document.getElementById('statCats').textContent = cats.size;
-
-  renderTabs(); renderCatalog(); renderPacks(); renderPeticoes(peticoes);
+  renderTabs(); renderCatalog(); renderPacks();
 }
 
 function renderTabs() {
@@ -391,32 +375,7 @@ function filterAndScroll(cat) {
   document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
 }
 
-function renderPeticoes(lista) {
-  const el = document.getElementById('peticoes-grid');
-  if (!lista?.length) {
-    el.innerHTML = '<p style="text-align:center;padding:40px;color:var(--ink-40)">Nenhuma minuta disponível ainda.</p>';
-    return;
-  }
-  el.innerHTML = `<div class="grid">${lista.map(p => {
-    const temPDF = !!p.arquivo;
-    return `<div class="card">
-      <div class="card-top">
-        <div class="card-cat" style="color:#7c3aed">PETIÇÃO</div>
-        <h3>${p.titulo}</h3>
-        ${p.descricao ? `<div class="card-desc">${p.descricao}</div>` : ''}
-        <div class="card-meta">${p.paginas ? `<span>${p.paginas} págs</span>` : ''}<span>PDF</span></div>
-      </div>
-      <div class="card-foot">
-        <div class="free-badge">Grátis</div>
-        ${temPDF
-          ? `<button class="dl-btn" style="background:#7c3aed" onclick="baixar('${p.arquivo}')">⬇ Baixar minuta</button>`
-          : `<button class="dl-btn soon" disabled>Em breve</button>`}
-      </div>
-    </div>`;
-  }).join('')}</div>`;
-}
-
-
+function baixar(arquivo) {
   if (!arquivo) { toast('PDF em breve'); return; }
   window.open(`${STORAGE}/${arquivo}`, '_blank');
 }
@@ -536,10 +495,7 @@ async function saveProduct() {
   let arquivo = editId ? (admProds.find(p => p.id === editId)?.arquivo || null) : null;
   if (fileInput.files[0]) {
     const file = fileInput.files[0];
-    const filename = `${Date.now()}_${file.name
-      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-      .replace(/[^a-zA-Z0-9._-]/g,'_')
-      .replace(/_+/g,'_')}`;
+    const filename = `${Date.now()}_${file.name.replace(/\s+/g,'_')}`;
     document.getElementById('uploadProgress').style.display = 'block';
     btn.textContent = 'Enviando PDF...';
     const { error: upErr } = await db.storage.from('apostilas').upload(filename, file, { upsert: true });
