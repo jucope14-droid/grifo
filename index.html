@@ -155,6 +155,54 @@ footer{border-top:1px solid var(--line);padding:44px 0;color:var(--ink-40);font-
 .link-del{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
 .link-del:hover{color:#ff8080}
 .links-empty{color:rgba(255,255,255,.45);font-size:13px;padding:10px 0;font-style:italic}
+
+/* TABS DO ADMIN */
+.adm-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;border-bottom:1px solid var(--line);padding-bottom:0}
+.atab{background:none;border:none;padding:11px 16px;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink-40);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:color .12s,border-color .12s}
+.atab:hover{color:var(--ink)}
+.atab.active{color:var(--green);border-bottom-color:var(--green)}
+
+/* VISITAS */
+.visitas-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.vstat{background:var(--paper-2);border:1px solid var(--line);border-radius:11px;padding:16px 18px}
+.vstat .vn{font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:var(--ink)}
+.vstat .vl{font-size:11.5px;color:var(--ink-40);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.6px;margin-top:2px}
+.vtable{border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.vrow{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr 1fr;gap:10px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line);font-size:12.5px}
+.vrow:last-child{border-bottom:none}
+.vrow.vh{background:var(--ink);color:var(--paper);font-size:10.5px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.vrow span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-70)}
+.vrow .vip{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--ink)}
+
+/* NOTAS */
+.notas-box textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:10px;padding:14px;font-family:inherit;font-size:14.5px;background:var(--paper-2);color:var(--ink);resize:vertical;outline:none}
+.notas-box textarea:focus{border-color:var(--ink)}
+.nota-item{background:var(--paper-2);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:9px;padding:14px 16px;margin-bottom:10px;position:relative}
+.nota-item p{font-size:14px;color:var(--ink);white-space:pre-wrap;line-height:1.6;padding-right:24px}
+.nota-item .ndata{font-size:11px;color:var(--ink-40);font-family:'JetBrains Mono',monospace;margin-top:8px}
+.nota-del{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--ink-40);cursor:pointer;font-size:17px;line-height:1}
+.nota-del:hover{color:#C0392B}
+
+/* CALENDÁRIO */
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.cal-head h3{margin:0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-dow{text-align:center;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--ink-40);text-transform:uppercase;padding:6px 0;font-weight:600}
+.cal-day{aspect-ratio:1;border:1px solid var(--line);border-radius:9px;padding:6px;font-size:12.5px;color:var(--ink-70);cursor:pointer;background:var(--paper-2);display:flex;flex-direction:column;gap:3px;transition:border-color .12s}
+.cal-day:hover{border-color:var(--ink)}
+.cal-day.empty{background:transparent;border-color:transparent;cursor:default}
+.cal-day.today{border-color:var(--green);border-width:2px}
+.cal-day .dnum{font-weight:600;color:var(--ink)}
+.cal-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:3px}
+.cal-ev-item{display:flex;align-items:center;justify-content:space-between;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;padding:11px 15px;margin-bottom:8px;font-size:13.5px}
+.cal-ev-item .cev-l{display:flex;align-items:center;gap:9px}
+.cal-ev-del{background:none;border:none;color:var(--ink-40);cursor:pointer;font-size:16px}
+.cal-ev-del:hover{color:#C0392B}
+.cal-form{display:none;gap:8px;margin:14px 0;flex-wrap:wrap;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:14px}
+.cal-form.open{display:flex}
+.cal-form input[type="text"]{flex:1;min-width:160px;border:1px solid var(--line);border-radius:7px;padding:9px 12px;font-family:inherit;font-size:13.5px}
+.cal-form input[type="color"]{width:40px;height:38px;border:1px solid var(--line);border-radius:7px;padding:2px;cursor:pointer}
+
 /* ADMIN GRID */
 .adm-grid{display:grid;grid-template-columns:1fr 370px;gap:28px;align-items:start}
 @media(max-width:760px){.adm-grid{grid-template-columns:1fr}}
@@ -327,44 +375,94 @@ input:checked+.sl:before{transform:translateX(19px)}
 
   <div id="admDash" class="adm-body" style="display:none">
 
-    <!-- LINKS PRIVADOS -->
-    <div class="links-box">
-      <div class="links-head">
-        <h4>🔒 Meus links</h4>
-        <button class="bsm be" onclick="toggleFormLink()">+ Adicionar</button>
-      </div>
-      <div class="links-form" id="linksForm">
-        <input type="text" id="lkTitulo" placeholder="Nome (ex: Banco de Questões)">
-        <input type="url" id="lkUrl" placeholder="https://...">
-        <button class="bsm be" onclick="salvarLink()">Salvar</button>
-      </div>
-      <div id="linksList"><div class="links-empty">Carregando…</div></div>
+    <div class="adm-tabs">
+      <button class="atab active" onclick="switchTab('apostilas',this)">📚 Apostilas</button>
+      <button class="atab" onclick="switchTab('visitas',this)">📊 Visitas</button>
+      <button class="atab" onclick="switchTab('notas',this)">📝 Notas</button>
+      <button class="atab" onclick="switchTab('calendario',this)">📅 Calendário</button>
+      <button class="atab" onclick="switchTab('links',this)">🔒 Links</button>
     </div>
 
-    <div class="adm-grid">
-      <div class="adm-sec">
-        <h3>Apostilas cadastradas</h3>
-        <div id="prodList"><div class="pempty">Carregando...</div></div>
-      </div>
-      <div class="fcard">
-        <h4 id="fTitle">Nova apostila</h4>
-        <div class="field"><label>Título</label><input type="text" id="fTit" placeholder="Ex: Direito Penal"></div>
-        <div class="field"><label>Curso / Área</label><input type="text" id="fCat" placeholder="Ex: Direito, Petições, Artigos Comentados..."></div>
-        <div class="field"><label>Descrição (opcional)</label><textarea id="fDesc" placeholder="O que o aluno vai encontrar nessa apostila..."></textarea></div>
-        <div class="field"><label>Páginas</label><input type="number" id="fPag" placeholder="Ex: 26" min="1"></div>
-        <div class="field">
-          <label>PDF da apostila</label>
-          <input type="file" id="fFile" accept=".pdf" onchange="previewFile(this)">
-          <div class="arq-preview" id="arqPreview"></div>
-          <div class="upload-progress" id="uploadProgress">⏳ Enviando PDF...</div>
+    <!-- ABA APOSTILAS -->
+    <div class="atab-panel" id="tab-apostilas">
+      <div class="adm-grid">
+        <div class="adm-sec">
+          <h3>Apostilas cadastradas</h3>
+          <div id="prodList"><div class="pempty">Carregando...</div></div>
         </div>
-        <div class="tog-row"><span>Visível na loja</span><label class="sw"><input type="checkbox" id="fAtv" checked><span class="sl"></span></label></div>
-        <div class="factions">
-          <button class="bcancel" id="btnCancel" style="display:none" onclick="resetForm()">Cancelar</button>
-          <button class="bsave" id="btnSave" onclick="saveProduct()">Salvar apostila</button>
+        <div class="fcard">
+          <h4 id="fTitle">Nova apostila</h4>
+          <div class="field"><label>Título</label><input type="text" id="fTit" placeholder="Ex: Direito Penal"></div>
+          <div class="field"><label>Curso / Área</label><input type="text" id="fCat" placeholder="Ex: Direito, Petições, Artigos Comentados..."></div>
+          <div class="field"><label>Descrição (opcional)</label><textarea id="fDesc" placeholder="O que o aluno vai encontrar nessa apostila..."></textarea></div>
+          <div class="field"><label>Páginas</label><input type="number" id="fPag" placeholder="Ex: 26" min="1"></div>
+          <div class="field">
+            <label>PDF da apostila</label>
+            <input type="file" id="fFile" accept=".pdf" onchange="previewFile(this)">
+            <div class="arq-preview" id="arqPreview"></div>
+            <div class="upload-progress" id="uploadProgress">⏳ Enviando PDF...</div>
+          </div>
+          <div class="tog-row"><span>Visível na loja</span><label class="sw"><input type="checkbox" id="fAtv" checked><span class="sl"></span></label></div>
+          <div class="factions">
+            <button class="bcancel" id="btnCancel" style="display:none" onclick="resetForm()">Cancelar</button>
+            <button class="bsave" id="btnSave" onclick="saveProduct()">Salvar apostila</button>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- ABA VISITAS -->
+    <div class="atab-panel" id="tab-visitas" style="display:none">
+      <div class="adm-sec">
+        <div class="visitas-stats" id="visitasStats"></div>
+        <h3 style="margin-top:22px">Últimos acessos</h3>
+        <div id="visitasList"><div class="pempty">Carregando...</div></div>
+      </div>
+    </div>
+
+    <!-- ABA NOTAS -->
+    <div class="atab-panel" id="tab-notas" style="display:none">
+      <div class="adm-sec">
+        <h3>Notas rápidas</h3>
+        <div class="notas-box">
+          <textarea id="notaTexto" placeholder="Escreva aqui... anotações, ideias, lembretes."></textarea>
+          <button class="bsave" style="margin-top:10px" onclick="salvarNota()">Salvar nota</button>
+        </div>
+        <div id="notasList" style="margin-top:22px"></div>
+      </div>
+    </div>
+
+    <!-- ABA CALENDÁRIO -->
+    <div class="atab-panel" id="tab-calendario" style="display:none">
+      <div class="adm-sec">
+        <div class="cal-head">
+          <button class="bsm be" onclick="mudarMes(-1)">←</button>
+          <h3 id="calMesAno">—</h3>
+          <button class="bsm be" onclick="mudarMes(1)">→</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div id="calEventosLista" style="margin-top:20px"></div>
+      </div>
+    </div>
+
+    <!-- ABA LINKS -->
+    <div class="atab-panel" id="tab-links" style="display:none">
+      <div class="adm-sec">
+        <div class="links-box">
+          <div class="links-head">
+            <h4>🔒 Meus links</h4>
+            <button class="bsm be" onclick="toggleFormLink()">+ Adicionar</button>
+          </div>
+          <div class="links-form" id="linksForm">
+            <input type="text" id="lkTitulo" placeholder="Nome (ex: Banco de Questões)">
+            <input type="url" id="lkUrl" placeholder="https://...">
+            <button class="bsm be" onclick="salvarLink()">Salvar</button>
+          </div>
+          <div id="linksList"><div class="links-empty">Carregando…</div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -522,7 +620,18 @@ function closeAdmin() { document.getElementById('adm').classList.remove('open');
 
 async function checkSession() {
   const { data: { session } } = await db.auth.getSession();
-  if (session) { showDash(session.user.email); loadAdmProds(); loadLinks(); } else showLogin();
+  if (session) {
+    showDash(session.user.email);
+    loadAdmProds(); loadLinks(); loadVisitas(); loadNotas(); initCalendario();
+  } else showLogin();
+}
+
+// ── Abas do admin ─────────────────────────────────────────
+function switchTab(nome, btn) {
+  document.querySelectorAll('.atab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.atab-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('tab-' + nome).style.display = 'block';
 }
 
 function showLogin() {
@@ -549,7 +658,8 @@ async function doLogin() {
   const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
   btn.disabled = false; btn.textContent = 'Entrar';
   if (error) { err.textContent = 'E-mail ou senha incorretos.'; return; }
-  showDash(data.user.email); loadAdmProds(); loadLinks();
+  showDash(data.user.email);
+  loadAdmProds(); loadLinks(); loadVisitas(); loadNotas(); initCalendario();
 }
 
 async function admLogout() { await db.auth.signOut(); showLogin(); }
@@ -679,9 +789,177 @@ async function delProd(id) {
   toast('Apostila apagada'); loadAdmProds(); loadProducts();
 }
 
+// ═══════════════════════════════════════════════════════════
+// VISITAS — registro público (qualquer visitante) + leitura admin
+// ═══════════════════════════════════════════════════════════
+async function registrarVisita() {
+  try {
+    let ip = null, cidade = null, pais = null;
+    try {
+      const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
+      ip = geo.ip || null; cidade = geo.city || null; pais = geo.country_name || null;
+    } catch (_) {}
+    await db.from('visitas').insert({
+      ip, cidade, pais,
+      pagina: location.pathname + location.search,
+      referrer: document.referrer || null,
+      user_agent: navigator.userAgent
+    });
+  } catch (_) { /* silencioso — nunca deve quebrar a experiência do visitante */ }
+}
+
+async function loadVisitas() {
+  const statsEl = document.getElementById('visitasStats');
+  const listEl = document.getElementById('visitasList');
+  const { data, error } = await db.from('visitas').select('*').order('criado_em', { ascending: false }).limit(200);
+  if (error || !data) { listEl.innerHTML = '<div class="pempty">Erro ao carregar visitas.</div>'; return; }
+
+  const hoje = new Date(); hoje.setHours(0,0,0,0);
+  const visitasHoje = data.filter(v => new Date(v.criado_em) >= hoje).length;
+  const ipsUnicos = new Set(data.map(v => v.ip).filter(Boolean)).size;
+
+  statsEl.innerHTML = `
+    <div class="vstat"><div class="vn">${data.length}</div><div class="vl">Últimos registros</div></div>
+    <div class="vstat"><div class="vn">${visitasHoje}</div><div class="vl">Hoje</div></div>
+    <div class="vstat"><div class="vn">${ipsUnicos}</div><div class="vl">IPs únicos</div></div>
+  `;
+
+  if (!data.length) { listEl.innerHTML = '<div class="pempty">Nenhuma visita registrada ainda.</div>'; return; }
+
+  listEl.innerHTML = `<div class="vtable">
+    <div class="vrow vh"><span>Quando</span><span>IP</span><span>Local</span><span>Página</span><span>Origem</span></div>
+    ${data.slice(0, 100).map(v => {
+      const d = new Date(v.criado_em);
+      const quando = d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+      const local = [v.cidade, v.pais].filter(Boolean).join(', ') || '—';
+      const ref = v.referrer ? new URL(v.referrer).hostname : 'direto';
+      return `<div class="vrow">
+        <span>${quando}</span>
+        <span class="vip">${v.ip || '—'}</span>
+        <span>${local}</span>
+        <span>${v.pagina || '/'}</span>
+        <span>${ref}</span>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// NOTAS
+// ═══════════════════════════════════════════════════════════
+async function salvarNota() {
+  const txt = document.getElementById('notaTexto').value.trim();
+  if (!txt) { toast('Escreva algo antes de salvar'); return; }
+  const { error } = await db.from('anotacoes').insert({ conteudo: txt });
+  if (error) { toast('Erro ao salvar nota'); return; }
+  document.getElementById('notaTexto').value = '';
+  toast('Nota salva!'); loadNotas();
+}
+
+async function loadNotas() {
+  const el = document.getElementById('notasList');
+  const { data, error } = await db.from('anotacoes').select('*').order('criado_em', { ascending: false });
+  if (error || !data?.length) { el.innerHTML = '<p style="color:var(--ink-40);font-size:13.5px">Nenhuma nota ainda.</p>'; return; }
+  el.innerHTML = data.map(n => {
+    const d = new Date(n.criado_em);
+    return `<div class="nota-item">
+      <button class="nota-del" onclick="delNota('${n.id}')" title="Apagar">×</button>
+      <p>${n.conteudo.replace(/</g,'&lt;')}</p>
+      <div class="ndata">${d.toLocaleDateString('pt-BR')} às ${d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`;
+  }).join('');
+}
+
+async function delNota(id) {
+  if (!confirm('Apagar esta nota?')) return;
+  const { error } = await db.from('anotacoes').delete().eq('id', id);
+  if (error) { toast('Erro ao apagar'); return; }
+  toast('Nota apagada'); loadNotas();
+}
+
+// ═══════════════════════════════════════════════════════════
+// CALENDÁRIO
+// ═══════════════════════════════════════════════════════════
+let calData = new Date();
+let calEventos = [];
+
+const MESES_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DOW_PT = ['D','S','T','Q','Q','S','S'];
+
+async function initCalendario() {
+  const { data } = await db.from('eventos_calendario').select('*').order('data', { ascending: true });
+  calEventos = data || [];
+  renderCalendario();
+}
+
+function mudarMes(delta) {
+  calData.setMonth(calData.getMonth() + delta);
+  renderCalendario();
+}
+
+function renderCalendario() {
+  const ano = calData.getFullYear(), mes = calData.getMonth();
+  document.getElementById('calMesAno').textContent = `${MESES_PT[mes]} de ${ano}`;
+
+  const primeiroDia = new Date(ano, mes, 1).getDay();
+  const totalDias = new Date(ano, mes + 1, 0).getDate();
+  const hojeStr = new Date().toISOString().slice(0,10);
+
+  let html = DOW_PT.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  for (let i = 0; i < primeiroDia; i++) html += '<div class="cal-day empty"></div>';
+
+  for (let dia = 1; dia <= totalDias; dia++) {
+    const dataStr = `${ano}-${String(mes+1).padStart(2,'0')}-${String(dia).padStart(2,'0')}`;
+    const evs = calEventos.filter(e => e.data === dataStr);
+    const isHoje = dataStr === hojeStr;
+    html += `<div class="cal-day ${isHoje ? 'today' : ''}" onclick="abrirDiaCalendario('${dataStr}')">
+      <span class="dnum">${dia}</span>
+      ${evs.map(e => `<span class="cal-dot" style="background:${e.cor}"></span>`).join('')}
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+  renderListaEventos();
+}
+
+function renderListaEventos() {
+  const el = document.getElementById('calEventosLista');
+  const hojeStr = new Date().toISOString().slice(0,10);
+  const futuros = calEventos.filter(e => e.data >= hojeStr).sort((a,b) => a.data.localeCompare(b.data));
+  if (!futuros.length) { el.innerHTML = '<p style="color:var(--ink-40);font-size:13.5px;margin-top:6px">Nenhum evento futuro.</p>'; return; }
+  el.innerHTML = `<h3 style="margin-top:0">Próximos eventos</h3>` + futuros.map(e => {
+    const [y,m,d] = e.data.split('-');
+    return `<div class="cal-ev-item">
+      <div class="cev-l"><span class="cal-dot" style="background:${e.cor}"></span>${d}/${m}/${y} — ${e.titulo}</div>
+      <button class="cal-ev-del" onclick="delEvento('${e.id}')">×</button>
+    </div>`;
+  }).join('');
+}
+
+function abrirDiaCalendario(dataStr) {
+  const titulo = prompt(`Novo evento em ${dataStr.split('-').reverse().join('/')}:\n(deixe em branco para cancelar)`);
+  if (!titulo) return;
+  salvarEvento(dataStr, titulo);
+}
+
+async function salvarEvento(dataStr, titulo) {
+  const cores = ['#0E5C43','#7c3aed','#1a4a7a','#C0392B','#B8860B'];
+  const cor = cores[Math.floor(Math.random() * cores.length)];
+  const { error } = await db.from('eventos_calendario').insert({ titulo, data: dataStr, cor });
+  if (error) { toast('Erro ao salvar evento'); return; }
+  toast('Evento adicionado!'); initCalendario();
+}
+
+async function delEvento(id) {
+  if (!confirm('Remover este evento?')) return;
+  const { error } = await db.from('eventos_calendario').delete().eq('id', id);
+  if (error) { toast('Erro ao remover'); return; }
+  toast('Evento removido'); initCalendario();
+}
+
 // ── Init ──────────────────────────────────────────────────
 loadProducts();
 checarLinkDireto();
+registrarVisita();
 </script>
 </body>
 </html>
