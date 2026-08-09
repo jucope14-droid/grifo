@@ -252,22 +252,32 @@ input:checked+.sl:before{transform:translateX(19px)}
 
 /* ═══════════ ÁREA DO ANDREY ═══════════ */
 #andrey{
-  --t-nav:#1D2125;--t-list:#101204;--t-card:#22272B;--t-card-hi:#282E33;
-  --t-text:#B6C2CF;--t-strong:#DEE4EA;--t-sub:#9FADBC;--t-muted:#738496;
-  --t-line:rgba(166,197,226,.16);--t-hover:rgba(161,189,217,.08);
-  --t-blue:#579DFF;--t-green:#4BCE97;--t-red:#F87168;
+  --t-nav:#0b0b16;--t-list:#0d0d1c;--t-card:#15152b;--t-card-hi:#1d1d3a;
+  --t-text:#c4c8e6;--t-strong:#eef0ff;--t-sub:#9aa0cc;--t-muted:#6a6f9c;
+  --t-line:rgba(150,160,230,.18);--t-hover:rgba(130,140,230,.10);
+  --t-blue:#7b8cff;--t-green:#4BCE97;--t-red:#F87168;
   position:fixed;inset:0;z-index:200;display:none;flex-direction:column;
   font-family:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
   color:var(--t-text);font-size:14px;line-height:20px;overflow:hidden;
   background:
-    radial-gradient(circle at 16% 26%,rgba(255,255,255,.05) 0 6%,transparent 7%),
-    radial-gradient(circle at 74% 16%,rgba(255,255,255,.04) 0 4%,transparent 5%),
-    radial-gradient(circle at 46% 74%,rgba(255,255,255,.045) 0 9%,transparent 10%),
-    radial-gradient(circle at 88% 60%,rgba(255,255,255,.035) 0 5%,transparent 6%),
-    radial-gradient(circle at 28% 90%,rgba(255,255,255,.03) 0 7%,transparent 8%),
-    radial-gradient(ellipse at 18% 8%,#4c525a,transparent 55%),
-    linear-gradient(155deg,#3a4046 0%,#262b31 55%,#1b1f23 100%);
+    radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 82% 12%,#fff,transparent),
+    radial-gradient(1px 1px at 27% 42%,rgba(255,255,255,.85),transparent),
+    radial-gradient(1px 1px at 66% 58%,rgba(255,255,255,.8),transparent),
+    radial-gradient(1px 1px at 40% 78%,rgba(255,255,255,.75),transparent),
+    radial-gradient(1.5px 1.5px at 90% 82%,#fff,transparent),
+    radial-gradient(1px 1px at 55% 25%,rgba(255,255,255,.7),transparent),
+    radial-gradient(1px 1px at 8% 66%,rgba(255,255,255,.7),transparent),
+    radial-gradient(2px 2px at 74% 36%,rgba(255,255,255,.9),transparent),
+    radial-gradient(1px 1px at 33% 8%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1px 1px at 95% 48%,rgba(255,255,255,.7),transparent),
+    radial-gradient(ellipse at 20% 10%,rgba(96,73,180,.40),transparent 55%),
+    radial-gradient(ellipse at 82% 80%,rgba(38,74,168,.38),transparent 55%),
+    radial-gradient(ellipse at 60% 44%,rgba(150,54,150,.20),transparent 60%),
+    linear-gradient(160deg,#0a0a18 0%,#070711 60%,#040409 100%);
 }
+#andrey .and-newlist{background:rgba(255,255,255,.06)}
+#andrey .and-newlist .and-add{color:var(--t-strong)}
 #andrey.open{display:flex}
 #andrey *{box-sizing:border-box}
 #andrey button{font-family:inherit}
@@ -390,6 +400,67 @@ input:checked+.sl:before{transform:translateX(19px)}
 .and-tab:hover{background:var(--t-hover);color:var(--t-strong)}
 .and-tab.on{color:#fff;border-bottom-color:var(--t-blue)}
 @media(max-width:620px){.and-tab span{display:none}.and-tab{padding:8px 12px}}
+
+/* ═══════════ ESTRUTURA DA PÁGINA (dentro do #andrey) ═══════════ */
+#andEstrutura .est-top{margin-bottom:22px}
+.est-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+@media(max-width:620px){.est-stats{grid-template-columns:1fr}}
+.est-stat{background:var(--t-list);border:1px solid var(--t-line);border-radius:12px;padding:16px 18px}
+.est-stat .en{font-size:24px;font-weight:700;color:#fff}
+.est-stat .el{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--t-muted);margin-top:3px}
+.est-block{background:var(--t-list);border:1px solid var(--t-line);border-radius:14px;padding:20px;margin-bottom:16px}
+.est-block>h3{font-size:15px;font-weight:600;color:var(--t-strong);display:flex;align-items:center;gap:8px;margin:0}
+.est-block>.desc{font-size:12.5px;color:var(--t-sub);margin:5px 0 14px}
+.est-row{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--t-line);border-radius:10px;margin-bottom:8px;background:var(--t-card)}
+.est-row:last-child{margin-bottom:0}
+.est-row .grow{flex:1;min-width:0}
+.est-row .rname{font-weight:600;color:var(--t-strong);font-size:14px;word-break:break-word}
+.est-row .rsub{font-size:12px;color:var(--t-muted);margin-top:1px}
+.est-row.off{opacity:.5}
+.est-move{display:flex;flex-direction:column;gap:2px;flex:0 0 auto}
+.est-move button{background:var(--t-card-hi);border:1px solid var(--t-line);color:var(--t-sub);border-radius:5px;width:24px;height:19px;cursor:pointer;font-size:11px;line-height:1;padding:0}
+.est-move button:hover:not(:disabled){color:#fff;border-color:var(--t-blue)}
+.est-move button:disabled{opacity:.3;cursor:default}
+.est-pill{font-size:11px;padding:3px 9px;border-radius:999px;font-weight:600;white-space:nowrap;flex:0 0 auto}
+.est-pill.on{background:rgba(75,206,151,.16);color:var(--t-green)}
+.est-pill.off{background:rgba(248,113,104,.16);color:var(--t-red)}
+#andrey .est-sw{position:relative;display:inline-block;width:42px;height:23px;flex:0 0 auto}
+#andrey .est-sw input{opacity:0;width:0;height:0}
+#andrey .est-sl{position:absolute;inset:0;background:rgba(255,255,255,.16);border-radius:999px;cursor:pointer;transition:.18s}
+#andrey .est-sl:before{content:"";position:absolute;height:17px;width:17px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.18s}
+#andrey .est-sw input:checked+.est-sl{background:var(--t-blue)}
+#andrey .est-sw input:checked+.est-sl:before{transform:translateX(19px)}
+.est-input{width:100%;background:var(--t-card);border:1px solid var(--t-line);border-radius:8px;padding:9px 11px;color:var(--t-strong);font-family:inherit;font-size:13.5px;outline:none;margin-bottom:8px}
+.est-input:focus{border-color:var(--t-blue)}
+.est-savebtn{background:var(--t-blue);color:#0b0b16;border:none;border-radius:7px;padding:8px 15px;font-weight:700;font-size:13px;cursor:pointer}
+.est-savebtn:hover{filter:brightness(1.1)}
+.est-hint{font-size:12px;color:var(--t-muted);margin-top:10px;line-height:1.5}
+.est-danger .est-savebtn{background:var(--t-red);color:#fff}
+
+/* ═══════════ BANNER DE DESTAQUE (público) ═══════════ */
+.site-banner{background:linear-gradient(90deg,var(--green),#0b6b4f);color:#fff;text-align:center;padding:10px 18px;font-size:13.5px;font-weight:500;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;position:relative;z-index:45}
+.site-banner a{color:var(--hl);font-weight:700;text-decoration:none;white-space:nowrap}
+.site-banner a:hover{text-decoration:underline}
+
+/* ═══════════ MODO MANUTENÇÃO (público, tema espacial) ═══════════ */
+.manut-overlay{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:24px;text-align:center;color:#eef0ff;overflow:hidden;
+  background:
+    radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),
+    radial-gradient(1px 1px at 70% 20%,rgba(255,255,255,.8),transparent),
+    radial-gradient(1px 1px at 40% 70%,rgba(255,255,255,.75),transparent),
+    radial-gradient(2px 2px at 85% 75%,#fff,transparent),
+    radial-gradient(1px 1px at 55% 45%,rgba(255,255,255,.7),transparent),
+    radial-gradient(1.5px 1.5px at 12% 82%,#fff,transparent),
+    radial-gradient(ellipse at 25% 15%,rgba(96,73,180,.5),transparent 55%),
+    radial-gradient(ellipse at 80% 85%,rgba(38,74,168,.5),transparent 55%),
+    linear-gradient(160deg,#0a0a18,#050510 60%,#020206)}
+.manut-card{max-width:440px}
+.manut-planet{width:110px;height:110px;border-radius:50%;margin:0 auto 26px;background:radial-gradient(circle at 32% 30%,#8b9bff,#3a3a8f 55%,#1a1a3a);box-shadow:0 0 60px rgba(123,140,255,.5),inset -12px -10px 30px rgba(0,0,0,.55);animation:manutFloat 6s ease-in-out infinite}
+@keyframes manutFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.manut-card h1{font-family:'Fraunces',serif;font-size:32px;font-weight:600;margin-bottom:10px}
+.manut-card p{color:#b9bce0;font-size:15px;line-height:1.6}
+.manut-access{position:fixed;bottom:14px;right:16px;background:none;border:none;color:rgba(255,255,255,.22);font-size:20px;cursor:pointer;z-index:91;line-height:1}
+.manut-access:hover{color:rgba(255,255,255,.7)}
 </style>
 </head>
 <body>
@@ -675,10 +746,22 @@ input:checked+.sl:before{transform:translateX(19px)}
           <button class="and-tool" onclick="abrirEstruturaPagina()">
             <div class="ico">▦</div>
             <h4>Estrutura da Página</h4>
-            <p>Organize seções, URLs e a ordem do conteúdo do site.</p>
-            <span class="tag">Em construção</span>
+            <p>Ligue e desligue seções, categorias e apostilas para o público.</p>
+            <span class="tag" style="color:var(--t-green);border-color:var(--t-green)">Ativo</span>
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Estrutura da Página -->
+    <div class="and-panel and-hide" id="andEstrutura">
+      <div class="and-panel-in" style="max-width:820px">
+        <div class="est-top">
+          <button class="and-btn" onclick="mostrarPainel()">← Voltar ao painel</button>
+          <h2 style="margin-top:10px">Estrutura da Página</h2>
+          <div class="sub">Controle o que os visitantes veem. Tudo aqui vale para o site público e pode ser revertido com um clique.</div>
+        </div>
+        <div id="estBody"><div class="and-empty">Carregando…</div></div>
       </div>
     </div>
 
@@ -718,11 +801,13 @@ async function loadProducts() {
     document.getElementById('catalog').innerHTML = '<p style="text-align:center;padding:40px;color:var(--ink-40)">Erro ao carregar. Recarregue a página.</p>';
     return;
   }
-  const peticoes = data.filter(p => p.categoria === 'Petições');
-  const artigos  = data.filter(p => p.categoria === 'Artigos Comentados');
-  products = data.filter(p => p.categoria !== 'Petições' && p.categoria !== 'Artigos Comentados');
+  const catsOcultas = Array.isArray(configSite.categorias_ocultas) ? configSite.categorias_ocultas : [];
+  const visivel = p => !catsOcultas.includes(p.categoria);
+  const peticoes = data.filter(p => p.categoria === 'Petições').filter(visivel);
+  const artigos  = data.filter(p => p.categoria === 'Artigos Comentados').filter(visivel);
+  products = data.filter(p => p.categoria !== 'Petições' && p.categoria !== 'Artigos Comentados').filter(visivel);
   const cats = new Set(products.map(p => p.categoria));
-  document.getElementById('statCount').textContent = data.length;
+  document.getElementById('statCount').textContent = products.length + peticoes.length + artigos.length;
   document.getElementById('statCats').textContent = cats.size;
   renderTabs(); renderCatalog(); renderPacks(); renderPeticoes(peticoes); renderArtigos(artigos);
 }
@@ -847,13 +932,14 @@ function toast(msg) {
 
 // ── Admin ─────────────────────────────────────────────────
 function openAdmin() { document.getElementById('adm').classList.add('open'); checkSession(); }
-function closeAdmin() { document.getElementById('adm').classList.remove('open'); }
+function closeAdmin() { document.getElementById('adm').classList.remove('open'); aplicarEstruturaPublica(); }
 
 async function checkSession() {
   const { data: { session } } = await db.auth.getSession();
   if (session) {
     showDash(session.user.email);
     loadAdmProds(); loadLinks(); loadVisitas(); loadNotas(); initCalendario();
+    aplicarEstruturaPublica();
   } else showLogin();
 }
 
@@ -891,6 +977,7 @@ async function doLogin() {
   if (error) { err.textContent = 'E-mail ou senha incorretos.'; return; }
   showDash(data.user.email);
   loadAdmProds(); loadLinks(); loadVisitas(); loadNotas(); initCalendario();
+  aplicarEstruturaPublica();
 }
 
 async function admLogout() { await db.auth.signOut(); showLogin(); }
@@ -1224,6 +1311,7 @@ function mostrarQuadro() {
   $a('andLists').classList.remove('and-hide');
   $a('andHead').classList.remove('and-hide');
   $a('andPanel').classList.add('and-hide');
+  $a('andEstrutura').classList.add('and-hide');
   $a('andTabQuadro').classList.add('on');
   $a('andTabPainel').classList.remove('on');
 }
@@ -1232,6 +1320,7 @@ function mostrarPainel() {
   $a('andLists').classList.add('and-hide');
   $a('andHead').classList.add('and-hide');
   $a('andPanel').classList.remove('and-hide');
+  $a('andEstrutura').classList.add('and-hide');
   $a('andTabQuadro').classList.remove('on');
   $a('andTabPainel').classList.add('on');
 }
@@ -1239,7 +1328,278 @@ function mostrarPainel() {
 // ── Botões do painel (ligar nas próximas etapas) ──────────
 function abrirGraficoRendimento() { toast('Gráfico de Rendimento — ainda não conectado'); }
 function abrirGrifoIA()           { toast('Grifo IA — ainda não conectado'); }
-function abrirEstruturaPagina()   { toast('Estrutura da Página — ainda não conectado'); }
+function abrirEstruturaPagina()   { mostrarEstrutura(); }
+
+// ═══════════════════════════════════════════════════════════
+// ESTRUTURA DA PÁGINA — visibilidade do site público (config_site)
+// ═══════════════════════════════════════════════════════════
+let configSite = {};
+const SECOES_DEF = [
+  { id:'catalogo', nome:'Catálogo',            desc:'Apostilas filtráveis por curso' },
+  { id:'colecoes', nome:'Coleções',            desc:'Apostilas agrupadas por área' },
+  { id:'peticoes', nome:'Minutas de Petições', desc:'Modelos de petições' },
+  { id:'artigos',  nome:'Artigos Comentados',  desc:'Análise de dispositivos legais' },
+  { id:'sobre',    nome:'Como funciona / Sobre',desc:'Faixa explicativa em 3 passos' },
+];
+
+async function carregarConfigSite() {
+  try {
+    const { data, error } = await db.from('config_site').select('*');
+    configSite = {};
+    if (!error && data) data.forEach(r => configSite[r.chave] = r.valor);
+  } catch (_) { configSite = {}; }
+  return configSite;
+}
+async function salvarConfig(chave, valor) {
+  configSite[chave] = valor;
+  const { error } = await db.from('config_site').upsert({ chave, valor, atualizado_em: new Date().toISOString() });
+  if (error) { toast('Erro ao salvar: ' + error.message); return false; }
+  return true;
+}
+// getters com padrão seguro
+function cfgSecoes() {
+  const c = configSite.secoes || {};
+  const ordem = Array.isArray(c.ordem) && c.ordem.length ? c.ordem.slice() : SECOES_DEF.map(s => s.id);
+  SECOES_DEF.forEach(s => { if (!ordem.includes(s.id)) ordem.push(s.id); });
+  return { ordem: ordem.filter(id => SECOES_DEF.some(s => s.id === id)), oculto: c.oculto || {} };
+}
+function cfgCatsOcultas() { return Array.isArray(configSite.categorias_ocultas) ? configSite.categorias_ocultas : []; }
+function cfgManut()  { return configSite.manutencao || { ativo:false, msg:'' }; }
+function cfgBanner() { return configSite.banner || { ativo:false, texto:'', url:'' }; }
+
+// ── Abrir a tela ──────────────────────────────────────────
+async function mostrarEstrutura() {
+  fecharMenu();
+  $a('andLists').classList.add('and-hide');
+  $a('andHead').classList.add('and-hide');
+  $a('andPanel').classList.add('and-hide');
+  $a('andEstrutura').classList.remove('and-hide');
+  $a('andTabQuadro').classList.remove('on');
+  $a('andTabPainel').classList.remove('on');
+  $a('estBody').innerHTML = '<div class="and-empty">Carregando…</div>';
+  await carregarConfigSite();
+  await loadAdmProds();
+  renderEstrutura();
+}
+
+// ── Render da tela ────────────────────────────────────────
+function renderEstrutura() {
+  const { ordem, oculto } = cfgSecoes();
+  const manut = cfgManut(), banner = cfgBanner();
+  const catsOcultas = cfgCatsOcultas();
+  const prods = admProds || [];
+
+  const totalAp = prods.length;
+  const visiveis = prods.filter(p => p.ativo).length;
+  const secAtivas = SECOES_DEF.filter(s => !oculto[s.id]).length;
+
+  const cats = [...new Set(prods.filter(p => p.categoria !== 'Petições' && p.categoria !== 'Artigos Comentados').map(p => p.categoria))];
+
+  let h = '';
+
+  // Resumo
+  h += `<div class="est-stats">
+    <div class="est-stat"><div class="en">${visiveis}/${totalAp}</div><div class="el">Apostilas visíveis</div></div>
+    <div class="est-stat"><div class="en">${secAtivas}/${SECOES_DEF.length}</div><div class="el">Seções ativas</div></div>
+    <div class="est-stat"><div class="en" style="color:${manut.ativo ? 'var(--t-red)' : 'var(--t-green)'}">${manut.ativo ? 'ON' : 'OFF'}</div><div class="el">Manutenção</div></div>
+  </div>`;
+
+  // Modo manutenção
+  h += `<div class="est-block ${manut.ativo ? 'est-danger' : ''}">
+    <h3>🚧 Modo manutenção</h3>
+    <div class="desc">Enche o site inteiro com uma tela espacial de "em manutenção" para os visitantes. Você (logado) continua vendo tudo normalmente.</div>
+    <div class="est-row ${manut.ativo ? '' : 'off'}">
+      <div class="grow"><div class="rname">${manut.ativo ? 'Site em manutenção' : 'Site no ar'}</div><div class="rsub">${manut.ativo ? 'Visitantes veem a tela de manutenção' : 'Visitantes navegam normalmente'}</div></div>
+      <label class="est-sw"><input type="checkbox" ${manut.ativo ? 'checked' : ''} onchange="estToggleManut()"><span class="est-sl"></span></label>
+    </div>
+    <div style="margin-top:12px">
+      <input class="est-input" id="estManutMsg" placeholder="Mensagem exibida (opcional)" value="${esc(manut.msg || '')}">
+      <button class="est-savebtn" onclick="estSalvarMsgManut()">Salvar mensagem</button>
+    </div>
+  </div>`;
+
+  // Banner de destaque
+  h += `<div class="est-block">
+    <h3>📣 Banner de destaque</h3>
+    <div class="desc">Faixa colorida no topo do site para anunciar algo (ex.: apostila nova, aviso de prova).</div>
+    <div class="est-row ${banner.ativo ? '' : 'off'}">
+      <div class="grow"><div class="rname">Banner ${banner.ativo ? 'visível' : 'oculto'}</div><div class="rsub">Aparece acima do menu, para todos</div></div>
+      <label class="est-sw"><input type="checkbox" ${banner.ativo ? 'checked' : ''} onchange="estToggleBanner()"><span class="est-sl"></span></label>
+    </div>
+    <div style="margin-top:12px">
+      <input class="est-input" id="estBannerTexto" placeholder="Texto do banner" value="${esc(banner.texto || '')}">
+      <input class="est-input" id="estBannerUrl" placeholder="Link (opcional, ex.: https://...)" value="${esc(banner.url || '')}">
+      <button class="est-savebtn" onclick="estSalvarBanner()">Salvar banner</button>
+    </div>
+  </div>`;
+
+  // Seções da página
+  h += `<div class="est-block"><h3>🧩 Seções da página</h3>
+    <div class="desc">Ligue/desligue e reordene as grandes seções do site. Desligar deixa a seção invisível ao público.</div>`;
+  ordem.forEach((id, i) => {
+    const s = SECOES_DEF.find(x => x.id === id); if (!s) return;
+    const on = !oculto[id];
+    h += `<div class="est-row ${on ? '' : 'off'}">
+      <div class="est-move">
+        <button onclick="estMoverSecao('${id}',-1)" ${i === 0 ? 'disabled' : ''} title="Subir">▲</button>
+        <button onclick="estMoverSecao('${id}',1)" ${i === ordem.length - 1 ? 'disabled' : ''} title="Descer">▼</button>
+      </div>
+      <div class="grow"><div class="rname">${esc(s.nome)}</div><div class="rsub">${esc(s.desc)}</div></div>
+      <span class="est-pill ${on ? 'on' : 'off'}">${on ? 'Visível' : 'Oculta'}</span>
+      <label class="est-sw"><input type="checkbox" ${on ? 'checked' : ''} onchange="estToggleSecao('${id}')"><span class="est-sl"></span></label>
+    </div>`;
+  });
+  h += `</div>`;
+
+  // Categorias do catálogo
+  h += `<div class="est-block"><h3>🗂 Categorias do catálogo</h3>
+    <div class="desc">Desligar uma categoria some com todas as apostilas dela de uma vez (catálogo e coleções).</div>`;
+  if (!cats.length) {
+    h += `<div class="and-empty">Nenhuma categoria de catálogo ainda.</div>`;
+  } else {
+    cats.forEach(cat => {
+      const on = !catsOcultas.includes(cat);
+      const n = prods.filter(p => p.categoria === cat).length;
+      h += `<div class="est-row ${on ? '' : 'off'}">
+        <div class="grow"><div class="rname">${esc(cat)}</div><div class="rsub">${n} apostila${n !== 1 ? 's' : ''}</div></div>
+        <span class="est-pill ${on ? 'on' : 'off'}">${on ? 'Visível' : 'Oculta'}</span>
+        <label class="est-sw"><input type="checkbox" ${on ? 'checked' : ''} onchange="estToggleCategoria('${encodeURIComponent(cat)}')"><span class="est-sl"></span></label>
+      </div>`;
+    });
+  }
+  h += `</div>`;
+
+  // Apostilas individuais
+  h += `<div class="est-block"><h3>📄 Apostilas individuais</h3>
+    <div class="desc">Controle fino: ligue/desligue cada apostila (inclui petições e artigos). Some do site na hora.</div>`;
+  if (!prods.length) {
+    h += `<div class="and-empty">Nenhuma apostila cadastrada ainda.</div>`;
+  } else {
+    prods.forEach(p => {
+      const on = !!p.ativo;
+      h += `<div class="est-row ${on ? '' : 'off'}">
+        <div class="grow"><div class="rname">${esc(p.titulo)}</div><div class="rsub">${esc(p.categoria)}${p.arquivo ? '' : ' · sem PDF'}</div></div>
+        <span class="est-pill ${on ? 'on' : 'off'}">${on ? 'Visível' : 'Oculta'}</span>
+        <label class="est-sw"><input type="checkbox" ${on ? 'checked' : ''} onchange="estToggleApostila('${p.id}')"><span class="est-sl"></span></label>
+      </div>`;
+    });
+  }
+  h += `<div class="est-hint">Dica: as mudanças já valem para quem abrir o site. Para conferir você mesmo, feche o admin e recarregue a página.</div></div>`;
+
+  $a('estBody').innerHTML = h;
+}
+
+// ── Ações da Estrutura ────────────────────────────────────
+async function estToggleSecao(id) {
+  const { ordem, oculto } = cfgSecoes();
+  oculto[id] = !oculto[id];
+  await salvarConfig('secoes', { ordem, oculto });
+  renderEstrutura(); aplicarEstruturaPublica(configSite);
+}
+async function estMoverSecao(id, dir) {
+  const { ordem, oculto } = cfgSecoes();
+  const i = ordem.indexOf(id); const j = i + dir;
+  if (i < 0 || j < 0 || j >= ordem.length) return;
+  [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
+  await salvarConfig('secoes', { ordem, oculto });
+  renderEstrutura(); aplicarEstruturaPublica(configSite);
+}
+async function estToggleCategoria(catEnc) {
+  const cat = decodeURIComponent(catEnc);
+  const atuais = cfgCatsOcultas().slice();
+  const i = atuais.indexOf(cat);
+  if (i >= 0) atuais.splice(i, 1); else atuais.push(cat);
+  await salvarConfig('categorias_ocultas', atuais);
+  renderEstrutura(); loadProducts().then(() => aplicarEstruturaPublica(configSite));
+}
+async function estToggleApostila(id) {
+  const p = admProds.find(x => x.id === id); if (!p) return;
+  const novo = !p.ativo;
+  const { error } = await db.from('produtos').update({ ativo: novo }).eq('id', id);
+  if (error) { toast('Erro ao salvar'); return; }
+  p.ativo = novo;
+  toast(novo ? 'Apostila visível' : 'Apostila oculta');
+  renderEstrutura();
+  loadProducts().then(() => aplicarEstruturaPublica(configSite));
+}
+async function estToggleManut() {
+  const m = cfgManut(); m.ativo = !m.ativo;
+  await salvarConfig('manutencao', m);
+  toast(m.ativo ? 'Modo manutenção ligado' : 'Site de volta ao ar');
+  renderEstrutura(); aplicarEstruturaPublica(configSite);
+}
+async function estSalvarMsgManut() {
+  const m = cfgManut(); m.msg = $a('estManutMsg').value.trim();
+  await salvarConfig('manutencao', m);
+  toast('Mensagem salva'); aplicarEstruturaPublica(configSite);
+}
+async function estToggleBanner() {
+  const b = cfgBanner(); b.ativo = !b.ativo;
+  await salvarConfig('banner', b);
+  renderEstrutura(); aplicarEstruturaPublica(configSite);
+}
+async function estSalvarBanner() {
+  const b = cfgBanner();
+  b.texto = $a('estBannerTexto').value.trim();
+  b.url = $a('estBannerUrl').value.trim();
+  await salvarConfig('banner', b);
+  toast('Banner salvo'); renderEstrutura(); aplicarEstruturaPublica(configSite);
+}
+
+// ═══════════════════════════════════════════════════════════
+// APLICAR NO SITE PÚBLICO (seções, ordem, banner, manutenção)
+// ═══════════════════════════════════════════════════════════
+async function aplicarEstruturaPublica(cfg) {
+  const c = cfg || await carregarConfigSite();
+  const sec = c.secoes || {};
+  let ordem = Array.isArray(sec.ordem) && sec.ordem.length ? sec.ordem.slice() : SECOES_DEF.map(s => s.id);
+  SECOES_DEF.forEach(s => { if (!ordem.includes(s.id)) ordem.push(s.id); });
+  ordem = ordem.filter(id => SECOES_DEF.some(s => s.id === id));
+  const oculto = sec.oculto || {};
+
+  const footer = document.querySelector('footer');
+  if (footer && footer.parentNode) {
+    ordem.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = oculto[id] ? 'none' : '';
+      footer.parentNode.insertBefore(el, footer);
+    });
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    const id = (a.getAttribute('href') || '').replace('#', '');
+    if (SECOES_DEF.some(s => s.id === id)) a.style.display = oculto[id] ? 'none' : '';
+  });
+
+  aplicarBanner(c.banner || {});
+  let temSessao = false;
+  try { const { data: { session } } = await db.auth.getSession(); temSessao = !!session; } catch (_) {}
+  aplicarManutencao(c.manutencao || {}, temSessao);
+}
+
+function aplicarBanner(b) {
+  let el = document.getElementById('siteBanner');
+  if (b && b.ativo && b.texto) {
+    if (!el) { el = document.createElement('div'); el.id = 'siteBanner'; el.className = 'site-banner'; document.body.insertBefore(el, document.body.firstChild); }
+    const link = b.url ? ` <a href="${esc(b.url)}" target="_blank" rel="noopener noreferrer">Saiba mais →</a>` : '';
+    el.innerHTML = `<span>${esc(b.texto)}</span>${link}`;
+    el.style.display = '';
+  } else if (el) { el.style.display = 'none'; }
+}
+
+function aplicarManutencao(m, isAdmin) {
+  let el = document.getElementById('manutOverlay');
+  if (m && m.ativo && !isAdmin) {
+    if (!el) { el = document.createElement('div'); el.id = 'manutOverlay'; el.className = 'manut-overlay'; document.body.appendChild(el); }
+    el.innerHTML = `<button class="manut-access" onclick="openAdmin()" title="Admin">·</button>
+      <div class="manut-card">
+        <div class="manut-planet"></div>
+        <h1>Site em manutenção</h1>
+        <p>${esc(m.msg || 'Estamos preparando novidades. Volte em breve!')}</p>
+      </div>`;
+    el.style.display = 'flex';
+  } else if (el) { el.style.display = 'none'; }
+}
 
 // ── Carregar dados ────────────────────────────────────────
 async function carregarQuadros() {
@@ -1555,9 +1915,13 @@ document.addEventListener('keydown', ev => {
 });
 
 // ── Init ──────────────────────────────────────────────────
-loadProducts();
-checarLinkDireto();
-registrarVisita();
+(async function initSite() {
+  await carregarConfigSite();          // carrega visibilidade antes de renderizar
+  await loadProducts();                // já respeita categorias ocultas
+  await aplicarEstruturaPublica(configSite); // seções, ordem, banner, manutenção
+  checarLinkDireto();
+  registrarVisita();
+})();
 </script>
 </body>
 </html>
