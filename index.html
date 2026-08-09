@@ -203,6 +203,83 @@ footer{border-top:1px solid var(--line);padding:44px 0;color:var(--ink-40);font-
 .cal-form input[type="text"]{flex:1;min-width:160px;border:1px solid var(--line);border-radius:7px;padding:9px 12px;font-family:inherit;font-size:13.5px}
 .cal-form input[type="color"]{width:40px;height:38px;border:1px solid var(--line);border-radius:7px;padding:2px;cursor:pointer}
 
+/* BOTÃO ÁREA DO ANDREY (na barra de abas) */
+.atab-andrey{margin-left:auto;background:linear-gradient(120deg,#1a1040,#3a1d6e)!important;color:#c9b8ff!important;border-radius:8px!important;border:1px solid #4a2d8e!important;padding:9px 16px!important;margin-bottom:0!important}
+.atab-andrey:hover{color:#fff!important;border-color:#7c5cff!important}
+
+/* ═══════════ ÁREA DO ANDREY — ambiente espacial ═══════════ */
+.andrey{position:fixed;inset:0;z-index:200;background:#07060f;display:none;overflow-y:auto;color:#e8e6f5;font-family:'Inter',sans-serif}
+.andrey.open{display:block}
+.andrey .stars{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+  radial-gradient(1px 1px at 60% 70%, #cbd5ff, transparent),
+  radial-gradient(1px 1px at 80% 20%, #fff, transparent),
+  radial-gradient(1.5px 1.5px at 40% 80%, #a5b4ff, transparent),
+  radial-gradient(1px 1px at 90% 60%, #fff, transparent),
+  radial-gradient(1px 1px at 15% 65%, #fff, transparent),
+  radial-gradient(1.5px 1.5px at 70% 40%, #d8b4ff, transparent),
+  radial-gradient(1px 1px at 33% 15%, #fff, transparent);
+  background-repeat:repeat;background-size:100% 100%;opacity:.5;animation:twinkle 6s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.35}to{opacity:.65}}
+.andrey::before{content:"";position:fixed;top:-30%;left:-10%;width:70%;height:70%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(124,92,255,.18),transparent 60%);filter:blur(40px)}
+.andrey::after{content:"";position:fixed;bottom:-30%;right:-10%;width:60%;height:60%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(0,212,255,.12),transparent 60%);filter:blur(50px)}
+
+/* Tela de PIN */
+.andrey-lock{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.lock-card{background:rgba(20,16,40,.72);backdrop-filter:blur(16px);border:1px solid rgba(124,92,255,.28);border-radius:22px;padding:44px 38px;max-width:380px;width:100%;text-align:center;box-shadow:0 30px 90px -20px rgba(124,92,255,.35)}
+.lock-orbit{width:78px;height:78px;margin:0 auto 22px;border:1.5px solid rgba(124,92,255,.4);border-radius:50%;position:relative;animation:spin 8s linear infinite}
+.lock-planet{position:absolute;top:-6px;left:50%;width:13px;height:13px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#c9b8ff,#7c5cff);box-shadow:0 0 14px #7c5cff}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lock-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#7c5cff;margin-bottom:12px}
+.lock-card h2{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:#fff;letter-spacing:-.4px}
+.lock-sub{color:#9a94c0;font-size:14px;margin-top:8px;margin-bottom:26px}
+.pin-input{width:100%;background:rgba(10,8,24,.8);border:1px solid rgba(124,92,255,.35);border-radius:11px;padding:15px;text-align:center;font-size:22px;letter-spacing:8px;color:#fff;font-family:'JetBrains Mono',monospace;outline:none}
+.pin-input:focus{border-color:#7c5cff;box-shadow:0 0 0 3px rgba(124,92,255,.18)}
+.pin-err{color:#ff7a9c;font-size:12.5px;min-height:18px;margin-top:10px}
+.pin-btn{width:100%;background:linear-gradient(120deg,#7c5cff,#a54dff);color:#fff;border:none;border-radius:11px;padding:14px;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit;margin-top:6px;transition:filter .15s}
+.pin-btn:hover{filter:brightness(1.12)}
+.lock-voltar{background:none;border:none;color:#6f6a93;font-size:12.5px;cursor:pointer;margin-top:18px;font-family:inherit}
+.lock-voltar:hover{color:#c9b8ff}
+
+/* Quadro Kanban */
+.andrey-board{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:38px 24px 60px}
+.board-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:30px}
+.board-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:#7c5cff}
+.board-title h2{font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:#fff;letter-spacing:-.5px;margin-top:6px}
+.board-actions{display:flex;gap:10px}
+.ghost-btn{background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.35);color:#c9b8ff;padding:10px 18px;border-radius:9px;font-weight:600;font-size:13.5px;cursor:pointer;font-family:inherit;transition:all .14s}
+.ghost-btn:hover{background:rgba(124,92,255,.24);color:#fff}
+.ghost-exit{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.15);color:#9a94c0}
+.ghost-exit:hover{background:rgba(255,122,156,.15);border-color:rgba(255,122,156,.4);color:#ff7a9c}
+
+.card-form{display:none;gap:10px;flex-wrap:wrap;align-items:center;background:rgba(20,16,40,.7);border:1px solid rgba(124,92,255,.28);border-radius:14px;padding:18px;margin-bottom:26px}
+.card-form.open{display:flex}
+.card-form input,.card-form select{background:rgba(10,8,24,.8);border:1px solid rgba(124,92,255,.3);border-radius:9px;padding:11px 14px;color:#fff;font-family:inherit;font-size:14px;outline:none}
+.card-form input{flex:1;min-width:180px}
+.card-form input:focus,.card-form select:focus{border-color:#7c5cff}
+.card-form input::placeholder{color:#6f6a93}
+
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:820px){.kanban{grid-template-columns:1fr}}
+.col{background:rgba(16,13,32,.6);border:1px solid rgba(124,92,255,.16);border-radius:16px;padding:18px;min-height:220px}
+.col-head{display:flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b8b2da;font-weight:700;margin-bottom:16px}
+.col-dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 8px currentColor}
+.col-count{margin-left:auto;background:rgba(124,92,255,.2);color:#c9b8ff;border-radius:999px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.col-body{min-height:120px;display:flex;flex-direction:column;gap:11px;border-radius:10px;transition:background .15s;padding:2px}
+.col-body.dragover{background:rgba(124,92,255,.08);outline:1.5px dashed rgba(124,92,255,.4)}
+.kcard{background:linear-gradient(145deg,rgba(30,24,58,.9),rgba(22,17,44,.9));border:1px solid rgba(124,92,255,.22);border-left:3px solid var(--cardcor,#7c5cff);border-radius:11px;padding:14px 15px;cursor:grab;transition:transform .12s,box-shadow .12s,border-color .12s}
+.kcard:hover{transform:translateY(-2px);box-shadow:0 10px 26px -12px rgba(124,92,255,.5);border-color:rgba(124,92,255,.5)}
+.kcard.dragging{opacity:.45;cursor:grabbing}
+.kcard h4{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:#fff;line-height:1.25;padding-right:20px;position:relative}
+.kcard p{font-size:13px;color:#9a94c0;margin-top:6px;line-height:1.5}
+.kcard .kdel{position:absolute;top:0;right:0;background:none;border:none;color:#5f5a82;cursor:pointer;font-size:16px;line-height:1}
+.kcard .kdel:hover{color:#ff7a9c}
+.kcard .kdate{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6f6a93;margin-top:9px;letter-spacing:.5px}
+.col-empty{color:#5f5a82;font-size:12.5px;text-align:center;padding:22px 0;font-style:italic}
+
+
 /* ADMIN GRID */
 .adm-grid{display:grid;grid-template-columns:1fr 370px;gap:28px;align-items:start}
 @media(max-width:760px){.adm-grid{grid-template-columns:1fr}}
@@ -376,11 +453,12 @@ input:checked+.sl:before{transform:translateX(19px)}
   <div id="admDash" class="adm-body" style="display:none">
 
     <div class="adm-tabs">
-      <button class="atab active" onclick="switchTab('apostilas',this)">📚 Apostilas</button>
-      <button class="atab" onclick="switchTab('visitas',this)">📊 Visitas</button>
-      <button class="atab" onclick="switchTab('notas',this)">📝 Notas</button>
-      <button class="atab" onclick="switchTab('calendario',this)">📅 Calendário</button>
-      <button class="atab" onclick="switchTab('links',this)">🔒 Links</button>
+      <button class="atab active" onclick="switchTab('apostilas',this)">Apostilas</button>
+      <button class="atab" onclick="switchTab('visitas',this)">Visitas</button>
+      <button class="atab" onclick="switchTab('notas',this)">Notas</button>
+      <button class="atab" onclick="switchTab('calendario',this)">Calendário</button>
+      <button class="atab" onclick="switchTab('links',this)">Links</button>
+      <button class="atab atab-andrey" onclick="abrirAreaAndrey()">Área do Andrey</button>
     </div>
 
     <!-- ABA APOSTILAS -->
@@ -450,7 +528,7 @@ input:checked+.sl:before{transform:translateX(19px)}
       <div class="adm-sec">
         <div class="links-box">
           <div class="links-head">
-            <h4>🔒 Meus links</h4>
+            <h4>Meus links</h4>
             <button class="bsm be" onclick="toggleFormLink()">+ Adicionar</button>
           </div>
           <div class="links-form" id="linksForm">
@@ -467,6 +545,67 @@ input:checked+.sl:before{transform:translateX(19px)}
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ═══════════ ÁREA DO ANDREY ═══════════ -->
+<div class="andrey" id="andrey">
+  <div class="stars" id="stars"></div>
+
+  <!-- Tela de PIN -->
+  <div class="andrey-lock" id="andreyLock">
+    <div class="lock-card">
+      <div class="lock-orbit"><div class="lock-planet"></div></div>
+      <div class="lock-eyebrow">Acesso reservado</div>
+      <h2>Área do Andrey</h2>
+      <p class="lock-sub">Digite o PIN para entrar.</p>
+      <input type="password" id="pinInput" class="pin-input" placeholder="• • • • • •" maxlength="20" onkeydown="if(event.key==='Enter')checarPin()" autocomplete="off">
+      <div class="pin-err" id="pinErr"></div>
+      <button class="pin-btn" onclick="checarPin()">Entrar</button>
+      <button class="lock-voltar" onclick="fecharAreaAndrey()">← Voltar ao admin</button>
+    </div>
+  </div>
+
+  <!-- Quadro -->
+  <div class="andrey-board" id="andreyBoard" style="display:none">
+    <div class="board-top">
+      <div class="board-title">
+        <span class="board-eyebrow">Estação de comando</span>
+        <h2>Quadro do Andrey</h2>
+      </div>
+      <div class="board-actions">
+        <button class="ghost-btn" onclick="abrirFormCard()">+ Nova tarefa</button>
+        <button class="ghost-btn ghost-exit" onclick="sairAndrey()">Sair</button>
+      </div>
+    </div>
+
+    <div class="card-form" id="cardForm">
+      <input type="text" id="cardTitulo" placeholder="Título da tarefa">
+      <input type="text" id="cardDesc" placeholder="Descrição (opcional)">
+      <select id="cardColuna">
+        <option value="fazer">A fazer</option>
+        <option value="fazendo">Em progresso</option>
+        <option value="feito">Concluído</option>
+      </select>
+      <button class="pin-btn" style="margin:0;width:auto;padding:10px 20px" onclick="salvarCard()">Adicionar</button>
+      <button class="ghost-btn" onclick="fecharFormCard()">Cancelar</button>
+    </div>
+
+    <div class="kanban" id="kanban">
+      <div class="col" data-col="fazer">
+        <div class="col-head"><span class="col-dot" style="background:#7c5cff"></span> A fazer <span class="col-count" id="count-fazer">0</span></div>
+        <div class="col-body" id="col-fazer" ondragover="permitirSolta(event)" ondrop="soltarCard(event,'fazer')"></div>
+      </div>
+      <div class="col" data-col="fazendo">
+        <div class="col-head"><span class="col-dot" style="background:#00d4ff"></span> Em progresso <span class="col-count" id="count-fazendo">0</span></div>
+        <div class="col-body" id="col-fazendo" ondragover="permitirSolta(event)" ondrop="soltarCard(event,'fazendo')"></div>
+      </div>
+      <div class="col" data-col="feito">
+        <div class="col-head"><span class="col-dot" style="background:#3ddc84"></span> Concluído <span class="col-count" id="count-feito">0</span></div>
+        <div class="col-body" id="col-feito" ondragover="permitirSolta(event)" ondrop="soltarCard(event,'feito')"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
 // ── Supabase ──────────────────────────────────────────────
@@ -954,6 +1093,116 @@ async function delEvento(id) {
   const { error } = await db.from('eventos_calendario').delete().eq('id', id);
   if (error) { toast('Erro ao remover'); return; }
   toast('Evento removido'); initCalendario();
+}
+
+// ═══════════════════════════════════════════════════════════
+// ÁREA DO ANDREY — PIN + Kanban
+// ═══════════════════════════════════════════════════════════
+const ANDREY_PIN = 'ornitorrinco123';
+let tarefas = [], dragId = null;
+
+function abrirAreaAndrey() {
+  document.getElementById('andrey').classList.add('open');
+  document.getElementById('andreyLock').style.display = 'flex';
+  document.getElementById('andreyBoard').style.display = 'none';
+  document.getElementById('pinInput').value = '';
+  document.getElementById('pinErr').textContent = '';
+  setTimeout(() => document.getElementById('pinInput').focus(), 100);
+}
+
+function fecharAreaAndrey() {
+  document.getElementById('andrey').classList.remove('open');
+}
+
+function sairAndrey() {
+  document.getElementById('andreyBoard').style.display = 'none';
+  document.getElementById('andreyLock').style.display = 'flex';
+  document.getElementById('pinInput').value = '';
+  fecharAreaAndrey();
+}
+
+function checarPin() {
+  const val = document.getElementById('pinInput').value;
+  const err = document.getElementById('pinErr');
+  if (val === ANDREY_PIN) {
+    document.getElementById('andreyLock').style.display = 'none';
+    document.getElementById('andreyBoard').style.display = 'block';
+    loadTarefas();
+  } else {
+    err.textContent = 'PIN incorreto.';
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinInput').focus();
+  }
+}
+
+function abrirFormCard() { document.getElementById('cardForm').classList.add('open'); }
+function fecharFormCard() {
+  document.getElementById('cardForm').classList.remove('open');
+  document.getElementById('cardTitulo').value = '';
+  document.getElementById('cardDesc').value = '';
+}
+
+async function loadTarefas() {
+  const { data, error } = await db.from('tarefas').select('*').order('ordem', { ascending: true });
+  if (error) { toast('Erro ao carregar tarefas'); return; }
+  tarefas = data || [];
+  renderKanban();
+}
+
+const CORES_CARD = { fazer:'#7c5cff', fazendo:'#00d4ff', feito:'#3ddc84' };
+
+function renderKanban() {
+  ['fazer','fazendo','feito'].forEach(col => {
+    const body = document.getElementById('col-' + col);
+    const lista = tarefas.filter(t => t.coluna === col);
+    document.getElementById('count-' + col).textContent = lista.length;
+    if (!lista.length) { body.innerHTML = '<div class="col-empty">Vazio</div>'; return; }
+    body.innerHTML = lista.map(t => {
+      const d = new Date(t.criado_em);
+      return `<div class="kcard" draggable="true" style="--cardcor:${CORES_CARD[col]}"
+        ondragstart="iniciarDrag(event,'${t.id}')" ondragend="fimDrag(event)">
+        <h4>${t.titulo.replace(/</g,'&lt;')}<button class="kdel" onclick="delTarefa('${t.id}')">×</button></h4>
+        ${t.descricao ? `<p>${t.descricao.replace(/</g,'&lt;')}</p>` : ''}
+        <div class="kdate">${d.toLocaleDateString('pt-BR')}</div>
+      </div>`;
+    }).join('');
+  });
+}
+
+async function salvarCard() {
+  const titulo = document.getElementById('cardTitulo').value.trim();
+  const descricao = document.getElementById('cardDesc').value.trim();
+  const coluna = document.getElementById('cardColuna').value;
+  if (!titulo) { toast('Escreva um título'); return; }
+  const { error } = await db.from('tarefas').insert({ titulo, descricao, coluna });
+  if (error) { toast('Erro ao salvar tarefa'); return; }
+  fecharFormCard(); toast('Tarefa criada'); loadTarefas();
+}
+
+async function delTarefa(id) {
+  if (!confirm('Apagar esta tarefa?')) return;
+  const { error } = await db.from('tarefas').delete().eq('id', id);
+  if (error) { toast('Erro ao apagar'); return; }
+  toast('Tarefa apagada'); loadTarefas();
+}
+
+// Drag and drop
+function iniciarDrag(e, id) { dragId = id; e.target.classList.add('dragging'); }
+function fimDrag(e) { e.target.classList.remove('dragging'); document.querySelectorAll('.col-body').forEach(c => c.classList.remove('dragover')); }
+function permitirSolta(e) { e.preventDefault(); e.currentTarget.classList.add('dragover'); }
+
+async function soltarCard(e, novaColuna) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+  if (!dragId) return;
+  const tarefa = tarefas.find(t => t.id === dragId);
+  if (!tarefa || tarefa.coluna === novaColuna) { dragId = null; return; }
+  // atualiza local imediatamente (resposta visual rápida)
+  tarefa.coluna = novaColuna;
+  renderKanban();
+  const { error } = await db.from('tarefas').update({ coluna: novaColuna }).eq('id', dragId);
+  if (error) { toast('Erro ao mover'); loadTarefas(); }
+  dragId = null;
 }
 
 // ── Init ──────────────────────────────────────────────────
