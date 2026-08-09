@@ -100,7 +100,7 @@ footer{border-top:1px solid var(--line);padding:44px 0;color:var(--ink-40);font-
 .alink{font-size:11px;color:transparent;text-decoration:none;margin-left:10px;user-select:none}
 .alink:hover{color:var(--ink-40)}
 /* TOAST */
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(110px);background:var(--ink);color:var(--paper);padding:13px 20px;border-radius:10px;font-size:13.5px;font-weight:500;z-index:90;transition:transform .28s;box-shadow:0 8px 26px -8px rgba(0,0,0,.45)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(110px);background:var(--ink);color:var(--paper);padding:13px 20px;border-radius:10px;font-size:13.5px;font-weight:500;z-index:110;transition:transform .28s;box-shadow:0 8px 26px -8px rgba(0,0,0,.45)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 /* APOSTILA MODAL */
 .overlay{position:fixed;inset:0;background:rgba(22,35,63,.5);z-index:95;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -138,6 +138,24 @@ footer{border-top:1px solid var(--line);padding:44px 0;color:var(--ink-40);font-
 .btn-full{width:100%;background:var(--green);color:#fff;border:none;padding:13px;border-radius:9px;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit;margin-top:3px}
 .btn-full:hover{background:var(--green2)}
 .btn-full:disabled{background:var(--line);color:var(--ink-40);cursor:not-allowed}
+/* LINKS PRIVADOS */
+.links-box{background:var(--ink);border-radius:12px;padding:22px;margin-bottom:28px}
+.links-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.links-head h4{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--paper)}
+.links-form{display:none;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.links-form.open{display:flex}
+.links-form input{flex:1;min-width:160px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:var(--paper);border-radius:7px;padding:9px 12px;font-family:inherit;font-size:13.5px;outline:none}
+.links-form input::placeholder{color:rgba(255,255,255,.4)}
+.links-form input:focus{border-color:var(--hl)}
+.links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.link-item{display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:12px 14px;transition:background .12s}
+.link-item:hover{background:rgba(255,255,255,.13)}
+.link-item a{color:var(--hl);text-decoration:none;font-weight:600;font-size:13.5px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link-item a:hover{text-decoration:underline}
+.link-del{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.link-del:hover{color:#ff8080}
+.links-empty{color:rgba(255,255,255,.45);font-size:13px;padding:10px 0;font-style:italic}
+/* ADMIN GRID */
 .adm-grid{display:grid;grid-template-columns:1fr 370px;gap:28px;align-items:start}
 @media(max-width:760px){.adm-grid{grid-template-columns:1fr}}
 .adm-sec h3{font-family:'Fraunces',serif;font-size:21px;font-weight:600;margin-bottom:14px}
@@ -154,8 +172,8 @@ footer{border-top:1px solid var(--line);padding:44px 0;color:var(--ink-40);font-
 .pbadge.nopdf{background:#F5F5F5;color:#888}
 .pa{display:flex;gap:6px}
 .bsm{border:none;border-radius:6px;padding:5px 11px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
-.be{background:var(--ink);color:var(--paper)}
-.be:hover{background:#0d1830}
+.be{background:var(--hl);color:var(--ink)}
+.be:hover{opacity:.85}
 .bd{background:#FCE4E4;color:#8B0000}
 .bd:hover{background:#C0392B;color:#fff}
 .pempty{text-align:center;padding:38px;color:var(--ink-40);font-size:13.5px}
@@ -308,6 +326,21 @@ input:checked+.sl:before{transform:translateX(19px)}
   </div>
 
   <div id="admDash" class="adm-body" style="display:none">
+
+    <!-- LINKS PRIVADOS -->
+    <div class="links-box">
+      <div class="links-head">
+        <h4>🔒 Meus links</h4>
+        <button class="bsm be" onclick="toggleFormLink()">+ Adicionar</button>
+      </div>
+      <div class="links-form" id="linksForm">
+        <input type="text" id="lkTitulo" placeholder="Nome (ex: Banco de Questões)">
+        <input type="url" id="lkUrl" placeholder="https://...">
+        <button class="bsm be" onclick="salvarLink()">Salvar</button>
+      </div>
+      <div id="linksList"><div class="links-empty">Carregando…</div></div>
+    </div>
+
     <div class="adm-grid">
       <div class="adm-sec">
         <h3>Apostilas cadastradas</h3>
@@ -489,7 +522,7 @@ function closeAdmin() { document.getElementById('adm').classList.remove('open');
 
 async function checkSession() {
   const { data: { session } } = await db.auth.getSession();
-  if (session) { showDash(session.user.email); loadAdmProds(); } else showLogin();
+  if (session) { showDash(session.user.email); loadAdmProds(); loadLinks(); } else showLogin();
 }
 
 function showLogin() {
@@ -516,11 +549,48 @@ async function doLogin() {
   const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
   btn.disabled = false; btn.textContent = 'Entrar';
   if (error) { err.textContent = 'E-mail ou senha incorretos.'; return; }
-  showDash(data.user.email); loadAdmProds();
+  showDash(data.user.email); loadAdmProds(); loadLinks();
 }
 
 async function admLogout() { await db.auth.signOut(); showLogin(); }
 
+// ── Links privados ────────────────────────────────────────
+function toggleFormLink() {
+  document.getElementById('linksForm').classList.toggle('open');
+}
+
+async function loadLinks() {
+  const el = document.getElementById('linksList');
+  const { data, error } = await db.from('config_admin').select('*').order('ordem', { ascending: true });
+  if (error) { el.innerHTML = '<div class="links-empty">Erro ao carregar links.</div>'; return; }
+  if (!data?.length) { el.innerHTML = '<div class="links-empty">Nenhum link salvo. Clique em "+ Adicionar".</div>'; return; }
+  el.innerHTML = `<div class="links-grid">${data.map(l => `
+    <div class="link-item">
+      <a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.titulo} ↗</a>
+      <button class="link-del" onclick="apagarLink('${l.id}')" title="Remover">×</button>
+    </div>`).join('')}</div>`;
+}
+
+async function salvarLink() {
+  const titulo = document.getElementById('lkTitulo').value.trim();
+  const url = document.getElementById('lkUrl').value.trim();
+  if (!titulo || !url) { toast('Preencha nome e URL'); return; }
+  const { error } = await db.from('config_admin').insert({ titulo, url });
+  if (error) { toast('Erro ao salvar: ' + error.message); return; }
+  document.getElementById('lkTitulo').value = '';
+  document.getElementById('lkUrl').value = '';
+  document.getElementById('linksForm').classList.remove('open');
+  toast('Link salvo!'); loadLinks();
+}
+
+async function apagarLink(id) {
+  if (!confirm('Remover este link?')) return;
+  const { error } = await db.from('config_admin').delete().eq('id', id);
+  if (error) { toast('Erro ao remover'); return; }
+  toast('Link removido'); loadLinks();
+}
+
+// ── Admin CRUD apostilas ──────────────────────────────────
 async function loadAdmProds() {
   const { data, error } = await db.from('produtos').select('*').order('criado_em', { ascending: false });
   const el = document.getElementById('prodList');
