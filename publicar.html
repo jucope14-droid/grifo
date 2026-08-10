@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publique no Grifo — envie sua obra</title>
+<meta name="description" content="Envie seu artigo, resumo ou modelo de petição para análise da equipe do Grifo. Publicação gratuita, com crédito ao autor.">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{--ink:#16233F;--ink-70:#4A556B;--ink-40:#8A93A6;--paper:#F5F4EF;--paper-2:#FBFAF6;--line:#E2E0D7;--hl:#CDFB45;--green:#0E5C43;--green2:#0A4632;--red:#C0392B}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.hl{position:relative;white-space:nowrap}
+.hl::after{content:"";position:absolute;left:-4px;right:-4px;bottom:.08em;height:.5em;background:var(--hl);z-index:-1;transform:skewX(-12deg)}
+
+/* NAV */
+header{position:sticky;top:0;z-index:40;background:rgba(245,244,239,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.brand{display:flex;align-items:baseline;gap:9px;text-decoration:none;color:var(--ink)}
+.brand .logo{font-family:'Fraunces',serif;font-weight:600;font-size:26px;letter-spacing:-.5px}
+.brand .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-40);letter-spacing:1px;text-transform:uppercase}
+.voltar{color:var(--ink-70);text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap}
+.voltar:hover{color:var(--ink)}
+
+/* HERO */
+.ph{padding:70px 0 44px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:18px}
+.ph h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,5.4vw,58px);line-height:1.04;letter-spacing:-1.3px;max-width:17ch}
+.ph .lead{margin-top:20px;font-size:17.5px;color:var(--ink-70);max-width:58ch}
+
+/* LAYOUT */
+.cols{display:grid;grid-template-columns:1fr 1.15fr;gap:52px;padding:52px 0 76px;align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:1fr;gap:38px;padding:38px 0 60px}}
+
+/* COLUNA EDITORIAL */
+.aside h2{font-family:'Fraunces',serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin-bottom:16px}
+.aside h2:not(:first-child){margin-top:38px}
+.passos{counter-reset:p;display:flex;flex-direction:column;gap:20px}
+.passo{position:relative;padding-left:44px;counter-increment:p}
+.passo::before{content:counter(p,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--green);border:1px solid var(--line);background:var(--paper-2);width:30px;height:30px;border-radius:8px;display:grid;place-items:center}
+.passo h3{font-size:15px;font-weight:600;margin-bottom:3px}
+.passo p{font-size:14px;color:var(--ink-70)}
+.aceita{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--paper-2);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--ink-70)}
+.nota-box{margin-top:34px;border-left:3px solid var(--green);background:var(--paper-2);border-radius:0 10px 10px 0;padding:16px 18px}
+.nota-box p{font-size:13.5px;color:var(--ink-70);line-height:1.6}
+.nota-box strong{color:var(--ink)}
+
+/* FORMULÁRIO */
+.form-card{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:36px;box-shadow:0 24px 60px -40px rgba(22,35,63,.5)}
+@media(max-width:520px){.form-card{padding:24px 20px}}
+.grupo{border:none;margin-bottom:30px}
+.grupo:last-of-type{margin-bottom:22px}
+.grupo legend{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-40);font-weight:700;padding-bottom:14px;display:flex;align-items:center;gap:10px;width:100%}
+.grupo legend::after{content:"";flex:1;height:1px;background:var(--line)}
+.linha{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.linha{grid-template-columns:1fr}}
+.campo{margin-bottom:14px}
+.campo label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--ink-70)}
+.campo label .opc{font-weight:400;color:var(--ink-40);text-transform:none;letter-spacing:0}
+.campo input,.campo select,.campo textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:12px 13px;font-family:inherit;font-size:14.5px;background:#fff;color:var(--ink);outline:none;transition:border-color .12s,box-shadow .12s}
+.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(14,92,67,.1)}
+.campo input.erro,.campo textarea.erro{border-color:var(--red);box-shadow:0 0 0 3px rgba(192,57,43,.09)}
+.campo textarea{resize:vertical;min-height:96px;line-height:1.6}
+.campo .msg{font-size:12px;color:var(--red);margin-top:5px;min-height:16px}
+.campo .dica{font-size:12px;color:var(--ink-40);margin-top:5px}
+.contador{float:right;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-40);font-weight:400}
+
+/* ÁREA DE ARQUIVO */
+.drop{display:block;border:1.5px dashed var(--line);border-radius:12px;background:#fff;padding:26px 20px;text-align:center;cursor:pointer;transition:border-color .14s,background .14s}
+.drop:hover,.drop.over{border-color:var(--green);background:rgba(14,92,67,.03)}
+.drop .dt{font-weight:600;font-size:14.5px}
+.drop .ds{font-size:12.5px;color:var(--ink-40);margin-top:4px}
+.drop input[type=file]{display:none}
+.arq{display:none;align-items:center;gap:12px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:12px 14px}
+.arq.on{display:flex}
+.arq .marca{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;background:var(--ink);color:var(--paper);border-radius:5px;padding:5px 7px;flex:0 0 auto}
+.arq .nome{flex:1;min-width:0;font-size:13.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arq .peso{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-40);flex:0 0 auto}
+.arq .tirar{background:none;border:none;color:var(--ink-40);font-size:19px;line-height:1;cursor:pointer;padding:0 2px}
+.arq .tirar:hover{color:var(--red)}
+
+/* DECLARAÇÕES */
+.check{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;cursor:pointer}
+.check input{position:absolute;opacity:0;width:0;height:0}
+.check .cx{flex:0 0 auto;width:20px;height:20px;border:1.5px solid var(--line);border-radius:6px;background:#fff;margin-top:1px;position:relative;transition:.14s}
+.check .cx::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .14s}
+.check input:checked+.cx{background:var(--green);border-color:var(--green)}
+.check input:checked+.cx::after{transform:rotate(45deg) scale(1)}
+.check input:focus-visible+.cx{box-shadow:0 0 0 3px rgba(14,92,67,.18)}
+.check span.txt{font-size:13.5px;color:var(--ink-70);line-height:1.55}
+.check.faltando .cx{border-color:var(--red)}
+
+/* ENVIO */
+.enviar{width:100%;background:var(--green);color:#fff;border:none;padding:16px;border-radius:11px;font-weight:600;font-size:16px;cursor:pointer;font-family:inherit;transition:background .14s}
+.enviar:hover{background:var(--green2)}
+.enviar:disabled{background:var(--line);color:var(--ink-40);cursor:not-allowed}
+.erro-geral{background:#FCE4E4;border:1px solid #f3c9c9;color:#8B0000;border-radius:9px;padding:12px 14px;font-size:13.5px;margin-bottom:16px;display:none}
+.erro-geral.on{display:block}
+.rodape-form{font-size:12px;color:var(--ink-40);text-align:center;margin-top:14px;line-height:1.6}
+
+/* SUCESSO */
+.sucesso{display:none;text-align:center;padding:20px 6px}
+.sucesso.on{display:block}
+.selo{width:64px;height:64px;border-radius:50%;background:var(--green);margin:0 auto 22px;position:relative;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+.selo::after{content:"";position:absolute;left:24px;top:17px;width:12px;height:24px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.sucesso h2{font-family:'Fraunces',serif;font-size:27px;font-weight:600;letter-spacing:-.3px}
+.sucesso p{color:var(--ink-70);font-size:15px;margin-top:12px;max-width:44ch;margin-left:auto;margin-right:auto}
+.protocolo{display:inline-block;margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;letter-spacing:2px;background:var(--ink);color:var(--paper);border-radius:9px;padding:12px 20px}
+.protocolo small{display:block;font-size:9.5px;font-weight:400;letter-spacing:1.4px;color:#B9C0CF;margin-bottom:3px}
+.sucesso .voltar-btn{display:inline-block;margin-top:26px;background:transparent;border:1.5px solid var(--ink);color:var(--ink);padding:12px 24px;border-radius:10px;font-weight:600;font-size:14.5px;text-decoration:none}
+.sucesso .voltar-btn:hover{background:var(--ink);color:var(--paper)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:38px 0;color:var(--ink-40);font-size:13px}
+.foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:20px}
+.foot-logo{font-family:'Fraunces',serif;font-size:21px;color:var(--ink);font-weight:600}
+@media(prefers-reduced-motion:reduce){.selo{animation:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <span class="logo">Grifo</span>
+      <span class="tag">Estudo · gratuito</span>
+    </a>
+    <a class="voltar" href="index.html">Voltar ao acervo</a>
+  </div>
+</header>
+
+<section class="ph">
+  <div class="wrap">
+    <div class="eyebrow">Chamada aberta para autores</div>
+    <h1>O que você escreveu pode <span class="hl">destravar</span> a matéria de alguém.</h1>
+    <p class="lead">Resumo, artigo, mapa mental, modelo de petição, quadro comparativo. Se é seu e pode circular de graça, nossa equipe lê, avalia e publica com o seu nome no crédito.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="cols">
+
+    <aside class="aside">
+      <h2>Como funciona</h2>
+      <div class="passos">
+        <div class="passo">
+          <h3>Você envia</h3>
+          <p>Preenche o formulário ao lado e anexa o arquivo. Leva uns três minutos.</p>
+        </div>
+        <div class="passo">
+          <h3>A gente lê</h3>
+          <p>A equipe confere conteúdo, clareza e atualização da matéria. A resposta sai em até 15 dias, no e-mail que você informar.</p>
+        </div>
+        <div class="passo">
+          <h3>Vai ao ar</h3>
+          <p>Aprovado, o material entra no catálogo com o seu nome como autor — e fica gratuito para qualquer estudante baixar.</p>
+        </div>
+      </div>
+
+      <h2>O que aceitamos</h2>
+      <div class="aceita">
+        <span class="chip">Resumos de matéria</span>
+        <span class="chip">Artigos comentados</span>
+        <span class="chip">Modelos de petição</span>
+        <span class="chip">Mapas mentais</span>
+        <span class="chip">Quadros comparativos</span>
+        <span class="chip">Questões resolvidas</span>
+      </div>
+
+      <div class="nota-box">
+        <p><strong>Sobre direitos.</strong> A obra continua sendo sua. Você autoriza o Grifo a disponibilizá-la gratuitamente, com crédito, e pode pedir a retirada quando quiser. Nada aqui é vendido, e não há pagamento pelo envio.</p>
+      </div>
+
+      <div class="nota-box" style="border-left-color:var(--ink-40)">
+        <p><strong>O que não publicamos.</strong> Material copiado de livro, apostila de curso pago, jurisprudência sem análise própria ou conteúdo com dados pessoais de terceiros.</p>
+      </div>
+    </aside>
+
+    <main>
+      <div class="form-card" id="cartao">
+
+        <div id="formulario">
+          <div class="erro-geral" id="erroGeral"></div>
+
+          <fieldset class="grupo">
+            <legend>Quem está enviando</legend>
+
+            <div class="campo">
+              <label for="nome">Nome completo</label>
+              <input type="text" id="nome" autocomplete="name" placeholder="Como deve aparecer no crédito da obra">
+              <div class="msg" id="msgNome"></div>
+            </div>
+
+            <div class="linha">
+              <div class="campo">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" inputmode="numeric" placeholder="000.000.000-00" maxlength="14">
+                <div class="msg" id="msgCpf"></div>
+              </div>
+              <div class="campo">
+                <label for="nascimento">Data de nascimento</label>
+                <input type="date" id="nascimento">
+                <div class="msg" id="msgNascimento"></div>
+              </div>
+            </div>
+
+            <div class="linha">
+              <div class="campo">
+                <label for="telefone">Telefone de contato</label>
+                <input type="tel" id="telefone" inputmode="numeric" placeholder="(00) 00000-0000" maxlength="15">
+                <div class="msg" id="msgTelefone"></div>
+              </div>
+              <div class="campo">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" autocomplete="email" placeholder="voce@email.com">
+                <div class="msg" id="msgEmail"></div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend>Sobre a obra</legend>
+
+            <div class="campo">
+              <label for="titulo">Título</label>
+              <input type="text" id="titulo" placeholder="Ex: Prescrição penal — quadro comparativo">
+              <div class="msg" id="msgTitulo"></div>
+            </div>
+
+            <div class="campo">
+              <label for="area">Área ou matéria</label>
+              <select id="area">
+                <option value="">Selecione</option>
+                <option>Direito Civil</option>
+                <option>Direito Penal</option>
+                <option>Direito Processual Civil</option>
+                <option>Direito Processual Penal</option>
+                <option>Direito Constitucional</option>
+                <option>Direito Administrativo</option>
+                <option>Direito do Trabalho</option>
+                <option>Direito Tributário</option>
+                <option>Direito Empresarial</option>
+                <option>Petições</option>
+                <option>Artigos Comentados</option>
+                <option>Outra</option>
+              </select>
+              <div class="msg" id="msgArea"></div>
+            </div>
+
+            <div class="campo">
+              <label for="resumo">Resumo <span class="opc">— o que o estudante encontra aí dentro</span><span class="contador" id="contResumo">0 / 600</span></label>
+              <textarea id="resumo" maxlength="600" placeholder="Em poucas linhas: o que a obra cobre, para quem serve e o que ela tem de diferente."></textarea>
+              <div class="msg" id="msgResumo"></div>
+            </div>
+
+            <div class="campo">
+              <label>Arquivo da obra</label>
+              <label class="drop" id="drop">
+                <div class="dt">Escolher arquivo</div>
+                <div class="ds">PDF, DOC ou DOCX — até 20 MB</div>
+                <input type="file" id="arquivo" accept=".pdf,.doc,.docx">
+              </label>
+              <div class="arq" id="arqBox">
+                <span class="marca" id="arqTipo">PDF</span>
+                <span class="nome" id="arqNome"></span>
+                <span class="peso" id="arqPeso"></span>
+                <button type="button" class="tirar" id="arqTirar" title="Remover arquivo">&times;</button>
+              </div>
+              <div class="msg" id="msgArquivo"></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="grupo">
+            <legend>Declarações</legend>
+
+            <label class="check" id="chkAutoriaWrap">
+              <input type="checkbox" id="chkAutoria"><span class="cx"></span>
+              <span class="txt">Declaro que a obra é de minha autoria e que não reproduz material protegido de terceiros.</span>
+            </label>
+
+            <label class="check" id="chkLicencaWrap">
+              <input type="checkbox" id="chkLicenca"><span class="cx"></span>
+              <span class="txt">Autorizo o Grifo a publicar a obra gratuitamente, com crédito ao meu nome, e entendo que posso pedir a retirada a qualquer momento.</span>
+            </label>
+
+            <label class="check" id="chkDadosWrap">
+              <input type="checkbox" id="chkDados"><span class="cx"></span>
+              <span class="txt">Autorizo o uso dos meus dados de contato apenas para a análise desta obra e para a resposta sobre ela.</span>
+            </label>
+          </fieldset>
+
+          <button class="enviar" id="btnEnviar">Enviar para análise</button>
+          <p class="rodape-form">Seus dados ficam visíveis apenas para a equipe do Grifo.<br>O envio não gera obrigação de publicação.</p>
+        </div>
+
+        <div class="sucesso" id="sucesso">
+          <div class="selo"></div>
+          <h2>Recebemos sua obra</h2>
+          <p>A equipe vai ler com calma e responder no e-mail que você informou, em até 15 dias. Guarde o número abaixo para acompanhar.</p>
+          <div class="protocolo"><small>PROTOCOLO</small><span id="protocolo">—</span></div>
+          <div><a class="voltar-btn" href="index.html">Voltar ao acervo</a></div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-logo">Grifo</div>
+      <div style="max-width:34ch">Material de estudo gratuito. Complemento à bibliografia oficial do seu curso.</div>
+    </div>
+    <div>&copy; 2026 Grifo</div>
+  </div>
+</footer>
+
+<script>
+const { createClient } = supabase;
+const db = createClient(
+  'https://egyatgqbnpxzvhdvhito.supabase.co',
+  'sb_publishable_3gqh4C6reLq4IIG1-_QRaQ_6WYDOolS'
+);
+
+const $ = id => document.getElementById(id);
+const LIMITE_MB = 20;
+let arquivoEscolhido = null;
+
+// ── Máscaras ──────────────────────────────────────────────
+function mascaraCPF(v) {
+  return v.replace(/\D/g, '').slice(0, 11)
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+    .replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/, '$1.$2.$3-$4');
+}
+function mascaraTel(v) {
+  const d = v.replace(/\D/g, '').slice(0, 11);
+  if (d.length <= 2) return d.replace(/(\d{1,2})/, '($1');
+  if (d.length <= 6) return d.replace(/(\d{2})(\d+)/, '($1) $2');
+  if (d.length <= 10) return d.replace(/(\d{2})(\d{4})(\d+)/, '($1) $2-$3');
+  return d.replace(/(\d{2})(\d{5})(\d+)/, '($1) $2-$3');
+}
+$('cpf').addEventListener('input', e => e.target.value = mascaraCPF(e.target.value));
+$('telefone').addEventListener('input', e => e.target.value = mascaraTel(e.target.value));
+$('resumo').addEventListener('input', e => $('contResumo').textContent = `${e.target.value.length} / 600`);
+
+// ── Validações ────────────────────────────────────────────
+function cpfValido(valor) {
+  const c = valor.replace(/\D/g, '');
+  if (c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false;
+  let s = 0;
+  for (let i = 0; i < 9; i++) s += +c[i] * (10 - i);
+  let d1 = (s * 10) % 11; if (d1 === 10) d1 = 0;
+  if (d1 !== +c[9]) return false;
+  s = 0;
+  for (let i = 0; i < 10; i++) s += +c[i] * (11 - i);
+  let d2 = (s * 10) % 11; if (d2 === 10) d2 = 0;
+  return d2 === +c[10];
+}
+function idadeEm(dataStr) {
+  const n = new Date(dataStr + 'T00:00:00'), h = new Date();
+  let a = h.getFullYear() - n.getFullYear();
+  const m = h.getMonth() - n.getMonth();
+  if (m < 0 || (m === 0 && h.getDate() < n.getDate())) a--;
+  return a;
+}
+function marcar(campo, mensagem) {
+  const inp = $(campo);
+  const msg = $('msg' + campo.charAt(0).toUpperCase() + campo.slice(1));
+  if (inp) inp.classList.toggle('erro', !!mensagem);
+  if (msg) msg.textContent = mensagem || '';
+  return !mensagem;
+}
+
+function validar() {
+  let ok = true;
+
+  ok = marcar('nome', $('nome').value.trim().length < 5
+    ? 'Escreva seu nome completo.' : '') && ok;
+
+  const cpf = $('cpf').value;
+  ok = marcar('cpf', !cpf.trim() ? 'Informe seu CPF.'
+    : !cpfValido(cpf) ? 'Esse CPF não confere. Revise os números.' : '') && ok;
+
+  const nasc = $('nascimento').value;
+  ok = marcar('nascimento', !nasc ? 'Informe sua data de nascimento.'
+    : idadeEm(nasc) < 0 ? 'Data no futuro.'
+    : idadeEm(nasc) > 120 ? 'Confira o ano.' : '') && ok;
+
+  const tel = $('telefone').value.replace(/\D/g, '');
+  ok = marcar('telefone', tel.length < 10 ? 'Telefone incompleto, com DDD.' : '') && ok;
+
+  const email = $('email').value.trim();
+  ok = marcar('email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)
+    ? 'Informe um e-mail válido — é por ele que respondemos.' : '') && ok;
+
+  ok = marcar('titulo', $('titulo').value.trim().length < 4
+    ? 'Dê um título à obra.' : '') && ok;
+
+  ok = marcar('area', !$('area').value ? 'Escolha a área.' : '') && ok;
+
+  ok = marcar('resumo', $('resumo').value.trim().length < 30
+    ? 'Conte em pelo menos duas linhas o que a obra cobre.' : '') && ok;
+
+  ok = marcar('arquivo', !arquivoEscolhido ? 'Anexe o arquivo da obra.' : '') && ok;
+
+  [['chkAutoria','chkAutoriaWrap'],['chkLicenca','chkLicencaWrap'],['chkDados','chkDadosWrap']]
+    .forEach(([id, wrap]) => {
+      const marcado = $(id).checked;
+      $(wrap).classList.toggle('faltando', !marcado);
+      if (!marcado) ok = false;
+    });
+
+  return ok;
+}
+
+// ── Arquivo ───────────────────────────────────────────────
+function mostrarArquivo(file) {
+  if (!file) return;
+  const mb = file.size / 1048576;
+  if (mb > LIMITE_MB) {
+    marcar('arquivo', `Arquivo de ${mb.toFixed(1)} MB. O limite é ${LIMITE_MB} MB.`);
+    $('arquivo').value = ''; arquivoEscolhido = null; $('arqBox').classList.remove('on');
+    return;
+  }
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  if (!['pdf', 'doc', 'docx'].includes(ext)) {
+    marcar('arquivo', 'Envie um PDF, DOC ou DOCX.');
+    $('arquivo').value = ''; arquivoEscolhido = null; $('arqBox').classList.remove('on');
+    return;
+  }
+  arquivoEscolhido = file;
+  $('arqTipo').textContent = ext.toUpperCase();
+  $('arqNome').textContent = file.name;
+  $('arqPeso').textContent = mb < 1 ? `${Math.round(file.size / 1024)} KB` : `${mb.toFixed(1)} MB`;
+  $('arqBox').classList.add('on');
+  $('drop').style.display = 'none';
+  marcar('arquivo', '');
+}
+$('arquivo').addEventListener('change', e => mostrarArquivo(e.target.files[0]));
+$('arqTirar').addEventListener('click', () => {
+  arquivoEscolhido = null; $('arquivo').value = '';
+  $('arqBox').classList.remove('on'); $('drop').style.display = '';
+});
+['dragenter','dragover'].forEach(ev => $('drop').addEventListener(ev, e => {
+  e.preventDefault(); $('drop').classList.add('over');
+}));
+['dragleave','drop'].forEach(ev => $('drop').addEventListener(ev, e => {
+  e.preventDefault(); $('drop').classList.remove('over');
+}));
+$('drop').addEventListener('drop', e => mostrarArquivo(e.dataTransfer.files[0]));
+
+// ── Envio ─────────────────────────────────────────────────
+function nomeSeguro(nome) {
+  return nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9._-]/g, '_').replace(/_+/g, '_');
+}
+
+$('btnEnviar').addEventListener('click', async () => {
+  $('erroGeral').classList.remove('on');
+  if (!validar()) {
+    $('erroGeral').textContent = 'Falta preencher alguma coisa. Os campos com aviso em vermelho estão logo acima.';
+    $('erroGeral').classList.add('on');
+    document.querySelector('.erro, .check.faltando')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const btn = $('btnEnviar');
+  btn.disabled = true;
+  btn.textContent = 'Enviando arquivo...';
+
+  try {
+    const caminho = `${Date.now()}_${nomeSeguro(arquivoEscolhido.name)}`;
+    const { error: erroUp } = await db.storage.from('submissoes')
+      .upload(caminho, arquivoEscolhido, { upsert: false });
+    if (erroUp) throw new Error('Não foi possível enviar o arquivo. ' + erroUp.message);
+
+    btn.textContent = 'Registrando...';
+    const { data, error } = await db.from('submissoes').insert({
+      nome: $('nome').value.trim(),
+      cpf: $('cpf').value.replace(/\D/g, ''),
+      nascimento: $('nascimento').value,
+      telefone: $('telefone').value.replace(/\D/g, ''),
+      email: $('email').value.trim().toLowerCase(),
+      titulo: $('titulo').value.trim(),
+      area: $('area').value,
+      resumo: $('resumo').value.trim(),
+      arquivo: caminho
+    }).select('id').single();
+    if (error) throw new Error('Não foi possível registrar o envio. ' + error.message);
+
+    $('protocolo').textContent = data.id.slice(0, 8).toUpperCase();
+    $('formulario').style.display = 'none';
+    $('sucesso').classList.add('on');
+    $('cartao').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Enviar para análise';
+    $('erroGeral').textContent = e.message + ' Tente de novo em alguns instantes.';
+    $('erroGeral').classList.add('on');
+    $('erroGeral').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+
+// limite de data de nascimento: hoje
+$('nascimento').max = new Date().toISOString().slice(0, 10);
+</script>
+</body>
+</html>

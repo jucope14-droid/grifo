@@ -97,6 +97,15 @@ h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(36px,6vw,70px);l
 footer{border-top:1px solid var(--line);padding:44px 0;color:var(--ink-40);font-size:13px}
 .foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:22px}
 .foot-logo{font-family:'Fraunces',serif;font-size:21px;color:var(--ink);font-weight:600}
+a.btn-p,a.btn-g{display:inline-flex;align-items:center;text-decoration:none}
+/* CHAMADA PARA AUTORES */
+.pub-cta{background:var(--ink);color:var(--paper);border-radius:16px;padding:46px 44px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+@media(max-width:820px){.pub-cta{grid-template-columns:1fr;padding:32px 26px;gap:24px}}
+.pub-cta .pub-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--hl);font-weight:500;margin-bottom:14px}
+.pub-cta h2{font-family:'Fraunces',serif;font-size:clamp(24px,3.4vw,32px);font-weight:600;letter-spacing:-.4px;line-height:1.15;max-width:20ch}
+.pub-cta p{color:#B9C0CF;font-size:15px;margin-top:12px;max-width:54ch}
+.pub-btn{background:var(--hl);color:var(--ink);border:none;border-radius:11px;padding:16px 30px;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;white-space:nowrap;transition:background .14s,transform .14s}
+.pub-btn:hover{background:#fff;transform:translateY(-2px)}
 .alink{font-size:11px;color:transparent;text-decoration:none;margin-left:10px;user-select:none}
 .alink:hover{color:var(--ink-40)}
 /* TOAST */
@@ -337,7 +346,7 @@ input:checked+.sl:before{transform:translateX(19px)}
 .and-card-desc{display:block;color:var(--t-muted);font-size:12px;margin-top:3px}
 .and-card-acts{display:flex;gap:2px;opacity:0;flex:0 0 auto}
 .and-card:hover .and-card-acts{opacity:1}
-.and-card-acts button{background:var(--t-card);border:none;color:var(--t-sub);cursor:pointer;border-radius:4px;padding:2px 5px;font-size:13px;line-height:1.3}
+.and-card-acts button{background:var(--t-card);border:none;color:var(--t-sub);cursor:pointer;border-radius:4px;padding:2px 6px;font-size:11px;font-weight:600;line-height:1.5;white-space:nowrap}
 .and-card-acts button:hover{background:var(--t-hover);color:var(--t-strong)}
 .and-card-acts .del:hover{color:var(--t-red)}
 
@@ -373,7 +382,7 @@ input:checked+.sl:before{transform:translateX(19px)}
 @media(max-width:760px){.and-tools{grid-template-columns:1fr}}
 .and-tool{background:var(--t-list);border:1px solid var(--t-line);border-radius:12px;padding:20px;text-align:left;cursor:pointer;color:var(--t-text);transition:border-color .12s,transform .12s}
 .and-tool:hover{border-color:var(--t-blue);transform:translateY(-2px)}
-.and-tool .ico{width:38px;height:38px;border-radius:9px;background:rgba(87,157,255,.16);color:var(--t-blue);display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:14px}
+.and-tool .ico{width:38px;height:38px;border-radius:9px;background:rgba(87,157,255,.16);color:var(--t-blue);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:14px}
 .and-tool h4{font-size:15px;font-weight:600;color:var(--t-strong)}
 .and-tool p{font-size:13px;color:var(--t-sub);margin-top:5px;line-height:1.5}
 .and-tool .tag{display:inline-block;margin-top:12px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--t-muted);border:1px solid var(--t-line);border-radius:999px;padding:2px 9px}
@@ -384,7 +393,7 @@ input:checked+.sl:before{transform:translateX(19px)}
 .and-tab{background:none;border:none;color:var(--t-sub);padding:8px 16px;border-radius:6px;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;border-bottom:2px solid transparent}
 .and-tab:hover{background:var(--t-hover);color:var(--t-strong)}
 .and-tab.on{color:#fff;border-bottom-color:var(--t-blue)}
-@media(max-width:620px){.and-tab span{display:none}.and-tab{padding:8px 12px}}
+@media(max-width:620px){.and-tab{padding:8px 11px;font-size:12.5px}}
 
 /* ═══════════ ESTRUTURA DA PÁGINA (dentro do #andrey) ═══════════ */
 #andEstrutura .est-top{margin-bottom:22px}
@@ -518,6 +527,7 @@ input:checked+.sl:before{transform:translateX(19px)}
       <a href="#colecoes">Coleções</a>
       <a href="#peticoes">Petições</a>
       <a href="#artigos">Artigos Comentados</a>
+      <a href="#publicar">Publicar</a>
       <a href="#sobre">Sobre</a>
     </nav>
   </div>
@@ -531,6 +541,7 @@ input:checked+.sl:before{transform:translateX(19px)}
     <div class="hero-cta">
       <button class="btn-p" onclick="document.getElementById('catalogo').scrollIntoView()">Ver apostilas</button>
       <button class="btn-g" onclick="document.getElementById('colecoes').scrollIntoView()">Ver coleções</button>
+      <a class="btn-g" href="publicar.html">Publicar minha obra</a>
     </div>
     <div class="hero-stats">
       <div class="stat"><div class="n" id="statCount">—</div><div class="l">Apostilas</div></div>
@@ -575,6 +586,19 @@ input:checked+.sl:before{transform:translateX(19px)}
   </div>
 </section>
 
+<section class="section" id="publicar" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="pub-cta">
+      <div>
+        <div class="pub-eyebrow">Para autores</div>
+        <h2>Escreveu algo que ajudaria outros estudantes?</h2>
+        <p>Resumo, artigo, mapa mental, modelo de petição. Se for seu e puder circular de graça, nossa equipe lê, avalia e publica com o seu nome no crédito.</p>
+      </div>
+      <a class="pub-btn" href="publicar.html">Enviar minha obra</a>
+    </div>
+  </div>
+</section>
+
 <section class="trust" id="sobre">
   <div class="wrap">
     <div class="trust-grid">
@@ -605,8 +629,8 @@ input:checked+.sl:before{transform:translateX(19px)}
     <div class="ap-meta" id="apMeta"></div>
     <p class="ap-desc" id="apDesc"></p>
     <div class="ap-actions">
-      <button class="dl-btn" id="apBaixar" style="flex:1;justify-content:center;padding:13px">⬇ Baixar PDF</button>
-      <button class="link-btn" id="apCopiar" style="padding:13px 16px">🔗 Copiar link</button>
+      <button class="dl-btn" id="apBaixar" style="flex:1;justify-content:center;padding:13px">Baixar PDF</button>
+      <button class="link-btn" id="apCopiar" style="padding:13px 16px">Copiar link</button>
     </div>
   </div>
 </div>
@@ -636,12 +660,12 @@ input:checked+.sl:before{transform:translateX(19px)}
   <div id="admDash" class="adm-body" style="display:none">
 
     <div class="adm-tabs">
-      <button class="atab active" onclick="switchTab('apostilas',this)">📚 Apostilas</button>
-      <button class="atab" onclick="switchTab('visitas',this)">📊 Visitas</button>
-      <button class="atab" onclick="switchTab('notas',this)">📝 Notas</button>
-      <button class="atab" onclick="switchTab('calendario',this)">📅 Calendário</button>
-      <button class="atab" onclick="switchTab('links',this)">🔒 Links</button>
-      <button class="atab atab-andrey" onclick="abrirAreaAndrey()">🗂 Área do Andrey</button>
+      <button class="atab active" onclick="switchTab('apostilas',this)">Apostilas</button>
+      <button class="atab" onclick="switchTab('visitas',this)">Visitas</button>
+      <button class="atab" onclick="switchTab('notas',this)">Notas</button>
+      <button class="atab" onclick="switchTab('calendario',this)">Calendário</button>
+      <button class="atab" onclick="switchTab('links',this)">Links</button>
+      <button class="atab atab-andrey" onclick="abrirAreaAndrey()">Área do Andrey</button>
     </div>
 
     <!-- ABA APOSTILAS -->
@@ -661,7 +685,7 @@ input:checked+.sl:before{transform:translateX(19px)}
             <label>PDF da apostila</label>
             <input type="file" id="fFile" accept=".pdf" onchange="previewFile(this)">
             <div class="arq-preview" id="arqPreview"></div>
-            <div class="upload-progress" id="uploadProgress">⏳ Enviando PDF...</div>
+            <div class="upload-progress" id="uploadProgress">Enviando PDF...</div>
           </div>
           <div class="tog-row"><span>Visível na loja</span><label class="sw"><input type="checkbox" id="fAtv" checked><span class="sl"></span></label></div>
           <div class="factions">
@@ -711,7 +735,7 @@ input:checked+.sl:before{transform:translateX(19px)}
       <div class="adm-sec">
         <div class="links-box">
           <div class="links-head">
-            <h4>🔒 Meus links</h4>
+            <h4>Meus links</h4>
             <button class="bsm be" onclick="toggleFormLink()">+ Adicionar</button>
           </div>
           <div class="links-form" id="linksForm">
@@ -759,9 +783,9 @@ input:checked+.sl:before{transform:translateX(19px)}
       <button class="and-boardname" id="andBoardName" onclick="abrirMenuQuadros(event)">
         <span id="andBoardNameTxt">—</span> <span style="font-size:11px;opacity:.75">▾</span>
       </button>
-      <button class="and-btn" onclick="renomearQuadro()" title="Renomear quadro">✎</button>
+      <button class="and-btn" onclick="renomearQuadro()" title="Renomear quadro">Renomear</button>
       <div class="and-head-sp"></div>
-      <button class="and-btn" onclick="mostrarPainel()">📊 Painel</button>
+      <button class="and-btn" onclick="mostrarPainel()">Painel</button>
     </div>
 
     <!-- Faixa de listas -->
@@ -774,19 +798,19 @@ input:checked+.sl:before{transform:translateX(19px)}
         <div class="sub">Ferramentas do Grifo. Cada uma abre em uma tela própria.</div>
         <div class="and-tools">
           <button class="and-tool" onclick="abrirGraficoRendimento()">
-            <div class="ico">📈</div>
+            <div class="ico">GR</div>
             <h4>Gráfico de Rendimento</h4>
             <p>Acompanhe o avanço dos estudos por matéria e por semana.</p>
             <span class="tag" style="color:var(--t-green);border-color:var(--t-green)">Ativo</span>
           </button>
           <button class="and-tool" onclick="abrirGrifoIA()">
-            <div class="ico">✦</div>
+            <div class="ico">IA</div>
             <h4>Grifo IA</h4>
             <p>Gere resumos, questões e explicações a partir das apostilas.</p>
             <span class="tag">Em construção</span>
           </button>
           <button class="and-tool" onclick="abrirEstruturaPagina()">
-            <div class="ico">▦</div>
+            <div class="ico">EP</div>
             <h4>Estrutura da Página</h4>
             <p>Ligue e desligue seções, categorias e apostilas para o público.</p>
             <span class="tag" style="color:var(--t-green);border-color:var(--t-green)">Ativo</span>
@@ -822,10 +846,10 @@ input:checked+.sl:before{transform:translateX(19px)}
     <!-- Barra inferior -->
     <div class="and-bottom">
       <div class="and-bottom-in">
-        <button class="and-tab on" id="andTabQuadro" onclick="mostrarQuadro()">▤ <span>Quadro</span></button>
-        <button class="and-tab" id="andTabPainel" onclick="mostrarPainel()">📊 <span>Painel</span></button>
-        <button class="and-tab" onclick="abrirMenuQuadros(event)">⇄ <span>Mudar de quadro</span></button>
-        <button class="and-tab" onclick="sairAndrey()">⏻ <span>Sair</span></button>
+        <button class="and-tab on" id="andTabQuadro" onclick="mostrarQuadro()">Quadro</button>
+        <button class="and-tab" id="andTabPainel" onclick="mostrarPainel()">Painel</button>
+        <button class="and-tab" onclick="abrirMenuQuadros(event)">Trocar quadro</button>
+        <button class="and-tab" onclick="sairAndrey()">Sair</button>
       </div>
     </div>
   </div>
@@ -837,7 +861,7 @@ input:checked+.sl:before{transform:translateX(19px)}
 <!-- ═══════════ GRIFO IA ═══════════ -->
 <div id="grifoIA">
   <div class="gia-top">
-    <div class="gia-mark">✦</div>
+    <div class="gia-mark">G</div>
     <div class="gia-title">Grifo IA</div>
     <div class="gia-sp"></div>
     <button class="gia-x" onclick="fecharGrifoIA()" title="Fechar">✕</button>
@@ -913,9 +937,9 @@ function cardHTML(p, cor, label) {
       <div class="card-meta">${p.paginas ? `<span>${p.paginas} págs</span>` : ''}<span>PDF</span></div>
     </div>
     <div class="card-foot">
-      <button class="link-btn" onclick="abrirApostila('${p.id}')">🔗 Link</button>
+      <button class="link-btn" onclick="abrirApostila('${p.id}')">Link</button>
       ${temPDF
-        ? `<button class="dl-btn" ${dlStyle} onclick="baixar('${p.arquivo}')">⬇ Baixar PDF</button>`
+        ? `<button class="dl-btn" ${dlStyle} onclick="baixar('${p.arquivo}')">Baixar PDF</button>`
         : `<button class="dl-btn soon" disabled>Em breve</button>`}
     </div>
   </div>`;
@@ -971,7 +995,7 @@ async function abrirApostila(id) {
   document.getElementById('apMeta').innerHTML = data.paginas ? `<span>${data.paginas} págs</span><span>PDF</span>` : '<span>PDF</span>';
   document.getElementById('apDesc').textContent = data.descricao || 'Apostila de estudo disponível para download gratuito.';
   const btn = document.getElementById('apBaixar');
-  if (data.arquivo) { btn.disabled = false; btn.textContent = '⬇ Baixar PDF'; btn.onclick = () => baixar(data.arquivo); }
+  if (data.arquivo) { btn.disabled = false; btn.textContent = 'Baixar PDF'; btn.onclick = () => baixar(data.arquivo); }
   else { btn.disabled = true; btn.textContent = 'PDF em breve'; }
   history.pushState({ apostilaId: id }, '', `${location.origin}${location.pathname}?ver=${id}`);
   document.getElementById('apOverlay').classList.add('open');
@@ -1071,7 +1095,7 @@ async function loadLinks() {
   if (!data?.length) { el.innerHTML = '<div class="links-empty">Nenhum link salvo. Clique em "+ Adicionar".</div>'; return; }
   el.innerHTML = `<div class="links-grid">${data.map(l => `
     <div class="link-item">
-      <a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.titulo} ↗</a>
+      <a href="${l.url}" target="_blank" rel="noopener noreferrer">${l.titulo}</a>
       <button class="link-del" onclick="apagarLink('${l.id}')" title="Remover">×</button>
     </div>`).join('')}</div>`;
 }
@@ -1116,7 +1140,7 @@ async function loadAdmProds() {
 }
 
 function previewFile(input) {
-  document.getElementById('arqPreview').textContent = input.files[0] ? `📄 ${input.files[0].name}` : '';
+  document.getElementById('arqPreview').textContent = input.files[0] ? input.files[0].name : '';
 }
 
 function startEdit(i) {
@@ -1129,7 +1153,7 @@ function startEdit(i) {
   document.getElementById('fPag').value = p.paginas || '';
   document.getElementById('fAtv').checked = p.ativo;
   document.getElementById('fFile').value = '';
-  document.getElementById('arqPreview').textContent = p.arquivo ? `📄 ${p.arquivo} (atual)` : '';
+  document.getElementById('arqPreview').textContent = p.arquivo ? `${p.arquivo} (atual)` : '';
   document.getElementById('btnCancel').style.display = 'block';
   document.getElementById('btnSave').textContent = 'Salvar alterações';
   document.querySelector('.fcard').scrollIntoView({ behavior: 'smooth' });
@@ -1454,6 +1478,7 @@ const SECOES_DEF = [
   { id:'colecoes', nome:'Coleções',            desc:'Apostilas agrupadas por área' },
   { id:'peticoes', nome:'Minutas de Petições', desc:'Modelos de petições' },
   { id:'artigos',  nome:'Artigos Comentados',  desc:'Análise de dispositivos legais' },
+  { id:'publicar', nome:'Chamada para autores', desc:'Convite para enviar obras' },
   { id:'sobre',    nome:'Como funciona / Sobre',desc:'Faixa explicativa em 3 passos' },
 ];
 
@@ -1515,7 +1540,7 @@ function renderEstrutura() {
 
   // Modo manutenção
   h += `<div class="est-block ${manut.ativo ? 'est-danger' : ''}">
-    <h3>🚧 Modo manutenção</h3>
+    <h3>Modo manutenção</h3>
     <div class="desc">Enche o site inteiro com uma tela espacial de "em manutenção" para os visitantes. Você (logado) continua vendo tudo normalmente.</div>
     <div class="est-row ${manut.ativo ? '' : 'off'}">
       <div class="grow"><div class="rname">${manut.ativo ? 'Site em manutenção' : 'Site no ar'}</div><div class="rsub">${manut.ativo ? 'Visitantes veem a tela de manutenção' : 'Visitantes navegam normalmente'}</div></div>
@@ -1529,7 +1554,7 @@ function renderEstrutura() {
 
   // Banner de destaque
   h += `<div class="est-block">
-    <h3>📣 Banner de destaque</h3>
+    <h3>Banner de destaque</h3>
     <div class="desc">Faixa colorida no topo do site para anunciar algo (ex.: apostila nova, aviso de prova).</div>
     <div class="est-row ${banner.ativo ? '' : 'off'}">
       <div class="grow"><div class="rname">Banner ${banner.ativo ? 'visível' : 'oculto'}</div><div class="rsub">Aparece acima do menu, para todos</div></div>
@@ -1543,7 +1568,7 @@ function renderEstrutura() {
   </div>`;
 
   // Seções da página
-  h += `<div class="est-block"><h3>🧩 Seções da página</h3>
+  h += `<div class="est-block"><h3>Seções da página</h3>
     <div class="desc">Ligue/desligue e reordene as grandes seções do site. Desligar deixa a seção invisível ao público.</div>`;
   ordem.forEach((id, i) => {
     const s = SECOES_DEF.find(x => x.id === id); if (!s) return;
@@ -1561,7 +1586,7 @@ function renderEstrutura() {
   h += `</div>`;
 
   // Categorias do catálogo
-  h += `<div class="est-block"><h3>🗂 Categorias do catálogo</h3>
+  h += `<div class="est-block"><h3>Categorias do catálogo</h3>
     <div class="desc">Desligar uma categoria some com todas as apostilas dela de uma vez (catálogo e coleções).</div>`;
   if (!cats.length) {
     h += `<div class="and-empty">Nenhuma categoria de catálogo ainda.</div>`;
@@ -1579,7 +1604,7 @@ function renderEstrutura() {
   h += `</div>`;
 
   // Apostilas individuais
-  h += `<div class="est-block"><h3>📄 Apostilas individuais</h3>
+  h += `<div class="est-block"><h3>Apostilas individuais</h3>
     <div class="desc">Controle fino: ligue/desligue cada apostila (inclui petições e artigos). Some do site na hora.</div>`;
   if (!prods.length) {
     h += `<div class="and-empty">Nenhuma apostila cadastrada ainda.</div>`;
@@ -1958,8 +1983,8 @@ function cardHTMLAndrey(c) {
             onclick="event.stopPropagation();alternarConcluido('${c.id}')">✓</button>
     <div class="and-card-txt">${esc(c.titulo)}${c.descricao ? `<span class="and-card-desc">${esc(c.descricao)}</span>` : ''}</div>
     <div class="and-card-acts">
-      <button onclick="event.stopPropagation();editarCard('${c.id}')" title="Editar">✎</button>
-      <button class="del" onclick="event.stopPropagation();apagarCard('${c.id}')" title="Apagar">🗑</button>
+      <button onclick="event.stopPropagation();editarCard('${c.id}')" title="Editar">Editar</button>
+      <button class="del" onclick="event.stopPropagation();apagarCard('${c.id}')" title="Apagar">Apagar</button>
     </div>
   </div>`;
 }
@@ -2182,11 +2207,11 @@ function abrirMenuQuadros(e) {
   const m = $a('andMenu');
   m.innerHTML = `<div class="and-menu-lbl">Seus quadros</div>` +
     (quadros.length
-      ? quadros.map(q => `<button class="${q.id === quadroId ? 'on' : ''}" onclick="trocarQuadro('${q.id}')">▤ ${esc(q.nome)}</button>`).join('')
+      ? quadros.map(q => `<button class="${q.id === quadroId ? 'on' : ''}" onclick="trocarQuadro('${q.id}')">${esc(q.nome)}</button>`).join('')
       : `<div class="and-empty" style="padding:6px 10px">Nenhum quadro ainda.</div>`) +
     `<div class="sep"></div>
      <button onclick="criarQuadro()">＋ Criar quadro</button>` +
-    (quadroId ? `<button class="danger" onclick="apagarQuadro()">🗑 Apagar quadro atual</button>` : '');
+    (quadroId ? `<button class="danger" onclick="apagarQuadro()">Apagar quadro atual</button>` : '');
   posicionarMenu(e);
 }
 
@@ -2195,9 +2220,9 @@ function abrirMenuLista(e, id) {
   const m = $a('andMenu');
   m.innerHTML = `<div class="and-menu-lbl">Ações da lista</div>
     <button onclick="fecharMenu();abrirComposerCard('${id}')">＋ Adicionar cartão</button>
-    <button onclick="fecharMenu();renomearLista('${id}')">✎ Renomear lista</button>
+    <button onclick="fecharMenu();renomearLista('${id}')">Renomear lista</button>
     <div class="sep"></div>
-    <button class="danger" onclick="apagarLista('${id}')">🗑 Apagar lista</button>`;
+    <button class="danger" onclick="apagarLista('${id}')">Apagar lista</button>`;
   posicionarMenu(e);
 }
 
