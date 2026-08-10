@@ -252,29 +252,14 @@ input:checked+.sl:before{transform:translateX(19px)}
 
 /* ═══════════ ÁREA DO ANDREY ═══════════ */
 #andrey{
-  --t-nav:#0b0b16;--t-list:#0d0d1c;--t-card:#15152b;--t-card-hi:#1d1d3a;
-  --t-text:#c4c8e6;--t-strong:#eef0ff;--t-sub:#9aa0cc;--t-muted:#6a6f9c;
-  --t-line:rgba(150,160,230,.18);--t-hover:rgba(130,140,230,.10);
-  --t-blue:#7b8cff;--t-green:#4BCE97;--t-red:#F87168;
+  --t-nav:#111111;--t-list:#0a0a0a;--t-card:#1c1c1c;--t-card-hi:#262626;
+  --t-text:#d4d4d4;--t-strong:#f5f5f5;--t-sub:#a0a0a0;--t-muted:#707070;
+  --t-line:rgba(255,255,255,.12);--t-hover:rgba(255,255,255,.06);
+  --t-blue:#579DFF;--t-green:#4BCE97;--t-red:#F87168;
   position:fixed;inset:0;z-index:200;display:none;flex-direction:column;
   font-family:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
   color:var(--t-text);font-size:14px;line-height:20px;overflow:hidden;
-  background:
-    radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),
-    radial-gradient(1.5px 1.5px at 82% 12%,#fff,transparent),
-    radial-gradient(1px 1px at 27% 42%,rgba(255,255,255,.85),transparent),
-    radial-gradient(1px 1px at 66% 58%,rgba(255,255,255,.8),transparent),
-    radial-gradient(1px 1px at 40% 78%,rgba(255,255,255,.75),transparent),
-    radial-gradient(1.5px 1.5px at 90% 82%,#fff,transparent),
-    radial-gradient(1px 1px at 55% 25%,rgba(255,255,255,.7),transparent),
-    radial-gradient(1px 1px at 8% 66%,rgba(255,255,255,.7),transparent),
-    radial-gradient(2px 2px at 74% 36%,rgba(255,255,255,.9),transparent),
-    radial-gradient(1px 1px at 33% 8%,rgba(255,255,255,.6),transparent),
-    radial-gradient(1px 1px at 95% 48%,rgba(255,255,255,.7),transparent),
-    radial-gradient(ellipse at 20% 10%,rgba(96,73,180,.40),transparent 55%),
-    radial-gradient(ellipse at 82% 80%,rgba(38,74,168,.38),transparent 55%),
-    radial-gradient(ellipse at 60% 44%,rgba(150,54,150,.20),transparent 60%),
-    linear-gradient(160deg,#0a0a18 0%,#070711 60%,#040409 100%);
+  background:#000000;
 }
 #andrey .and-newlist{background:rgba(255,255,255,.06)}
 #andrey .and-newlist .and-add{color:var(--t-strong)}
@@ -437,6 +422,40 @@ input:checked+.sl:before{transform:translateX(19px)}
 .est-hint{font-size:12px;color:var(--t-muted);margin-top:10px;line-height:1.5}
 .est-danger .est-savebtn{background:var(--t-red);color:#fff}
 
+/* ═══════════ GRÁFICO DE RENDIMENTO ═══════════ */
+.graf-ctrl{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.graf-seg{display:inline-flex;background:var(--t-list);border:1px solid var(--t-line);border-radius:9px;padding:3px}
+.graf-seg button{background:none;border:none;color:var(--t-sub);padding:6px 13px;border-radius:6px;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.graf-seg button:hover{color:var(--t-strong)}
+.graf-seg button.on{background:var(--t-blue);color:#0b1220;font-weight:600}
+.graf-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:700px){.graf-stats{grid-template-columns:repeat(2,1fr)}}
+.graf-stat{background:var(--t-list);border:1px solid var(--t-line);border-radius:12px;padding:16px 18px}
+.graf-stat .gn{font-size:26px;font-weight:700;color:#fff;line-height:1.1}
+.graf-stat .gl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--t-muted);margin-top:4px}
+.graf-stat .gx{font-size:11.5px;color:var(--t-sub);margin-top:3px}
+.graf-card{background:var(--t-list);border:1px solid var(--t-line);border-radius:14px;padding:20px;margin-bottom:16px}
+.graf-card h3{font-size:15px;font-weight:600;color:var(--t-strong);margin:0}
+.graf-card .desc{font-size:12.5px;color:var(--t-sub);margin:5px 0 14px}
+.graf-svg{width:100%;height:auto;display:block;overflow:visible}
+.graf-bar{fill:var(--t-blue)}
+.graf-bar.destaque{fill:var(--t-green)}
+.graf-zero{fill:rgba(255,255,255,.10)}
+.graf-grid{stroke:rgba(255,255,255,.09);stroke-width:1}
+.graf-lbl{fill:var(--t-muted);font-size:10px;font-family:'Inter',sans-serif}
+.graf-lbl.eixo{text-anchor:end}
+.graf-lbl.dia{text-anchor:middle}
+.graf-row{margin-bottom:15px}
+.graf-row:last-child{margin-bottom:0}
+.graf-row-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.graf-row-nome{font-size:13.5px;color:var(--t-strong);font-weight:500;min-width:0;word-break:break-word}
+.graf-row-num{font-size:12px;color:var(--t-muted);white-space:nowrap;flex:0 0 auto}
+.graf-track{height:8px;background:rgba(255,255,255,.09);border-radius:6px;overflow:hidden}
+.graf-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--t-blue),var(--t-green));transition:width .35s ease}
+.graf-fill.completo{background:var(--t-green)}
+.graf-hint{font-size:12px;color:var(--t-muted);margin-top:14px;line-height:1.55}
+.graf-aviso{font-size:12.5px;color:var(--t-sub);background:rgba(87,157,255,.09);border:1px solid rgba(87,157,255,.22);border-radius:9px;padding:11px 13px;margin-bottom:16px;line-height:1.55}
+
 /* ═══════════ BANNER DE DESTAQUE (público) ═══════════ */
 .site-banner{background:linear-gradient(90deg,var(--green),#0b6b4f);color:#fff;text-align:center;padding:10px 18px;font-size:13.5px;font-weight:500;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;position:relative;z-index:45}
 .site-banner a{color:var(--hl);font-weight:700;text-decoration:none;white-space:nowrap}
@@ -461,6 +480,29 @@ input:checked+.sl:before{transform:translateX(19px)}
 .manut-card p{color:#b9bce0;font-size:15px;line-height:1.6}
 .manut-access{position:fixed;bottom:14px;right:16px;background:none;border:none;color:rgba(255,255,255,.22);font-size:20px;cursor:pointer;z-index:91;line-height:1}
 .manut-access:hover{color:rgba(255,255,255,.7)}
+
+/* ═══════════ GRIFO IA (chat) ═══════════ */
+#grifoIA{position:fixed;inset:0;z-index:250;display:none;flex-direction:column;background:#000;color:#e8e8e8;font-family:'Inter',sans-serif}
+#grifoIA.open{display:flex}
+.gia-top{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#111;border-bottom:1px solid rgba(255,255,255,.1);flex:0 0 auto}
+.gia-mark{width:30px;height:30px;border-radius:8px;background:#579DFF;color:#000;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px}
+.gia-title{font-weight:600;font-size:16px;color:#f5f5f5}
+.gia-sp{flex:1}
+.gia-x{background:none;border:none;color:#a0a0a0;font-size:22px;cursor:pointer;padding:2px 8px;border-radius:6px;line-height:1}
+.gia-x:hover{background:rgba(255,255,255,.08);color:#fff}
+.gia-chat{flex:1;overflow-y:auto;padding:22px 16px}
+.gia-chat-in{max-width:760px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:14px}
+.gia-msg{padding:12px 15px;border-radius:12px;line-height:1.6;font-size:14.5px;white-space:pre-wrap;word-break:break-word}
+.gia-user{background:#1e2b45;color:#eaf0ff;align-self:flex-end;max-width:85%;border-bottom-right-radius:4px}
+.gia-bot{background:#161616;color:#e0e0e0;border:1px solid rgba(255,255,255,.08);align-self:flex-start;max-width:92%;border-bottom-left-radius:4px}
+.gia-empty{color:#777;text-align:center;margin-top:50px;font-size:14.5px;line-height:1.7}
+.gia-form{flex:0 0 auto;padding:14px 16px 18px;border-top:1px solid rgba(255,255,255,.1);background:#0a0a0a}
+.gia-form-in{max-width:760px;margin:0 auto;display:flex;gap:10px;align-items:flex-end}
+.gia-input{flex:1;background:#161616;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:12px 14px;color:#f5f5f5;font-family:inherit;font-size:14.5px;resize:none;outline:none;max-height:160px;line-height:1.5}
+.gia-input:focus{border-color:#579DFF}
+.gia-send{background:#579DFF;color:#000;border:none;border-radius:10px;padding:12px 20px;font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit;flex:0 0 auto}
+.gia-send:hover{background:#85B8FF}
+.gia-send:disabled{background:#333;color:#777;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -735,7 +777,7 @@ input:checked+.sl:before{transform:translateX(19px)}
             <div class="ico">📈</div>
             <h4>Gráfico de Rendimento</h4>
             <p>Acompanhe o avanço dos estudos por matéria e por semana.</p>
-            <span class="tag">Em construção</span>
+            <span class="tag" style="color:var(--t-green);border-color:var(--t-green)">Ativo</span>
           </button>
           <button class="and-tool" onclick="abrirGrifoIA()">
             <div class="ico">✦</div>
@@ -765,6 +807,18 @@ input:checked+.sl:before{transform:translateX(19px)}
       </div>
     </div>
 
+    <!-- Gráfico de Rendimento -->
+    <div class="and-panel and-hide" id="andGrafico">
+      <div class="and-panel-in" style="max-width:860px">
+        <div class="est-top">
+          <button class="and-btn" onclick="mostrarPainel()">← Voltar ao painel</button>
+          <h2 style="margin-top:10px">Gráfico de Rendimento</h2>
+          <div class="sub">Quantos cartões você concluiu ao longo do tempo e como está o avanço de cada lista.</div>
+        </div>
+        <div id="grafBody"><div class="and-empty">Carregando…</div></div>
+      </div>
+    </div>
+
     <!-- Barra inferior -->
     <div class="and-bottom">
       <div class="and-bottom-in">
@@ -778,6 +832,29 @@ input:checked+.sl:before{transform:translateX(19px)}
 
   <!-- Menu suspenso (quadros / listas) -->
   <div class="and-menu" id="andMenu"></div>
+</div>
+
+<!-- ═══════════ GRIFO IA ═══════════ -->
+<div id="grifoIA">
+  <div class="gia-top">
+    <div class="gia-mark">✦</div>
+    <div class="gia-title">Grifo IA</div>
+    <div class="gia-sp"></div>
+    <button class="gia-x" onclick="fecharGrifoIA()" title="Fechar">✕</button>
+  </div>
+  <div class="gia-chat" id="giaChat">
+    <div class="gia-chat-in" id="giaChatIn">
+      <div class="gia-empty">Peça um resumo, gere questões ou tire dúvidas sobre suas apostilas.</div>
+    </div>
+  </div>
+  <div class="gia-form">
+    <div class="gia-form-in">
+      <textarea id="giaInput" class="gia-input" rows="1" placeholder="Escreva sua pergunta..."
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviarGrifoIA()}"></textarea>
+      <button class="gia-send" id="giaSend" onclick="enviarGrifoIA()">Enviar</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1306,28 +1383,66 @@ function checarPin() {
   }
 }
 
-// ── Alternar quadro / painel ──────────────────────────────
-function mostrarQuadro() {
-  $a('andLists').classList.remove('and-hide');
-  $a('andHead').classList.remove('and-hide');
-  $a('andPanel').classList.add('and-hide');
-  $a('andEstrutura').classList.add('and-hide');
-  $a('andTabQuadro').classList.add('on');
-  $a('andTabPainel').classList.remove('on');
-}
-function mostrarPainel() {
+// ── Alternar telas (quadro / painel / estrutura / gráfico) ──
+function mostrarTela(tela) {          // 'quadro' | 'painel' | 'estrutura' | 'grafico'
   fecharMenu();
-  $a('andLists').classList.add('and-hide');
-  $a('andHead').classList.add('and-hide');
-  $a('andPanel').classList.remove('and-hide');
-  $a('andEstrutura').classList.add('and-hide');
-  $a('andTabQuadro').classList.remove('on');
-  $a('andTabPainel').classList.add('on');
+  $a('andHead').classList.toggle('and-hide', tela !== 'quadro');
+  $a('andLists').classList.toggle('and-hide', tela !== 'quadro');
+  $a('andPanel').classList.toggle('and-hide', tela !== 'painel');
+  $a('andEstrutura').classList.toggle('and-hide', tela !== 'estrutura');
+  $a('andGrafico').classList.toggle('and-hide', tela !== 'grafico');
+  $a('andTabQuadro').classList.toggle('on', tela === 'quadro');
+  $a('andTabPainel').classList.toggle('on', tela === 'painel');
+}
+function mostrarQuadro() { mostrarTela('quadro'); }
+function mostrarPainel() { mostrarTela('painel'); }
+
+// ── Botões do painel ──────────────────────────────────────
+function abrirGraficoRendimento() { mostrarGrafico(); }
+let giaHistorico = [];
+function abrirGrifoIA() {
+  fecharMenu();
+  $a('grifoIA').classList.add('open');
+  setTimeout(() => $a('giaInput').focus(), 80);
+}
+function fecharGrifoIA() { $a('grifoIA').classList.remove('open'); }
+
+function giaAddMsg(quem, texto) {
+  const wrap = $a('giaChatIn');
+  const vazio = wrap.querySelector('.gia-empty');
+  if (vazio) vazio.remove();
+  const div = document.createElement('div');
+  div.className = 'gia-msg ' + (quem === 'user' ? 'gia-user' : 'gia-bot');
+  div.textContent = texto;
+  wrap.appendChild(div);
+  $a('giaChat').scrollTop = $a('giaChat').scrollHeight;
+  return div;
 }
 
-// ── Botões do painel (ligar nas próximas etapas) ──────────
-function abrirGraficoRendimento() { toast('Gráfico de Rendimento — ainda não conectado'); }
-function abrirGrifoIA()           { toast('Grifo IA — ainda não conectado'); }
+async function enviarGrifoIA() {
+  const inp = $a('giaInput');
+  const texto = inp.value.trim();
+  if (!texto) return;
+  const btn = $a('giaSend');
+  inp.value = ''; inp.style.height = 'auto';
+  giaAddMsg('user', texto);
+  giaHistorico.push({ role: 'user', content: texto });
+  const pensando = giaAddMsg('bot', 'Pensando...');
+  btn.disabled = true;
+  try {
+    const { data, error } = await db.functions.invoke('grifo-ia', { body: { messages: giaHistorico } });
+    if (error) throw error;
+    if (data && data.error) throw new Error(data.error);
+    pensando.textContent = data.texto;
+    giaHistorico.push({ role: 'assistant', content: data.texto });
+  } catch (e) {
+    pensando.textContent = 'Erro: ' + (e.message || 'não foi possível responder. Confira a Edge Function e a chave da API.');
+    pensando.style.color = '#F87168';
+  } finally {
+    btn.disabled = false;
+    $a('giaInput').focus();
+  }
+}
 function abrirEstruturaPagina()   { mostrarEstrutura(); }
 
 // ═══════════════════════════════════════════════════════════
@@ -1369,13 +1484,7 @@ function cfgBanner() { return configSite.banner || { ativo:false, texto:'', url:
 
 // ── Abrir a tela ──────────────────────────────────────────
 async function mostrarEstrutura() {
-  fecharMenu();
-  $a('andLists').classList.add('and-hide');
-  $a('andHead').classList.add('and-hide');
-  $a('andPanel').classList.add('and-hide');
-  $a('andEstrutura').classList.remove('and-hide');
-  $a('andTabQuadro').classList.remove('on');
-  $a('andTabPainel').classList.remove('on');
+  mostrarTela('estrutura');
   $a('estBody').innerHTML = '<div class="and-empty">Carregando…</div>';
   await carregarConfigSite();
   await loadAdmProds();
@@ -1544,6 +1653,190 @@ async function estSalvarBanner() {
   b.url = $a('estBannerUrl').value.trim();
   await salvarConfig('banner', b);
   toast('Banner salvo'); renderEstrutura(); aplicarEstruturaPublica(configSite);
+}
+
+// ═══════════════════════════════════════════════════════════
+// GRÁFICO DE RENDIMENTO
+// ═══════════════════════════════════════════════════════════
+let grafPeriodo = 30;                 // 7 | 30 | 90 dias
+let grafEscopo  = 'quadro';           // 'quadro' | 'todos'
+let grafDados   = { listas: [], cartoes: [] };
+
+async function mostrarGrafico() {
+  mostrarTela('grafico');
+  $a('grafBody').innerHTML = '<div class="and-empty">Carregando…</div>';
+  await carregarDadosGrafico();
+  renderGrafico();
+}
+
+async function carregarDadosGrafico() {
+  if (grafEscopo === 'quadro') {
+    if (!listas.length && quadroId) await carregarConteudo();
+    grafDados = { listas: listas.slice(), cartoes: cartoes.slice() };
+  } else {
+    const [rl, rc] = await Promise.all([
+      db.from('listas').select('*'),
+      db.from('cartoes').select('*')
+    ]);
+    if (rl.error || rc.error) { toast('Erro ao carregar dados do gráfico'); return; }
+    grafDados = { listas: rl.data || [], cartoes: rc.data || [] };
+  }
+}
+
+function grafTrocarPeriodo(dias) { grafPeriodo = dias; renderGrafico(); }
+async function grafTrocarEscopo(escopo) {
+  if (escopo === grafEscopo) return;
+  grafEscopo = escopo;
+  $a('grafBody').innerHTML = '<div class="and-empty">Carregando…</div>';
+  await carregarDadosGrafico();
+  renderGrafico();
+}
+
+// ── Datas ─────────────────────────────────────────────────
+const diaKey = d => new Date(d).toLocaleDateString('sv-SE');   // AAAA-MM-DD no fuso local
+const dPT = d => d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+
+function sequenciaDias(cs) {
+  const set = new Set(cs.filter(c => c.concluido && c.concluido_em).map(c => diaKey(c.concluido_em)));
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  if (!set.has(diaKey(d))) d.setDate(d.getDate() - 1);   // ainda dá tempo de manter a sequência hoje
+  let n = 0;
+  while (set.has(diaKey(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
+function baldesGrafico(cs, periodo) {
+  const contagem = {};
+  cs.forEach(c => {
+    if (c.concluido && c.concluido_em) {
+      const k = diaKey(c.concluido_em);
+      contagem[k] = (contagem[k] || 0) + 1;
+    }
+  });
+  const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+  const dias = [];
+  for (let i = periodo - 1; i >= 0; i--) {
+    const d = new Date(hoje); d.setDate(d.getDate() - i);
+    dias.push({ data: d, valor: contagem[diaKey(d)] || 0 });
+  }
+  if (periodo <= 30) {
+    return dias.map(d => ({ rot: String(d.data.getDate()), titulo: d.data.toLocaleDateString('pt-BR'), valor: d.valor }));
+  }
+  const semanas = [];                                  // 90 dias fica ilegível dia a dia
+  for (let i = 0; i < dias.length; i += 7) {
+    const bloco = dias.slice(i, i + 7);
+    const ini = bloco[0].data, fim = bloco[bloco.length - 1].data;
+    semanas.push({
+      rot: dPT(ini),
+      titulo: `${dPT(ini)} a ${dPT(fim)}`,
+      valor: bloco.reduce((s, x) => s + x.valor, 0)
+    });
+  }
+  return semanas;
+}
+
+// ── SVG de barras ─────────────────────────────────────────
+function svgBarras(dados) {
+  const W = 720, H = 210, pl = 30, pr = 6, pt = 10, pb = 24;
+  const iw = W - pl - pr, ih = H - pt - pb;
+  const max = Math.max(1, ...dados.map(d => d.valor));
+  const passo = iw / dados.length;
+  const larg = Math.max(2, Math.min(28, passo * 0.62));
+  const y = v => pt + ih * (1 - v / max);
+
+  let g = '';
+  [0, max / 2, max].forEach(v => {
+    const yy = y(v).toFixed(1);
+    g += `<line class="graf-grid" x1="${pl}" y1="${yy}" x2="${W - pr}" y2="${yy}"/>
+          <text class="graf-lbl eixo" x="${pl - 7}" y="${(+yy + 3.5).toFixed(1)}">${Math.round(v)}</text>`;
+  });
+
+  const salto = Math.ceil(dados.length / 12);
+  let b = '';
+  dados.forEach((d, i) => {
+    const cx = pl + passo * i + passo / 2;
+    const x = (cx - larg / 2).toFixed(1);
+    const ultimo = i === dados.length - 1;
+    b += d.valor > 0
+      ? `<rect class="graf-bar ${ultimo ? 'destaque' : ''}" x="${x}" y="${y(d.valor).toFixed(1)}" width="${larg.toFixed(1)}" height="${(ih * d.valor / max).toFixed(1)}" rx="3"><title>${d.titulo}: ${d.valor}</title></rect>`
+      : `<rect class="graf-zero" x="${x}" y="${(pt + ih - 2).toFixed(1)}" width="${larg.toFixed(1)}" height="2" rx="1"><title>${d.titulo}: 0</title></rect>`;
+    if (i % salto === 0 || ultimo)
+      b += `<text class="graf-lbl dia" x="${cx.toFixed(1)}" y="${H - 7}">${d.rot}</text>`;
+  });
+
+  return `<svg class="graf-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img"
+    aria-label="Cartões concluídos por período">${g}${b}</svg>`;
+}
+
+// ── Render ────────────────────────────────────────────────
+function renderGrafico() {
+  const cs = grafDados.cartoes;
+  const total = cs.length;
+  const feitos = cs.filter(c => c.concluido).length;
+  const semData = cs.filter(c => c.concluido && !c.concluido_em).length;
+  const dados = baldesGrafico(cs, grafPeriodo);
+  const noPeriodo = dados.reduce((s, d) => s + d.valor, 0);
+  const porSemana = (noPeriodo / (grafPeriodo / 7));
+  const seq = sequenciaDias(cs);
+  const pendentes = total - feitos;
+  const unidade = grafPeriodo <= 30 ? 'dia' : 'semana';
+
+  const nomeQuadro = q => (quadros.find(x => x.id === q) || {}).nome || '';
+  const porLista = grafDados.listas.map(l => {
+    const ls = cs.filter(c => c.lista_id === l.id);
+    const ok = ls.filter(c => c.concluido).length;
+    const prefixo = grafEscopo === 'todos' && nomeQuadro(l.quadro_id) ? nomeQuadro(l.quadro_id) + ' · ' : '';
+    return { nome: prefixo + l.nome, total: ls.length, feitos: ok, pct: ls.length ? Math.round(ok / ls.length * 100) : 0 };
+  }).filter(x => x.total > 0).sort((a, b) => b.pct - a.pct || b.total - a.total);
+
+  let h = '';
+
+  h += `<div class="graf-ctrl">
+    <div class="graf-seg">
+      ${[[7, '7 dias'], [30, '30 dias'], [90, '90 dias']].map(([d, t]) =>
+        `<button class="${grafPeriodo === d ? 'on' : ''}" onclick="grafTrocarPeriodo(${d})">${t}</button>`).join('')}
+    </div>
+    <div class="graf-seg">
+      <button class="${grafEscopo === 'quadro' ? 'on' : ''}" onclick="grafTrocarEscopo('quadro')">Este quadro</button>
+      <button class="${grafEscopo === 'todos' ? 'on' : ''}" onclick="grafTrocarEscopo('todos')">Todos os quadros</button>
+    </div>
+  </div>`;
+
+  if (semData) {
+    h += `<div class="graf-aviso">${semData} cartão${semData !== 1 ? 'ões' : ''} concluído${semData !== 1 ? 's' : ''} antes desta tela existir não tem data de conclusão. Contam no progresso das listas, mas ficam de fora da linha do tempo.</div>`;
+  }
+
+  h += `<div class="graf-stats">
+    <div class="graf-stat"><div class="gn">${noPeriodo}</div><div class="gl">Concluídos</div><div class="gx">nos últimos ${grafPeriodo} dias</div></div>
+    <div class="graf-stat"><div class="gn">${porSemana.toFixed(1).replace('.', ',')}</div><div class="gl">Por semana</div><div class="gx">média no período</div></div>
+    <div class="graf-stat"><div class="gn" style="color:${seq >= 2 ? 'var(--t-green)' : '#fff'}">${seq}</div><div class="gl">Sequência</div><div class="gx">${seq === 1 ? 'dia seguido' : 'dias seguidos'}</div></div>
+    <div class="graf-stat"><div class="gn">${pendentes}</div><div class="gl">Pendentes</div><div class="gx">${total ? Math.round(feitos / total * 100) : 0}% do total concluído</div></div>
+  </div>`;
+
+  h += `<div class="graf-card">
+    <h3>Cartões concluídos por ${unidade}</h3>
+    <div class="desc">${grafPeriodo <= 30 ? 'Cada barra é um dia.' : 'Cada barra é uma semana.'} Passe o mouse para ver a data e o número.</div>
+    ${noPeriodo ? svgBarras(dados) : `<div class="and-empty">Nada concluído nesse período ainda. Marque um cartão como concluído no quadro e ele aparece aqui.</div>`}
+  </div>`;
+
+  h += `<div class="graf-card">
+    <h3>Avanço por lista</h3>
+    <div class="desc">Quanto de cada lista já está concluído${grafEscopo === 'quadro' ? ', neste quadro' : ', somando todos os quadros'}.</div>`;
+  if (!porLista.length) {
+    h += `<div class="and-empty">Nenhuma lista com cartões ainda.</div>`;
+  } else {
+    h += porLista.map(l => `<div class="graf-row">
+      <div class="graf-row-top">
+        <span class="graf-row-nome">${esc(l.nome)}</span>
+        <span class="graf-row-num">${l.feitos}/${l.total} · ${l.pct}%</span>
+      </div>
+      <div class="graf-track"><div class="graf-fill ${l.pct === 100 ? 'completo' : ''}" style="width:${l.pct}%"></div></div>
+    </div>`).join('');
+    h += `<div class="graf-hint">O avanço considera todos os cartões da lista, inclusive os concluídos antes do período escolhido acima.</div>`;
+  }
+  h += `</div>`;
+
+  $a('grafBody').innerHTML = h;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1807,9 +2100,11 @@ async function apagarCard(id) {
 async function alternarConcluido(id) {
   const c = cartoes.find(x => x.id === id); if (!c) return;
   c.concluido = !c.concluido;
+  c.concluido_em = c.concluido ? new Date().toISOString() : null;
   const btn = document.querySelector(`.and-card[data-id="${id}"] .and-check`);
   if (btn) { btn.classList.toggle('on', c.concluido); btn.title = c.concluido ? 'Reabrir' : 'Concluir'; }
-  const { error } = await db.from('cartoes').update({ concluido: c.concluido }).eq('id', id);
+  const { error } = await db.from('cartoes')
+    .update({ concluido: c.concluido, concluido_em: c.concluido_em }).eq('id', id);
   if (error) { toast('Erro ao salvar'); carregarConteudo(); }
 }
 
