@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Partilha — Grifo</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<style>
+:root{--ink:#16233F;--ink-70:#4A556B;--ink-40:#8A93A6;--paper:#F5F4EF;--paper-2:#FBFAF6;--line:#E2E0D7;--hl:#CDFB45;--green:#0E5C43;--green2:#0A4632;--red:#C0392B;--amber:#B8860B}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+header{position:sticky;top:0;z-index:40;background:rgba(245,244,239,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.brand{display:flex;align-items:baseline;gap:9px;text-decoration:none;color:var(--ink)}
+.brand .logo{font-family:'Fraunces',serif;font-weight:600;font-size:26px;letter-spacing:-.5px}
+.brand .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-40);letter-spacing:1px;text-transform:uppercase}
+.voltar{color:var(--ink-70);text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap}
+.voltar:hover{color:var(--ink)}
+
+.ph{padding:56px 0 32px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:14px}
+.ph h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,4.6vw,44px);line-height:1.05;letter-spacing:-1px;max-width:22ch}
+.ph .lead{margin-top:14px;font-size:16px;color:var(--ink-70);max-width:66ch}
+
+.app{padding:26px 0 64px}
+
+/* Barra de abas de sucessões */
+.sucbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.suctab{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);color:var(--ink-70);border-radius:9px;padding:9px 14px;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;transition:all .12s}
+.suctab:hover{border-color:var(--ink)}
+.suctab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.suctab .num{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-40);letter-spacing:.5px}
+.suctab.on .num{color:rgba(255,255,255,.55)}
+.suctab.auto{border-style:dashed;border-color:var(--amber)}
+.suctab.auto.on{border-color:#fff;border-style:solid}
+.suctab .rm{background:none;border:none;color:inherit;opacity:.5;cursor:pointer;font-size:15px;padding:0 2px;line-height:1;margin-left:2px}
+.suctab .rm:hover{opacity:1;color:var(--red)}
+.suctab.on .rm:hover{color:#ff9b8f}
+.addsuc{background:transparent;border:1.5px dashed var(--green);color:var(--green);border-radius:9px;padding:8px 14px;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.addsuc:hover{background:rgba(14,92,67,.06)}
+
+/* Cards */
+.card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin-bottom:20px}
+@media(max-width:520px){.card{padding:18px 16px}}
+.card h2{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:4px;letter-spacing:-.2px}
+.card .note{font-size:13px;color:var(--ink-70);margin-bottom:20px;max-width:66ch}
+
+/* Grids */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 16px}
+.grid.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:640px){.grid.g2{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{font-size:11.5px;font-weight:600;color:var(--ink-70);text-transform:uppercase;letter-spacing:.4px}
+.field label .opc{font-weight:400;color:var(--ink-40);text-transform:none;letter-spacing:0}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none;transition:border-color .12s,box-shadow .12s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(14,92,67,.09)}
+.field textarea{resize:vertical;min-height:70px;line-height:1.55}
+.field .hint{font-size:11.5px;color:var(--ink-40);margin-top:2px}
+
+/* Item cards (pessoa/bem) */
+.pessoa{border:1px solid var(--line);border-radius:11px;padding:16px 18px;background:#fff;margin-bottom:12px;position:relative}
+.pessoa .p-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
+.pessoa .p-nome{font-weight:600;font-size:14.5px;font-family:'Fraunces',serif}
+.pessoa .p-tag{font-size:10.5px;padding:3px 9px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.pessoa .p-tag.vivo{background:#E5F2E9;color:#0f5c34}
+.pessoa .p-tag.pre{background:#FAE1E1;color:#8B2B2B}
+.pessoa .p-tag.pos{background:#FBEEDA;color:#8a5b0a}
+.pessoa .p-tag.imp{background:#E8E4FA;color:#4a3a8a}
+.rm-btn{background:none;border:none;color:var(--ink-40);cursor:pointer;font-size:19px;line-height:1;padding:2px 6px;border-radius:4px}
+.rm-btn:hover{color:var(--red);background:rgba(192,57,43,.08)}
+.aninhado{margin-top:12px;padding:12px 14px;border-left:2.5px solid var(--green);background:var(--paper-2);border-radius:0 8px 8px 0}
+.aninhado .a-titulo{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-70);font-weight:700;margin-bottom:10px}
+
+/* Checkbox */
+.check{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:6px 0}
+.check input{position:absolute;opacity:0;width:0;height:0}
+.check .cx{flex:0 0 auto;width:19px;height:19px;border:1.5px solid var(--line);border-radius:5px;background:#fff;position:relative;transition:.14s;margin-top:1px}
+.check .cx::after{content:"";position:absolute;left:5.5px;top:2px;width:5px;height:9.5px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .14s}
+.check input:checked+.cx{background:var(--green);border-color:var(--green)}
+.check input:checked+.cx::after{transform:rotate(45deg) scale(1)}
+.check .txt{font-size:13.5px;color:var(--ink);line-height:1.5}
+
+/* Botões */
+.btn{background:var(--green);color:#fff;border:none;padding:12px 22px;border-radius:9px;font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit;transition:background .12s}
+.btn:hover{background:var(--green2)}
+.btn.g{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.g:hover{background:var(--ink);color:#fff}
+.btn.p{background:transparent;color:var(--green);border:1.5px solid var(--green)}
+.btn.p:hover{background:var(--green);color:#fff}
+.btn.a{background:var(--amber);color:#fff}
+.btn.a:hover{background:#8a6a10}
+.btn.sm{padding:7px 14px;font-size:12.5px;border-radius:7px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+
+/* Avisos */
+.aviso{background:#FCF5E6;border-left:3px solid var(--amber);color:#6a4d09;font-size:13px;padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:14px;line-height:1.55}
+.aviso.red{background:#FCE4E4;border-left-color:var(--red);color:#8B2B2B}
+.aviso.green{background:#E5F2E9;border-left-color:var(--green);color:#0f5c34}
+.aviso.blue{background:#E8EBFA;border-left-color:#4a3a8a;color:#3a2a7a}
+.aviso strong{color:inherit;font-weight:700}
+.erro-box{background:#FCE4E4;border:1px solid #f3c9c9;color:#8B0000;border-radius:9px;padding:12px 14px;font-size:13.5px;margin-bottom:14px;display:none}
+.erro-box.on{display:block}
+
+/* Resultado */
+.result{background:#fff;border:1px solid var(--line);border-radius:11px;padding:26px 30px;margin-top:6px}
+@media(max-width:520px){.result{padding:20px 18px}}
+.result h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:22px 0 10px;letter-spacing:-.2px}
+.result h3:first-child{margin-top:0}
+.result h4{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:18px 0 8px;color:var(--green);border-bottom:1px solid var(--line);padding-bottom:6px}
+.result .lg{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ink);font-size:16px}
+.result table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.result th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-40);border-bottom:1.5px solid var(--ink);padding:8px 6px;font-weight:600}
+.result td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.result tr.total td{font-weight:700;border-top:2px solid var(--ink);border-bottom:none}
+.frac{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--green)}
+.brl{font-family:'JetBrains Mono',monospace;color:var(--ink);white-space:nowrap}
+.h-card{border:1px solid var(--line);background:var(--paper-2);border-radius:9px;padding:14px 16px;margin-bottom:10px}
+.h-card .h-titulo{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.h-card .h-nome{font-weight:600;font-size:15px;font-family:'Fraunces',serif}
+.h-card .h-total{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green);font-size:14.5px}
+.h-card .h-papel{font-size:11.5px;color:var(--ink-40);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.4px}
+.h-card .h-linha{display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px;gap:12px;border-top:1px dashed var(--line)}
+.h-card .h-linha:first-of-type{border-top:none}
+.h-card .h-bem{flex:1;min-width:0;color:var(--ink-70)}
+
+/* Barra de resumo do resultado por sucessão */
+.res-suc{background:var(--paper-2);border:1px solid var(--line);border-radius:11px;padding:18px 22px;margin-bottom:16px}
+.res-suc .rs-titulo{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.res-suc .rs-titulo h3{margin:0;font-family:'Fraunces',serif;font-size:18px;font-weight:600}
+.res-suc .rs-badge{font-size:11px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;color:var(--ink-40);font-weight:600}
+
+footer{border-top:1px solid var(--line);padding:36px 0;color:var(--ink-40);font-size:12.5px;text-align:center}
+footer .dc{max-width:76ch;margin:0 auto 12px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <span class="logo">Grifo</span>
+      <span class="tag">Direito das Sucessões</span>
+    </a>
+    <a class="voltar" href="index.html">Voltar ao acervo</a>
+  </div>
+</header>
+
+<section class="ph">
+  <div class="wrap">
+    <div class="eyebrow">Ferramenta · Cálculo de partilha</div>
+    <h1>Calcule as frações e valores de cada herdeiro.</h1>
+    <p class="lead">Preencha os dados do falecido, os bens e os herdeiros. O sistema cruza data do casamento e do bem, aplica o regime pelo Código Civil, distribui em frações e mostra quanto cabe a cada um. Se o cônjuge também for falecido, uma nova sucessão é aberta automaticamente para partilha em cadeia.</p>
+  </div>
+</section>
+
+<div class="app">
+  <div class="wrap">
+
+    <div class="sucbar" id="sucBar"></div>
+
+    <div id="sucBody"></div>
+
+    <div class="erro-box" id="erroBox"></div>
+
+    <div class="actions">
+      <button class="btn" onclick="calcularTudo()">Calcular todas as sucessões</button>
+      <button class="btn g" onclick="baixarPDF()" id="btnPDF" disabled>Baixar em PDF</button>
+      <button class="btn p" onclick="baixarDOCX()" id="btnDOCX" disabled>Baixar em Word</button>
+    </div>
+
+    <div id="resultadoBox" style="display:none">
+      <div class="card" style="margin-top:24px">
+        <h2>Plano de partilha consolidado</h2>
+        <p class="note">Resultado de todas as sucessões cadastradas.</p>
+        <div id="resultado"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="dc">Ferramenta de cálculo para apoio à elaboração do plano de partilha. O resultado deve ser conferido por profissional habilitado antes de ser utilizado.</p>
+    <p>&copy; 2026 Grifo</p>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// FRAÇÕES RACIONAIS
+// ═══════════════════════════════════════════════════════════════
+function mdc(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a || 1; }
+function F(n, d) {
+  if (d === undefined) d = 1;
+  if (d === 0) throw new Error('den zero');
+  if (d < 0) { n = -n; d = -d; }
+  const g = mdc(n, d);
+  return { n: n / g, d: d / g };
+}
+function Fsoma(a, b) { return F(a.n * b.d + b.n * a.d, a.d * b.d); }
+function Fsub(a, b)  { return F(a.n * b.d - b.n * a.d, a.d * b.d); }
+function Fmul(a, b)  { return F(a.n * b.n, a.d * b.d); }
+function Fdiv(a, b)  { return F(a.n * b.d, a.d * b.n); }
+function Fdec(a)     { return a.n / a.d; }
+function Ffmt(a) {
+  if (a.n === 0) return '0';
+  if (a.d === 1) return String(a.n);
+  return `${a.n}/${a.d}`;
+}
+function Feq(a, b) { return a.n * b.d === b.n * a.d; }
+function Fzero(a)  { return a.n === 0; }
+
+// ═══════════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════════
+let uid = 1;
+const gid = () => 'x' + (uid++);
+const $ = id => document.getElementById(id);
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function parseValor(str) {
+  if (!str) return 0;
+  let s = String(str).replace(/[^\d.,-]/g, '');
+  if (s.indexOf(',') >= 0) s = s.replace(/\./g, '').replace(',', '.');
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
+function fmtBRL(v) {
+  return 'R$ ' + (v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtData(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+function parseData(iso) { return iso ? new Date(iso + 'T00:00:00') : null; }
+
+// ═══════════════════════════════════════════════════════════════
+// TIPOS E NATUREZAS (do formulário anterior, adaptados)
+// ═══════════════════════════════════════════════════════════════
+const TIPOS_BEM = [
+  'Imóvel','Veículo','Conta bancária','Aplicação financeira','Ações','Quotas societárias',
+  'Direito e ação','Nua-propriedade','Crédito','Precatório','Bem móvel','Outro'
+];
+const NATUREZAS = [
+  ['plena','Direito à propriedade plena'],
+  ['direito_acao','Direito e ação'],
+  ['nua_prop','Nua-propriedade'],
+  ['usufruto','Usufruto'],
+  ['fracao','Fração ideal'],
+  ['copropriedade','Copropriedade'],
+  ['posse','Posse / direitos possessórios'],
+  ['credito','Crédito'],
+  ['outro','Outro']
+];
+const TIPOS_DOC = ['','RGI','Matrícula','CRLV','Contrato','Extrato bancário','Nota fiscal','Escritura','Certidão','Sentença','Outro'];
+
+// ═══════════════════════════════════════════════════════════════
+// ESTADO — array de sucessões
+// ═══════════════════════════════════════════════════════════════
+function novoBem(numero) {
+  return {
+    id: gid(),
+    numero: numero || '',
+    tipo: 'Imóvel',
+    descricao: '',
+    valor: '',
+    dataAquisicao: '',
+    natureza: 'plena',
+    tipoDoc: '',
+    subrogado: false,
+    _importadoDe: null      // id da sucessão de origem, se veio importado
+  };
+}
+function novoFilho() {
+  return {
+    id: gid(),
+    nome: '',
+    situacao: 'vivo',
+    dataObito: '',
+    netos: [],
+    _importadoDe: null
+  };
+}
+function novoNeto()       { return { id: gid(), nome: '' }; }
+function novoAscendente() { return { id: gid(), nome: '', grau: 'pai' }; }
+
+function novaSucessao(rotuloBase) {
+  return {
+    id: gid(),
+    rotulo: rotuloBase || 'Sucessão',
+    auto: false,            // true se foi criada automaticamente (cônjuge falecida)
+    importadaDe: null,      // id da sucessão de origem
+    falecido: { nome: '', obito: '', estadoCivil: 'solteiro' },
+    conjuge: { nome: '', dataCasamento: '', regime: 'parcial', filhosComuns: false, situacao: 'vivo', dataObito: '' },
+    bens: [],
+    filhos: [],
+    ascendentes: []
+  };
+}
+
+let sucessoes = [ novaSucessao('Sucessão principal') ];
+let sucAtivaId = sucessoes[0].id;
+
+function sucAtiva() { return sucessoes.find(s => s.id === sucAtivaId) || sucessoes[0]; }
+
+// ═══════════════════════════════════════════════════════════════
+// BARRA DE ABAS
+// ═══════════════════════════════════════════════════════════════
+function renderBar() {
+  const bar = $('sucBar');
+  bar.innerHTML = '';
+  sucessoes.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.className = 'suctab' + (s.id === sucAtivaId ? ' on' : '') + (s.auto ? ' auto' : '');
+    const podeRemover = sucessoes.length > 1;
+    b.innerHTML = `
+      <span class="num">${String(i + 1).padStart(2,'0')}</span>
+      ${esc(s.rotulo)}
+      ${podeRemover ? `<span class="rm" title="Remover">×</span>` : ''}
+    `;
+    b.onclick = (e) => {
+      if (e.target.classList.contains('rm')) {
+        e.stopPropagation();
+        if (!confirm(`Remover "${s.rotulo}"?`)) return;
+        sucessoes = sucessoes.filter(x => x.id !== s.id);
+        if (!sucessoes.length) sucessoes.push(novaSucessao('Sucessão principal'));
+        sucAtivaId = sucessoes[0].id;
+        renderTudo();
+        return;
+      }
+      sucAtivaId = s.id;
+      renderTudo();
+    };
+    bar.appendChild(b);
+  });
+  const add = document.createElement('button');
+  add.className = 'addsuc';
+  add.textContent = '+ Nova sucessão';
+  add.onclick = () => {
+    const n = sucessoes.length + 1;
+    const nova = novaSucessao(`Sucessão ${n}`);
+    sucessoes.push(nova);
+    sucAtivaId = nova.id;
+    renderTudo();
+  };
+  bar.appendChild(add);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER DO CORPO
+// ═══════════════════════════════════════════════════════════════
+function renderCorpo() {
+  const s = sucAtiva();
+  const box = $('sucBody');
+  box.innerHTML = '';
+
+  // Banner de sucessão importada
+  if (s.importadaDe) {
+    const orig = sucessoes.find(x => x.id === s.importadaDe);
+    const banner = document.createElement('div');
+    banner.className = 'aviso blue';
+    banner.innerHTML = `<strong>Sucessão em cadeia.</strong> Esta sucessão foi aberta a partir de <strong>${esc(orig?.rotulo || 'sucessão anterior')}</strong>. Use o botão "Importar bens e filhos" abaixo para trazer o que pertencia a ${s.auto ? 'ela' : 'este falecido'} — depois é só remover o que não deve entrar (bens particulares do falecido anterior, herdeiros que não são desta linha, etc.).`;
+    box.appendChild(banner);
+  }
+
+  // ── Card do falecido ───────────────────────────────────
+  const c1 = document.createElement('div');
+  c1.className = 'card';
+  c1.innerHTML = `
+    <h2>Falecido (autor da herança)</h2>
+    <p class="note">Dados básicos e estado civil na data do óbito.</p>
+    <div class="grid g2">
+      <div class="field">
+        <label>Rótulo desta sucessão</label>
+        <input type="text" value="${esc(s.rotulo)}" oninput="atualizarSuc('rotulo', this.value); renderBar()">
+      </div>
+      <div class="field">
+        <label>Nome completo</label>
+        <input type="text" value="${esc(s.falecido.nome)}" oninput="atualizarFalecido('nome', this.value)">
+      </div>
+      <div class="field">
+        <label>Data do óbito</label>
+        <input type="date" value="${esc(s.falecido.obito)}" oninput="atualizarFalecido('obito', this.value)">
+      </div>
+      <div class="field">
+        <label>Estado civil na data do óbito</label>
+        <select onchange="atualizarFalecido('estadoCivil', this.value); renderCorpo()">
+          <option value="solteiro" ${s.falecido.estadoCivil === 'solteiro' ? 'selected' : ''}>Solteiro(a)</option>
+          <option value="casado" ${s.falecido.estadoCivil === 'casado' ? 'selected' : ''}>Casado(a)</option>
+          <option value="uniao" ${s.falecido.estadoCivil === 'uniao' ? 'selected' : ''}>União estável</option>
+          <option value="divorciado" ${s.falecido.estadoCivil === 'divorciado' ? 'selected' : ''}>Divorciado(a)</option>
+          <option value="viuvo" ${s.falecido.estadoCivil === 'viuvo' ? 'selected' : ''}>Viúvo(a)</option>
+        </select>
+      </div>
+    </div>
+  `;
+  box.appendChild(c1);
+
+  // ── Card do cônjuge (se casado ou união) ───────────────
+  const temConjuge = s.falecido.estadoCivil === 'casado' || s.falecido.estadoCivil === 'uniao';
+  if (temConjuge) {
+    const c2 = document.createElement('div');
+    c2.className = 'card';
+    const conjFalecido = s.conjuge.situacao === 'falecido';
+    c2.innerHTML = `
+      <h2>Cônjuge / companheiro(a)</h2>
+      <p class="note">Regime de bens, data do casamento e situação do cônjuge (vivo ou também falecido).</p>
+      <div class="grid g2">
+        <div class="field full">
+          <label>Nome do cônjuge/companheiro(a)</label>
+          <input type="text" value="${esc(s.conjuge.nome)}" oninput="atualizarConjuge('nome', this.value)">
+        </div>
+        <div class="field">
+          <label>Data do casamento / início da união</label>
+          <input type="date" value="${esc(s.conjuge.dataCasamento)}" oninput="atualizarConjuge('dataCasamento', this.value); renderCorpo()">
+        </div>
+        <div class="field">
+          <label>Regime de bens</label>
+          <select onchange="atualizarConjuge('regime', this.value); renderCorpo()">
+            <option value="parcial" ${s.conjuge.regime === 'parcial' ? 'selected' : ''}>Comunhão parcial (padrão)</option>
+            <option value="universal" ${s.conjuge.regime === 'universal' ? 'selected' : ''}>Comunhão universal</option>
+            <option value="sep_conv" ${s.conjuge.regime === 'sep_conv' ? 'selected' : ''}>Separação convencional</option>
+            <option value="sep_obr" ${s.conjuge.regime === 'sep_obr' ? 'selected' : ''}>Separação obrigatória (art. 1.641)</option>
+            <option value="aquestos" ${s.conjuge.regime === 'aquestos' ? 'selected' : ''}>Participação final nos aquestos</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Situação do cônjuge</label>
+          <select onchange="alterarSituacaoConjuge(this.value)">
+            <option value="vivo" ${s.conjuge.situacao === 'vivo' ? 'selected' : ''}>Vivo(a) na data do óbito</option>
+            <option value="falecido" ${s.conjuge.situacao === 'falecido' ? 'selected' : ''}>Também falecido(a)</option>
+          </select>
+        </div>
+        ${conjFalecido ? `
+        <div class="field">
+          <label>Data do óbito do cônjuge</label>
+          <input type="date" value="${esc(s.conjuge.dataObito)}" oninput="atualizarConjuge('dataObito', this.value)">
+        </div>` : ''}
+      </div>
+      <label class="check" style="margin-top:12px">
+        <input type="checkbox" ${s.conjuge.filhosComuns ? 'checked' : ''} onchange="atualizarConjuge('filhosComuns', this.checked)">
+        <span class="cx"></span>
+        <span class="txt">Todos os filhos do falecido também são filhos deste cônjuge (afeta a cota mínima de 1/4 do art. 1.832, CC)</span>
+      </label>
+      ${conjFalecido ? bannerConjugeAuto(s) : ''}
+    `;
+    box.appendChild(c2);
+  }
+
+  // ── Card de bens ───────────────────────────────────────
+  const c3 = document.createElement('div');
+  c3.className = 'card';
+  c3.innerHTML = `
+    <h2>Bens do espólio</h2>
+    <p class="note">Cada bem tem valor, natureza jurídica e data de aquisição pelo falecido. A data é cruzada com a do casamento para classificar como comum ou particular.</p>
+    <div id="listaBens_${s.id}"></div>
+    <button class="btn sm p" onclick="adicionarBem()">+ Adicionar bem</button>
+  `;
+  box.appendChild(c3);
+  renderBens(s);
+
+  // ── Card de filhos ─────────────────────────────────────
+  const c4 = document.createElement('div');
+  c4.className = 'card';
+  c4.innerHTML = `
+    <h2>Descendentes (filhos)</h2>
+    <p class="note">Cadastre cada filho. Pré-morto abre campo para netos (representação, art. 1.851). Pós-morto entra no cálculo como quinhão do respectivo espólio.</p>
+    <div id="listaFilhos_${s.id}"></div>
+    <button class="btn sm p" onclick="adicionarFilho()">+ Adicionar filho</button>
+  `;
+  box.appendChild(c4);
+  renderFilhos(s);
+
+  // ── Card de ascendentes ────────────────────────────────
+  const c5 = document.createElement('div');
+  c5.className = 'card';
+  c5.innerHTML = `
+    <h2>Ascendentes (pais)</h2>
+    <p class="note">Só herdam se não houver descendentes. Se houver filhos, esta seção é ignorada pelo cálculo.</p>
+    <div id="listaAsc_${s.id}"></div>
+    <button class="btn sm p" onclick="adicionarAscendente()">+ Adicionar ascendente</button>
+  `;
+  box.appendChild(c5);
+  renderAscendentes(s);
+}
+
+function bannerConjugeAuto(s) {
+  // Verifica se já existe sucessão automática do cônjuge
+  const jaExiste = sucessoes.find(x => x.importadaDe === s.id && x.auto);
+  const nome = s.conjuge.nome || 'cônjuge';
+  if (jaExiste) {
+    return `<div class="aviso green" style="margin-top:12px">
+      <strong>Sucessão automática criada.</strong> A sucessão de ${esc(nome)} já foi aberta como "<strong>${esc(jaExiste.rotulo)}</strong>" — abra a aba correspondente para preenchê-la e importar bens/filhos daqui.
+    </div>`;
+  }
+  return `<div class="aviso" style="margin-top:12px">
+    <strong>Cônjuge também falecido(a).</strong> Quer abrir uma sucessão automática para ${esc(nome)}? Depois é só clicar em "Importar bens e filhos" nela para trazer o que veio desta sucessão.
+    <div style="margin-top:10px"><button class="btn sm a" onclick="abrirSucessaoConjuge('${s.id}')">Abrir sucessão de ${esc(nome)}</button></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER — bens, filhos, ascendentes
+// ═══════════════════════════════════════════════════════════════
+function renderBens(s) {
+  const box = $('listaBens_' + s.id);
+  if (!box) return;
+  if (!s.bens.length) {
+    box.innerHTML = '<p class="note" style="margin:0 0 12px">Nenhum bem cadastrado ainda.</p>';
+    return;
+  }
+  box.innerHTML = s.bens.map((b, i) => {
+    const v = parseValor(b.valor);
+    const cls = classificarBem(s, b);
+    const natLabel = (NATUREZAS.find(x => x[0] === b.natureza) || [,''])[1];
+    return `
+    <div class="pessoa">
+      <div class="p-top">
+        <div class="p-nome">Bem ${b.numero || String(i + 1).padStart(3, '0')} — ${esc(b.tipo)}${b._importadoDe ? ' <span class="p-tag imp">importado</span>' : ''}</div>
+        <button class="rm-btn" onclick="removerBem('${b.id}')" title="Remover">×</button>
+      </div>
+      <div class="grid">
+        <div class="field">
+          <label>Número</label>
+          <input type="text" value="${esc(b.numero)}" oninput="setBem('${b.id}','numero',this.value); renderBens(sucAtiva())">
+        </div>
+        <div class="field">
+          <label>Tipo do bem</label>
+          <select onchange="setBem('${b.id}','tipo',this.value); renderBens(sucAtiva())">
+            ${TIPOS_BEM.map(t => `<option value="${t}" ${b.tipo === t ? 'selected' : ''}>${t}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <label>Natureza jurídica</label>
+          <select onchange="setBem('${b.id}','natureza',this.value)">
+            ${NATUREZAS.map(([v, l]) => `<option value="${v}" ${b.natureza === v ? 'selected' : ''}>${l}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="grid" style="margin-top:12px">
+        <div class="field full">
+          <label>Descrição</label>
+          <textarea rows="2" oninput="setBem('${b.id}','descricao',this.value)" placeholder="Ex: casa 3 e respectiva fração do terreno, na rua X, nº 000, Freguesia de Y">${esc(b.descricao)}</textarea>
+        </div>
+        <div class="field">
+          <label>Valor (R$)</label>
+          <input type="text" value="${esc(b.valor)}" oninput="setBem('${b.id}','valor',this.value); renderBens(sucAtiva())" placeholder="0,00">
+          <div class="hint">${v > 0 ? fmtBRL(v) : '—'}</div>
+        </div>
+        <div class="field">
+          <label>Data de aquisição pelo falecido</label>
+          <input type="date" value="${esc(b.dataAquisicao)}" oninput="setBem('${b.id}','dataAquisicao',this.value); renderBens(sucAtiva())">
+        </div>
+        <div class="field">
+          <label>Documento comprobatório <span class="opc">— tipo</span></label>
+          <select onchange="setBem('${b.id}','tipoDoc',this.value)">
+            ${TIPOS_DOC.map(t => `<option value="${t}" ${b.tipoDoc === t ? 'selected' : ''}>${t || '— (nenhum) —'}</option>`).join('')}
+          </select>
+          <div class="hint">Ex: RGI, Matrícula, CRLV. No PDF sai como "conforme ${b.tipoDoc || '[tipo]'} em index [advogado preenche]".</div>
+        </div>
+      </div>
+      ${cls.pergunta ? `
+      <label class="check" style="margin-top:10px">
+        <input type="checkbox" ${b.subrogado ? 'checked' : ''} onchange="setBem('${b.id}','subrogado',this.checked); renderBens(sucAtiva())">
+        <span class="cx"></span>
+        <span class="txt">Este bem foi adquirido em sub-rogação de outro bem particular (art. 1.659, II, CC) — mantém-se particular</span>
+      </label>` : ''}
+      ${cls.aviso ? `<div class="aviso ${cls.avisoNivel || ''}" style="margin-top:10px"><strong>${cls.classe}.</strong> ${cls.aviso}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderFilhos(s) {
+  const box = $('listaFilhos_' + s.id);
+  if (!box) return;
+  if (!s.filhos.length) {
+    box.innerHTML = '<p class="note" style="margin:0 0 12px">Nenhum filho cadastrado ainda.</p>';
+    return;
+  }
+  box.innerHTML = s.filhos.map((f, i) => {
+    const tagCls = f.situacao === 'vivo' ? 'vivo' : (f.situacao === 'pre' ? 'pre' : 'pos');
+    const tagTxt = f.situacao === 'vivo' ? 'Vivo(a)' : (f.situacao === 'pre' ? 'Pré-morto(a)' : 'Pós-morto(a)');
+    return `
+    <div class="pessoa">
+      <div class="p-top">
+        <div class="p-nome">${esc(f.nome || 'Filho(a) ' + (i + 1))}${f._importadoDe ? ' <span class="p-tag imp">importado</span>' : ''}</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="p-tag ${tagCls}">${tagTxt}</span>
+          <button class="rm-btn" onclick="removerFilho('${f.id}')" title="Remover">×</button>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="field full"><label>Nome completo</label><input type="text" value="${esc(f.nome)}" oninput="setFilho('${f.id}','nome',this.value); renderFilhos(sucAtiva())"></div>
+        <div class="field"><label>Situação</label>
+          <select onchange="setFilho('${f.id}','situacao',this.value); renderFilhos(sucAtiva())">
+            <option value="vivo" ${f.situacao === 'vivo' ? 'selected' : ''}>Vivo na abertura da sucessão</option>
+            <option value="pre" ${f.situacao === 'pre' ? 'selected' : ''}>Pré-morto (antes do falecido)</option>
+            <option value="pos" ${f.situacao === 'pos' ? 'selected' : ''}>Pós-morto (depois do falecido)</option>
+          </select>
+        </div>
+        ${f.situacao !== 'vivo' ? `
+        <div class="field"><label>Data do óbito</label><input type="date" value="${esc(f.dataObito)}" oninput="setFilho('${f.id}','dataObito',this.value)"></div>` : ''}
+      </div>
+      ${f.situacao === 'pre' ? `
+        <div class="aninhado">
+          <div class="a-titulo">Descendentes (representação, art. 1.851, CC)</div>
+          ${f.netos.length ? f.netos.map(n => `
+            <div class="grid" style="margin-bottom:8px">
+              <div class="field"><label>Nome do neto(a)</label><input type="text" value="${esc(n.nome)}" oninput="setNeto('${f.id}','${n.id}','nome',this.value)"></div>
+              <div class="field"><label>&nbsp;</label><button class="btn sm g" onclick="removerNeto('${f.id}','${n.id}')" style="align-self:flex-end">Remover</button></div>
+            </div>
+          `).join('') : '<p style="font-size:12.5px;color:var(--ink-40);margin-bottom:8px">Sem netos cadastrados. Pré-morto sem descendentes é excluído da partilha.</p>'}
+          <button class="btn sm p" onclick="adicionarNeto('${f.id}')">+ Adicionar neto(a)</button>
+        </div>` : ''}
+      ${f.situacao === 'pos' ? `
+        <div class="aviso" style="margin-top:10px">
+          <strong>Pós-morto.</strong> Este filho recebe o quinhão nesta sucessão, que integra o espólio dele. Na parte de pagamento, aparecerá como <strong>Espólio de ${esc(f.nome || 'nome do filho')}</strong> — uma segunda sucessão pode ser aberta para partilhar esse valor entre os herdeiros dele.
+        </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderAscendentes(s) {
+  const box = $('listaAsc_' + s.id);
+  if (!box) return;
+  if (!s.ascendentes.length) {
+    box.innerHTML = '<p class="note" style="margin:0 0 12px">Nenhum ascendente cadastrado.</p>';
+    return;
+  }
+  box.innerHTML = s.ascendentes.map(a => `
+    <div class="pessoa">
+      <div class="p-top">
+        <div class="p-nome">${esc(a.nome || 'Ascendente')}</div>
+        <button class="rm-btn" onclick="removerAscendente('${a.id}')">×</button>
+      </div>
+      <div class="grid">
+        <div class="field"><label>Nome</label><input type="text" value="${esc(a.nome)}" oninput="setAscendente('${a.id}','nome',this.value); renderAscendentes(sucAtiva())"></div>
+        <div class="field"><label>Grau</label>
+          <select onchange="setAscendente('${a.id}','grau',this.value)">
+            <option value="pai" ${a.grau === 'pai' ? 'selected' : ''}>Pai</option>
+            <option value="mae" ${a.grau === 'mae' ? 'selected' : ''}>Mãe</option>
+            <option value="avo" ${a.grau === 'avo' ? 'selected' : ''}>Avô/avó (2º grau)</option>
+          </select>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AÇÕES / SETTERS
+// ═══════════════════════════════════════════════════════════════
+function atualizarSuc(campo, v)      { sucAtiva()[campo] = v; }
+function atualizarFalecido(campo, v) { sucAtiva().falecido[campo] = v; }
+function atualizarConjuge(campo, v)  { sucAtiva().conjuge[campo] = v; }
+function alterarSituacaoConjuge(v) {
+  const s = sucAtiva();
+  s.conjuge.situacao = v;
+  renderCorpo();
+}
+function setBem(id, campo, v)   { const b = sucAtiva().bens.find(x => x.id === id); if (b) b[campo] = v; }
+function setFilho(id, campo, v) { const f = sucAtiva().filhos.find(x => x.id === id); if (f) f[campo] = v; }
+function setNeto(fid, nid, campo, v) {
+  const f = sucAtiva().filhos.find(x => x.id === fid); if (!f) return;
+  const n = f.netos.find(x => x.id === nid); if (n) n[campo] = v;
+}
+function setAscendente(id, campo, v) { const a = sucAtiva().ascendentes.find(x => x.id === id); if (a) a[campo] = v; }
+
+function proximoNumeroBem(s) {
+  const nums = s.bens.map(b => {
+    const m = /(\d+)/.exec(b.numero);
+    return m ? parseInt(m[1]) : 0;
+  });
+  const proximo = (Math.max(0, ...nums) + 1);
+  return 'BEM-' + String(proximo).padStart(3, '0');
+}
+function adicionarBem() {
+  const s = sucAtiva();
+  const b = novoBem(proximoNumeroBem(s));
+  s.bens.push(b);
+  renderBens(s);
+}
+function removerBem(id)        { const s = sucAtiva(); s.bens = s.bens.filter(b => b.id !== id); renderBens(s); }
+function adicionarFilho()      { const s = sucAtiva(); s.filhos.push(novoFilho()); renderFilhos(s); }
+function removerFilho(id)      { const s = sucAtiva(); s.filhos = s.filhos.filter(f => f.id !== id); renderFilhos(s); }
+function adicionarNeto(fid)    { const s = sucAtiva(); const f = s.filhos.find(x => x.id === fid); if (f) { f.netos.push(novoNeto()); renderFilhos(s); } }
+function removerNeto(fid, nid) { const s = sucAtiva(); const f = s.filhos.find(x => x.id === fid); if (f) { f.netos = f.netos.filter(n => n.id !== nid); renderFilhos(s); } }
+function adicionarAscendente() { const s = sucAtiva(); s.ascendentes.push(novoAscendente()); renderAscendentes(s); }
+function removerAscendente(id) { const s = sucAtiva(); s.ascendentes = s.ascendentes.filter(a => a.id !== id); renderAscendentes(s); }
+
+function renderTudo() {
+  renderBar();
+  renderCorpo();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SUCESSÃO DO CÔNJUGE FALECIDO
+// ═══════════════════════════════════════════════════════════════
+function abrirSucessaoConjuge(idOrigem) {
+  const origem = sucessoes.find(s => s.id === idOrigem);
+  if (!origem) return;
+  const nome = origem.conjuge.nome || 'Cônjuge';
+  const nova = novaSucessao(`Sucessão de ${nome}`);
+  nova.auto = true;
+  nova.importadaDe = origem.id;
+  nova.falecido.nome = nome;
+  nova.falecido.obito = origem.conjuge.dataObito || '';
+  nova.falecido.estadoCivil = 'viuvo';  // ficou viúvo(a) do outro cônjuge
+  sucessoes.push(nova);
+  sucAtivaId = nova.id;
+  renderTudo();
+
+  // Já mostra o botão de importar no topo da nova sucessão
+  setTimeout(() => {
+    const primeiroCard = document.querySelector('#sucBody .card');
+    if (primeiroCard) {
+      const bar = document.createElement('div');
+      bar.className = 'aviso green';
+      bar.style.marginBottom = '16px';
+      bar.innerHTML = `<strong>Sucessão aberta.</strong> Clique abaixo para trazer os bens e filhos da sucessão anterior. Depois é só remover o que não deve entrar aqui (bens particulares do falecido anterior, herdeiros que não são desta linha).
+        <div style="margin-top:10px">
+          <button class="btn sm" onclick="importarDeSucessaoAnterior('${nova.id}')">Importar bens e filhos de ${esc(origem.rotulo)}</button>
+        </div>`;
+      document.getElementById('sucBody').insertBefore(bar, document.getElementById('sucBody').firstChild.nextSibling);
+    }
+  }, 40);
+}
+
+function importarDeSucessaoAnterior(idNova) {
+  const nova = sucessoes.find(s => s.id === idNova);
+  if (!nova || !nova.importadaDe) return;
+  const origem = sucessoes.find(s => s.id === nova.importadaDe);
+  if (!origem) return;
+
+  // Importa os bens da origem (todos), marcados como importados
+  const jaImportado = new Set(nova.bens.filter(b => b._importadoDe).map(b => b.numero));
+  origem.bens.forEach(b => {
+    if (jaImportado.has(b.numero)) return;
+    nova.bens.push({
+      ...b,
+      id: gid(),
+      _importadoDe: origem.id
+    });
+  });
+
+  // Importa os filhos comuns (que sejam também filhos da pessoa falecida agora)
+  // Como não temos como saber cruzando dados, importamos todos com aviso
+  const jaImportadoFilho = new Set(nova.filhos.filter(f => f._importadoDe).map(f => f.nome.trim().toLowerCase()));
+  origem.filhos.forEach(f => {
+    if (jaImportadoFilho.has(f.nome.trim().toLowerCase())) return;
+    nova.filhos.push({
+      ...f,
+      id: gid(),
+      netos: f.netos.map(n => ({ ...n, id: gid() })),
+      _importadoDe: origem.id
+    });
+  });
+
+  renderTudo();
+  alert('Bens e filhos importados. Agora remova o que não deve entrar nesta sucessão (bens particulares do falecido anterior não passam para o cônjuge; filhos que não são desta linha também precisam ser removidos).');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CLASSIFICAÇÃO DE BEM
+// ═══════════════════════════════════════════════════════════════
+function classificarBem(s, b) {
+  const est = s.falecido.estadoCivil;
+  const temConjuge = (est === 'casado' || est === 'uniao');
+
+  if (!temConjuge) return { classe: 'Integral do falecido', comum: false, indeterminado: false };
+
+  const regime = s.conjuge.regime;
+  const dataCasamento = s.conjuge.dataCasamento;
+
+  if (regime === 'sep_conv' || regime === 'sep_obr') {
+    const art = regime === 'sep_obr' ? 'art. 1.641, CC' : 'art. 1.687, CC';
+    return {
+      classe: 'Particular do falecido',
+      comum: false, indeterminado: false,
+      aviso: `Regime de separação (${art}): não há bens comuns, portanto não há meação.`
+    };
+  }
+  if (regime === 'universal') {
+    return {
+      classe: 'Comum do casal',
+      comum: true, indeterminado: false,
+      aviso: 'Comunhão universal (art. 1.667, CC): comunicam-se todos os bens, salvo exceções do art. 1.668. Confirme se este bem está nas exceções.'
+    };
+  }
+  if (regime === 'aquestos') {
+    return {
+      classe: 'Requer análise (aquestos)',
+      comum: false, indeterminado: true,
+      aviso: 'Participação final nos aquestos (art. 1.672): não calculo automaticamente. A apuração exige análise caso a caso.',
+      avisoNivel: 'red'
+    };
+  }
+  if (regime === 'parcial') {
+    if (!b.dataAquisicao) {
+      return { classe: 'Indeterminado', comum: false, indeterminado: true, aviso: 'Sem data de aquisição, não é possível classificar. Informe a data.', avisoNivel: 'red' };
+    }
+    if (!dataCasamento) {
+      return { classe: 'Indeterminado', comum: false, indeterminado: true, aviso: 'Sem data do casamento, não é possível classificar. Informe no bloco do cônjuge.', avisoNivel: 'red' };
+    }
+    const antes = parseData(b.dataAquisicao) < parseData(dataCasamento);
+    if (antes) {
+      if (b.subrogado) return { classe: 'Particular (sub-rogado)', comum: false, indeterminado: false, aviso: 'Adquirido antes do casamento, mantido particular por sub-rogação (art. 1.659, II, CC).', pergunta: true };
+      return { classe: 'Particular do falecido', comum: false, indeterminado: false, aviso: 'Adquirido antes do casamento — bem particular (art. 1.659, I, CC).', pergunta: true };
+    }
+    if (b.subrogado) return { classe: 'Particular (sub-rogado)', comum: false, indeterminado: false, aviso: 'Adquirido após o casamento, mantido particular por sub-rogação (art. 1.659, II, CC).', pergunta: true };
+    return { classe: 'Comum do casal', comum: true, indeterminado: false, aviso: 'Adquirido na constância do casamento — bem comum (art. 1.660, I, CC). Meação de 1/2 ao cônjuge.', pergunta: true };
+  }
+  return { classe: 'Indeterminado', comum: false, indeterminado: true };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MOTOR — cálculo de uma sucessão (frações racionais por bem)
+// ═══════════════════════════════════════════════════════════════
+function calcularSucessao(s) {
+  const alertas = [];
+  const est = s.falecido.estadoCivil;
+  const temConjuge = (est === 'casado' || est === 'uniao') && s.conjuge.situacao === 'vivo';
+  const regime = temConjuge ? s.conjuge.regime : null;
+  const cNome = temConjuge ? (s.conjuge.nome.trim() || 'Cônjuge/companheiro(a)') : null;
+  const filhosComuns = temConjuge ? s.conjuge.filhosComuns : false;
+
+  const bensProc = s.bens.map(b => ({ ...b, valorNum: parseValor(b.valor), cls: classificarBem(s, b) }));
+  const indet = bensProc.filter(b => b.cls.indeterminado);
+  if (indet.length) return { erro: `Há bens sem classificação em "${s.rotulo}". Preencha data de aquisição e data do casamento.` };
+
+  // distribuições: { pessoaKey: { nome, papel, porBem: { bemId: fracao } } }
+  const distribuicoes = {};
+  function add(pid, papel, nome, bemId, fracao) {
+    if (!distribuicoes[pid]) distribuicoes[pid] = { nome, papel, porBem: {} };
+    const atual = distribuicoes[pid].porBem[bemId] || F(0, 1);
+    distribuicoes[pid].porBem[bemId] = Fsoma(atual, fracao);
+  }
+
+  const CONJUGE_ID = 'conjuge_' + s.id;
+
+  // Fase 1: Meação sobre bens comuns
+  bensProc.forEach(b => {
+    if (b.cls.comum) {
+      add(CONJUGE_ID, 'Meeiro(a)', cNome, b.id, F(1, 2));
+    }
+  });
+
+  // Fase 2: Identifica herdeiros descendentes
+  const herdeirosCabecas = [];
+  s.filhos.forEach(f => {
+    if (f.situacao === 'vivo' || f.situacao === 'pos') {
+      herdeirosCabecas.push({ tipo: 'filho', id: f.id, nome: f.nome || 'Filho(a)', filhoRef: f, pos: f.situacao === 'pos' });
+    } else if (f.situacao === 'pre') {
+      if (f.netos.length > 0) herdeirosCabecas.push({ tipo: 'estirpe', id: f.id, nome: f.nome || 'Filho(a) pré-morto', netos: f.netos, filhoRef: f });
+    }
+  });
+  const temDescendentes = herdeirosCabecas.length > 0;
+
+  // Fase 3: Concorrência do cônjuge (art. 1.829, I)
+  let conjugeConcorre = false;
+  let motivoConcorrencia = '';
+  if (temConjuge && temDescendentes) {
+    const temParticular = bensProc.some(b => !b.cls.comum && !b.cls.indeterminado);
+    if (regime === 'universal') {
+      conjugeConcorre = false;
+      motivoConcorrencia = 'Comunhão universal: cônjuge recebe meação, não concorre na herança (art. 1.829, I).';
+    } else if (regime === 'sep_obr') {
+      conjugeConcorre = false;
+      motivoConcorrencia = 'Separação obrigatória: cônjuge não concorre (art. 1.829, I c/c 1.641).';
+    } else if (regime === 'parcial') {
+      if (temParticular) {
+        conjugeConcorre = 'somente_particulares';
+        motivoConcorrencia = 'Comunhão parcial com bens particulares: cônjuge concorre apenas sobre os particulares (STJ, REsp 1.368.123/SP).';
+      } else {
+        conjugeConcorre = false;
+        motivoConcorrencia = 'Comunhão parcial sem bens particulares: cônjuge recebe apenas a meação.';
+      }
+    } else if (regime === 'sep_conv') {
+      conjugeConcorre = 'tudo';
+      motivoConcorrencia = 'Separação convencional: cônjuge concorre em todos os bens do espólio.';
+    } else if (regime === 'aquestos') {
+      conjugeConcorre = 'tudo';
+      motivoConcorrencia = 'Participação final nos aquestos: cônjuge concorre.';
+    }
+  }
+
+  // Fase 4: distribui a herança bem a bem
+  bensProc.forEach(b => {
+    const fracaoHerdavel = b.cls.comum ? F(1, 2) : F(1, 1);
+
+    if (temDescendentes) {
+      const cabecas = herdeirosCabecas.length;
+      const conjEntra = conjugeConcorre === 'tudo' || (conjugeConcorre === 'somente_particulares' && !b.cls.comum);
+
+      let quinhaoCabeca;
+
+      if (conjEntra) {
+        let fConj = F(1, cabecas + 1);
+        if (filhosComuns && Fdec(fConj) < 0.25) {
+          fConj = F(1, 4);
+          const restante = Fsub(F(1, 1), fConj);
+          quinhaoCabeca = Fdiv(restante, F(cabecas, 1));
+          if (!alertas.includes('Cota mínima de 1/4 do art. 1.832, CC aplicada ao cônjuge (todos os descendentes são comuns).')) {
+            alertas.push('Cota mínima de 1/4 do art. 1.832, CC aplicada ao cônjuge (todos os descendentes são comuns).');
+          }
+        } else {
+          quinhaoCabeca = fConj;
+        }
+        const quinhaoConjBem = Fmul(fracaoHerdavel, fConj);
+        add(CONJUGE_ID, 'Meeiro(a) e herdeiro(a)', cNome, b.id, quinhaoConjBem);
+      } else {
+        quinhaoCabeca = F(1, cabecas);
+      }
+
+      const porCabeca = Fmul(fracaoHerdavel, quinhaoCabeca);
+
+      herdeirosCabecas.forEach(cab => {
+        if (cab.tipo === 'filho') {
+          if (cab.pos) {
+            add('espolio_' + cab.id, 'Espólio', 'Espólio de ' + cab.nome, b.id, porCabeca);
+          } else {
+            add(cab.id, 'Herdeiro(a) descendente', cab.nome, b.id, porCabeca);
+          }
+        } else {
+          const porNeto = Fdiv(porCabeca, F(cab.netos.length, 1));
+          cab.netos.forEach(n => {
+            add('neto_' + n.id, `Neto(a) — representação de ${cab.nome}`, n.nome || 'Neto(a)', b.id, porNeto);
+          });
+        }
+      });
+
+    } else {
+      if (s.ascendentes.length > 0) {
+        alertas.push('Sem descendentes: dividi entre ascendentes em partes iguais. Os arts. 1.836/1.837 dividem por linha (paterna/materna) — confira.');
+        let fracaoAsc = fracaoHerdavel;
+        if (temConjuge) {
+          const grauUm = s.ascendentes.every(a => a.grau === 'pai' || a.grau === 'mae');
+          const fracConj = grauUm ? F(1, 3) : F(1, 2);
+          const parteConj = Fmul(fracaoHerdavel, fracConj);
+          add(CONJUGE_ID, 'Meeiro(a) e herdeiro(a)', cNome, b.id, parteConj);
+          fracaoAsc = Fsub(fracaoHerdavel, parteConj);
+        }
+        const porAsc = Fdiv(fracaoAsc, F(s.ascendentes.length, 1));
+        s.ascendentes.forEach(a => add('asc_' + a.id, 'Ascendente', a.nome || 'Ascendente', b.id, porAsc));
+      } else if (temConjuge) {
+        add(CONJUGE_ID, 'Meeiro(a) e herdeiro(a) único(a)', cNome, b.id, fracaoHerdavel);
+      } else {
+        alertas.push('Sem descendentes, ascendentes ou cônjuge cadastrados. Herdeiros seriam colaterais (art. 1.829, IV) — fora do cálculo automático.');
+      }
+    }
+  });
+
+  if (motivoConcorrencia) alertas.push(motivoConcorrencia);
+  s.filhos.filter(f => f.situacao === 'pos').forEach(f => {
+    alertas.push(`${f.nome || 'Filho pós-morto'}: o quinhão calculado aparece como "Espólio de ${f.nome || 'nome'}". Abra uma sucessão para esse espólio para partilhar entre os herdeiros dele.`);
+  });
+  if (s.conjuge.situacao === 'falecido' && (est === 'casado' || est === 'uniao')) {
+    alertas.push(`${s.conjuge.nome || 'Cônjuge'} também é falecido(a). Se ainda não abriu uma sucessão para ele/ela, use o botão "Abrir sucessão" no bloco do cônjuge.`);
+  }
+
+  return { sucessao: s, bensProc, distribuicoes, alertas, temConjuge, cNome, regime, temDescendentes };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CÁLCULO E EXIBIÇÃO
+// ═══════════════════════════════════════════════════════════════
+let ultimosResultados = null;
+
+function validarTudo() {
+  const err = [];
+  sucessoes.forEach((s, i) => {
+    const prefixo = `${s.rotulo}: `;
+    if (!s.falecido.nome.trim()) err.push(prefixo + 'nome do falecido em branco.');
+    if (!s.bens.length) err.push(prefixo + 'nenhum bem cadastrado.');
+    s.bens.forEach((b, j) => {
+      if (!b.descricao.trim()) err.push(prefixo + `bem ${j + 1} sem descrição.`);
+      if (parseValor(b.valor) <= 0) err.push(prefixo + `bem ${j + 1} sem valor.`);
+    });
+    const temConjuge = (s.falecido.estadoCivil === 'casado' || s.falecido.estadoCivil === 'uniao');
+    if (temConjuge && !s.conjuge.nome.trim()) err.push(prefixo + 'nome do cônjuge em branco.');
+    const temDesc = s.filhos.some(f => f.situacao === 'vivo' || f.situacao === 'pos' || (f.situacao === 'pre' && f.netos.length > 0));
+    if (!temDesc && !s.ascendentes.length && !temConjuge) {
+      err.push(prefixo + 'sem herdeiros (nem descendentes, ascendentes ou cônjuge).');
+    }
+  });
+  return err;
+}
+
+function calcularTudo() {
+  const err = validarTudo();
+  const box = $('erroBox');
+  if (err.length) {
+    box.classList.add('on');
+    box.innerHTML = '<strong>Antes de calcular:</strong><ul style="margin:6px 0 0 20px">' + err.map(e => `<li>${esc(e)}</li>`).join('') + '</ul>';
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  box.classList.remove('on');
+
+  const resultados = [];
+  for (const s of sucessoes) {
+    const r = calcularSucessao(s);
+    if (r.erro) {
+      box.classList.add('on');
+      box.innerHTML = `<strong>${esc(r.erro)}</strong>`;
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    resultados.push(r);
+  }
+  ultimosResultados = resultados;
+  renderResultado(resultados);
+  $('btnPDF').disabled = false;
+  $('btnDOCX').disabled = false;
+  $('resultadoBox').style.display = 'block';
+  $('resultadoBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function labelEstado(v) {
+  return { solteiro: 'Solteiro(a)', casado: 'Casado(a)', uniao: 'União estável', divorciado: 'Divorciado(a)', viuvo: 'Viúvo(a)' }[v] || v;
+}
+function labelRegime(v) {
+  return {
+    parcial: 'Comunhão parcial', universal: 'Comunhão universal', sep_conv: 'Separação convencional',
+    sep_obr: 'Separação obrigatória', aquestos: 'Participação final nos aquestos'
+  }[v] || v;
+}
+function labelDoc(b) {
+  if (!b.tipoDoc) return '';
+  return ` — conforme ${b.tipoDoc} em index [preencher]`;
+}
+
+function renderResultado(resultados) {
+  const box = $('resultado');
+  let h = '';
+
+  resultados.forEach((r, idx) => {
+    const s = r.sucessao;
+    const totalGeral = r.bensProc.reduce((sum, b) => sum + b.valorNum, 0);
+    const totalComum = r.bensProc.filter(b => b.cls.comum).reduce((sum, b) => sum + b.valorNum, 0);
+    const meacao = totalComum / 2;
+
+    h += `<div class="res-suc">
+      <div class="rs-titulo">
+        <h3>${esc(s.rotulo)}</h3>
+        <span class="rs-badge">Sucessão ${idx + 1} de ${resultados.length}</span>
+      </div>`;
+
+    // Falecido
+    h += `<h4>Falecido</h4>`;
+    h += `<p><strong>${esc(s.falecido.nome)}</strong>`;
+    if (s.falecido.obito) h += ` · falecido em ${fmtData(s.falecido.obito)}`;
+    h += ` · ${labelEstado(s.falecido.estadoCivil)}</p>`;
+    if (r.temConjuge) {
+      h += `<p style="font-size:13.5px;color:var(--ink-70)">Cônjuge/companheiro: <strong>${esc(r.cNome)}</strong> · Regime: ${labelRegime(r.regime)}${s.conjuge.dataCasamento ? ' · Casamento em ' + fmtData(s.conjuge.dataCasamento) : ''}</p>`;
+    } else if (s.falecido.estadoCivil === 'casado' || s.falecido.estadoCivil === 'uniao') {
+      h += `<p style="font-size:13.5px;color:var(--ink-70)">Cônjuge/companheiro: <strong>${esc(s.conjuge.nome || '—')}</strong> — <em>também falecido(a)</em></p>`;
+    }
+
+    // Bens
+    h += `<h4>Bens do espólio</h4><table><tr><th>Bem</th><th>Natureza</th><th>Classificação</th><th style="text-align:right">Valor</th></tr>`;
+    r.bensProc.forEach((b, i) => {
+      const natLabel = (NATUREZAS.find(x => x[0] === b.natureza) || [,''])[1];
+      h += `<tr>
+        <td><strong>${esc(b.numero || (i + 1))}</strong> — ${esc(b.descricao)}${labelDoc(b) ? '<br><span style="font-size:11.5px;color:var(--ink-40)">' + esc(labelDoc(b).trim()) + '</span>' : ''}</td>
+        <td style="font-size:12.5px;color:var(--ink-70)">${esc(natLabel)}</td>
+        <td style="font-size:12.5px;color:var(--ink-70)">${esc(b.cls.classe)}</td>
+        <td class="brl" style="text-align:right">${fmtBRL(b.valorNum)}</td>
+      </tr>`;
+    });
+    h += `<tr class="total"><td colspan="3">Total do monte</td><td class="brl" style="text-align:right">${fmtBRL(totalGeral)}</td></tr></table>`;
+
+    // Meação
+    if (r.temConjuge && meacao > 0) {
+      h += `<h4>Meação</h4>`;
+      h += `<p style="font-size:13.5px;color:var(--ink-70)">Cabe a <strong>${esc(r.cNome)}</strong> a título de meação (1/2 dos bens comuns): <span class="brl" style="font-weight:700">${fmtBRL(meacao)}</span></p>`;
+    }
+
+    // Pagamento
+    h += `<h4>Pagamento</h4>`;
+    const somaConf = {};
+    r.bensProc.forEach(b => somaConf[b.id] = F(0, 1));
+
+    Object.entries(r.distribuicoes).forEach(([pid, dist]) => {
+      let totalPessoa = 0;
+      let linhasBens = '';
+      r.bensProc.forEach(b => {
+        const frac = dist.porBem[b.id];
+        if (!frac || Fzero(frac)) return;
+        const valor = b.valorNum * Fdec(frac);
+        totalPessoa += valor;
+        somaConf[b.id] = Fsoma(somaConf[b.id], frac);
+        linhasBens += `<div class="h-linha">
+          <span class="h-bem">${esc(b.numero || '')}${b.numero ? ' — ' : ''}${esc(b.descricao)}</span>
+          <span><span class="frac">${Ffmt(frac)}</span> <span style="color:var(--ink-40);font-size:12px">de ${fmtBRL(b.valorNum)}</span> = <span class="brl">${fmtBRL(valor)}</span></span>
+        </div>`;
+      });
+      h += `<div class="h-card">
+        <div class="h-titulo">
+          <div><div class="h-nome">${esc(dist.nome)}</div><div class="h-papel">${esc(dist.papel)}</div></div>
+          <div class="h-total">${fmtBRL(totalPessoa)}</div>
+        </div>
+        ${linhasBens}
+      </div>`;
+    });
+
+    // Conferência
+    let ok = true;
+    r.bensProc.forEach(b => { if (!Feq(somaConf[b.id], F(1, 1))) ok = false; });
+    if (ok) {
+      h += `<div class="aviso green" style="margin-top:12px"><strong>Conferência.</strong> A soma das frações fecha 1/1 em cada bem.</div>`;
+    } else {
+      h += `<div class="aviso red" style="margin-top:12px"><strong>Atenção.</strong> A soma das frações não fechou em algum bem.</div>`;
+    }
+
+    // Alertas
+    if (r.alertas.length) {
+      h += `<h4>Observações</h4>`;
+      r.alertas.forEach(a => { h += `<div class="aviso">${esc(a)}</div>`; });
+    }
+
+    h += `</div>`;
+  });
+
+  box.innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PDF
+// ═══════════════════════════════════════════════════════════════
+function baixarPDF() {
+  if (!ultimosResultados) return;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  const margemX = 56, margemT = 60, margemB = 56;
+  const larg = doc.internal.pageSize.getWidth() - margemX * 2;
+  const alt = doc.internal.pageSize.getHeight();
+  let y = margemT;
+
+  function garantir(h) { if (y + h > alt - margemB) { doc.addPage(); y = margemT; } }
+  function tit(t, tamanho) {
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(tamanho || 13);
+    garantir(24);
+    doc.text(t, margemX, y); y += 20;
+  }
+  function txt(t, opts = {}) {
+    doc.setFont('helvetica', opts.bold ? 'bold' : 'normal');
+    doc.setFontSize(opts.size || 11);
+    const linhas = doc.splitTextToSize(t, larg - (opts.indent || 0));
+    linhas.forEach(linha => { garantir(15); doc.text(linha, margemX + (opts.indent || 0), y); y += 14; });
+    y += (opts.after || 4);
+  }
+  function linha() {
+    garantir(8);
+    doc.setDrawColor(200); doc.setLineWidth(0.5);
+    doc.line(margemX, y, margemX + larg, y); y += 8;
+  }
+
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(18);
+  doc.text('PLANO DE PARTILHA', margemX, y); y += 24;
+  linha();
+
+  ultimosResultados.forEach((r, idx) => {
+    const s = r.sucessao;
+    if (idx > 0) { doc.addPage(); y = margemT; }
+
+    tit(s.rotulo.toUpperCase(), 14);
+
+    tit('Falecido');
+    txt(s.falecido.nome, { bold: true });
+    const dados = [];
+    if (s.falecido.obito) dados.push('Falecido em ' + fmtData(s.falecido.obito));
+    dados.push(labelEstado(s.falecido.estadoCivil));
+    txt(dados.join(' · '));
+    if (r.temConjuge) {
+      txt(`Cônjuge/companheiro(a): ${r.cNome}`);
+      txt(`Regime: ${labelRegime(r.regime)}` + (s.conjuge.dataCasamento ? ` · Casamento em ${fmtData(s.conjuge.dataCasamento)}` : ''));
+    } else if (s.falecido.estadoCivil === 'casado' || s.falecido.estadoCivil === 'uniao') {
+      txt(`Cônjuge/companheiro(a): ${s.conjuge.nome || '—'} (também falecido)`);
+    }
+    y += 4; linha();
+
+    tit('Bens do espólio');
+    let totalGeral = 0;
+    r.bensProc.forEach((b, i) => {
+      const natLabel = (NATUREZAS.find(x => x[0] === b.natureza) || [,''])[1];
+      const nBem = b.numero || String(i + 1).padStart(3, '0');
+      txt(`${nBem} — ${b.descricao}`, { bold: true });
+      const infoLinha = [b.tipo, natLabel, b.cls.classe].filter(Boolean).join(' · ');
+      txt(infoLinha, { size: 10, indent: 12 });
+      if (b.tipoDoc) txt(`Conforme ${b.tipoDoc} em index [preencher]`, { size: 10, indent: 12 });
+      txt(fmtBRL(b.valorNum), { bold: true, indent: 12, size: 11 });
+      totalGeral += b.valorNum;
+    });
+    y += 4;
+    txt(`Total do monte: ${fmtBRL(totalGeral)}`, { bold: true });
+    y += 6; linha();
+
+    const meacao = r.bensProc.reduce((sum, b) => b.cls.comum ? sum + b.valorNum / 2 : sum, 0);
+    if (r.temConjuge && meacao > 0) {
+      tit('Meação');
+      txt(`Cabe a ${r.cNome} a título de meação (metade dos bens comuns):`);
+      txt(fmtBRL(meacao), { bold: true, size: 12 });
+      y += 6; linha();
+    }
+
+    tit('Pagamento — quinhões');
+    Object.entries(r.distribuicoes).forEach(([pid, dist]) => {
+      let totalPessoa = 0;
+      txt(dist.nome, { bold: true, size: 12 });
+      txt(dist.papel, { size: 10 });
+      r.bensProc.forEach(b => {
+        const frac = dist.porBem[b.id];
+        if (!frac || Fzero(frac)) return;
+        const valor = b.valorNum * Fdec(frac);
+        totalPessoa += valor;
+        const docTxt = b.tipoDoc ? ` (conforme ${b.tipoDoc} em index [preencher])` : '';
+        txt(`• ${Ffmt(frac)} sobre "${b.descricao}"${docTxt} — ${fmtBRL(valor)}`, { indent: 12, size: 10 });
+      });
+      txt(`Total: ${fmtBRL(totalPessoa)}`, { bold: true, indent: 12 });
+      y += 6;
+    });
+    linha();
+
+    if (r.alertas.length) {
+      tit('Observações');
+      r.alertas.forEach(a => txt('• ' + a, { size: 10 }));
+    }
+  });
+
+  const nomeArquivo = 'plano-de-partilha-' + (sucessoes[0].falecido.nome || 'plano').replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  doc.save(nomeArquivo + '.pdf');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DOCX
+// ═══════════════════════════════════════════════════════════════
+function baixarDOCX() {
+  if (!ultimosResultados) return;
+  const { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, PageBreak } = window.docx;
+
+  function p(texto, opts = {}) {
+    return new Paragraph({
+      alignment: opts.center ? AlignmentType.CENTER : AlignmentType.LEFT,
+      spacing: { after: opts.after || 120 },
+      indent: opts.indent ? { left: opts.indent } : undefined,
+      children: [new TextRun({ text: texto, bold: opts.bold, size: opts.size || 22, font: 'Calibri' })]
+    });
+  }
+  function h(texto) {
+    return new Paragraph({
+      heading: HeadingLevel.HEADING_2,
+      spacing: { before: 240, after: 120 },
+      children: [new TextRun({ text: texto, bold: true, size: 28, font: 'Calibri' })]
+    });
+  }
+
+  const paragrafos = [];
+  paragrafos.push(new Paragraph({
+    alignment: AlignmentType.CENTER,
+    spacing: { after: 300 },
+    children: [new TextRun({ text: 'PLANO DE PARTILHA', bold: true, size: 36, font: 'Calibri' })]
+  }));
+
+  ultimosResultados.forEach((r, idx) => {
+    const s = r.sucessao;
+    if (idx > 0) {
+      paragrafos.push(new Paragraph({ children: [new TextRun({ text: '', break: 1 })], pageBreakBefore: true }));
+    }
+
+    paragrafos.push(new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 240 },
+      children: [new TextRun({ text: s.rotulo.toUpperCase(), bold: true, size: 30, font: 'Calibri' })]
+    }));
+
+    paragrafos.push(h('Falecido'));
+    paragrafos.push(p(s.falecido.nome, { bold: true }));
+    const dados = [];
+    if (s.falecido.obito) dados.push('Falecido em ' + fmtData(s.falecido.obito));
+    dados.push(labelEstado(s.falecido.estadoCivil));
+    paragrafos.push(p(dados.join(' · ')));
+    if (r.temConjuge) {
+      paragrafos.push(p(`Cônjuge/companheiro(a): ${r.cNome}`));
+      paragrafos.push(p(`Regime: ${labelRegime(r.regime)}` + (s.conjuge.dataCasamento ? ` · Casamento em ${fmtData(s.conjuge.dataCasamento)}` : '')));
+    } else if (s.falecido.estadoCivil === 'casado' || s.falecido.estadoCivil === 'uniao') {
+      paragrafos.push(p(`Cônjuge/companheiro(a): ${s.conjuge.nome || '—'} (também falecido)`));
+    }
+
+    paragrafos.push(h('Bens do espólio'));
+    let totalGeral = 0;
+    r.bensProc.forEach((b, i) => {
+      const natLabel = (NATUREZAS.find(x => x[0] === b.natureza) || [,''])[1];
+      const nBem = b.numero || String(i + 1).padStart(3, '0');
+      paragrafos.push(p(`${nBem} — ${b.descricao}`, { bold: true }));
+      paragrafos.push(p([b.tipo, natLabel, b.cls.classe].filter(Boolean).join(' · '), { size: 20, indent: 240 }));
+      if (b.tipoDoc) paragrafos.push(p(`Conforme ${b.tipoDoc} em index [preencher]`, { size: 20, indent: 240 }));
+      paragrafos.push(p(fmtBRL(b.valorNum), { bold: true, indent: 240 }));
+      totalGeral += b.valorNum;
+    });
+    paragrafos.push(p(`Total do monte: ${fmtBRL(totalGeral)}`, { bold: true }));
+
+    const meacao = r.bensProc.reduce((sum, b) => b.cls.comum ? sum + b.valorNum / 2 : sum, 0);
+    if (r.temConjuge && meacao > 0) {
+      paragrafos.push(h('Meação'));
+      paragrafos.push(p(`Cabe a ${r.cNome} a título de meação (metade dos bens comuns):`));
+      paragrafos.push(p(fmtBRL(meacao), { bold: true, size: 26 }));
+    }
+
+    paragrafos.push(h('Pagamento — quinhões'));
+    Object.entries(r.distribuicoes).forEach(([pid, dist]) => {
+      let totalPessoa = 0;
+      paragrafos.push(p(dist.nome, { bold: true, size: 26 }));
+      paragrafos.push(p(dist.papel, { size: 20 }));
+      r.bensProc.forEach(b => {
+        const frac = dist.porBem[b.id];
+        if (!frac || Fzero(frac)) return;
+        const valor = b.valorNum * Fdec(frac);
+        totalPessoa += valor;
+        const docTxt = b.tipoDoc ? ` (conforme ${b.tipoDoc} em index [preencher])` : '';
+        paragrafos.push(p(`${Ffmt(frac)} sobre "${b.descricao}"${docTxt} — ${fmtBRL(valor)}`, { indent: 360, size: 20 }));
+      });
+      paragrafos.push(p(`Total: ${fmtBRL(totalPessoa)}`, { bold: true, indent: 360 }));
+    });
+
+    if (r.alertas.length) {
+      paragrafos.push(h('Observações'));
+      r.alertas.forEach(a => paragrafos.push(p('• ' + a, { size: 20 })));
+    }
+  });
+
+  const doc = new Document({
+    styles: { default: { document: { run: { font: 'Calibri', size: 22 } } } },
+    sections: [{
+      properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
+      children: paragrafos
+    }]
+  });
+
+  Packer.toBlob(doc).then(blob => {
+    const nomeArquivo = 'plano-de-partilha-' + (sucessoes[0].falecido.nome || 'plano').replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = nomeArquivo + '.docx';
+    document.body.appendChild(a);
+    a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+adicionarBem();
+adicionarFilho();
+renderTudo();
+</script>
+</body>
+</html>
