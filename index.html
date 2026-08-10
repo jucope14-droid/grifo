@@ -293,6 +293,65 @@ input:checked+.sl:before{transform:translateX(19px)}
 .and-pin-btn:hover{background:#85B8FF}
 .and-lock-back{background:none;border:none;color:var(--t-sub);font-size:13px;cursor:pointer;margin-top:16px}
 .and-lock-back:hover{color:var(--t-strong)}
+/* favicon no lugar da letra G */
+.and-lock-mark,.and-mark{background:transparent;padding:0;overflow:hidden}
+.and-lock-mark img,.and-mark img{width:100%;height:100%;object-fit:contain;display:block}
+
+/* badges no cartão */
+.and-card-badges{display:flex;gap:10px;margin-top:6px;color:var(--t-muted);font-size:12px}
+.and-card-badges span{display:inline-flex;align-items:center;gap:4px}
+
+/* modal do cartão */
+.kmodal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:210;display:none;align-items:flex-start;justify-content:center;padding:48px 16px;overflow-y:auto}
+.kmodal-bg.open{display:flex}
+.kmodal{background:#323940;border-radius:12px;width:100%;max-width:768px;color:var(--t-text);box-shadow:0 20px 60px rgba(0,0,0,.6);padding:20px 24px 28px;position:relative}
+.kmodal-x{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--t-sub);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px;line-height:1}
+.kmodal-x:hover{background:var(--t-hover);color:var(--t-strong)}
+.kmodal-head{display:flex;gap:12px;align-items:flex-start;padding-right:36px;margin-bottom:6px}
+.kmodal-head svg{flex:0 0 auto;color:var(--t-sub);margin-top:6px}
+.kmodal-title{flex:1;background:transparent;border:none;color:var(--t-strong);font-family:inherit;font-size:20px;font-weight:600;line-height:1.3;padding:2px 6px;border-radius:4px;resize:none;outline:none;min-height:28px}
+.kmodal-title:focus{background:#22272B;box-shadow:0 0 0 2px var(--t-blue)}
+.kmodal-crumbs{color:var(--t-sub);font-size:13px;margin-left:28px;margin-bottom:20px}
+.kmodal-body{display:grid;grid-template-columns:1fr 168px;gap:24px}
+@media(max-width:640px){.kmodal-body{grid-template-columns:1fr}}
+.ksec{margin-bottom:22px}
+.ksec-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:var(--t-strong);font-size:15px;font-weight:600}
+.ksec-head svg{color:var(--t-sub)}
+.ksec-body{padding-left:28px}
+.kdesc-view{background:var(--t-hover);border-radius:6px;padding:10px 12px;color:var(--t-text);font-size:14px;cursor:pointer;white-space:pre-wrap;min-height:44px}
+.kdesc-view.vazio{color:var(--t-muted);font-style:italic}
+.kdesc-view:hover{background:rgba(255,255,255,.09)}
+.kdesc-edit textarea{width:100%;background:#22272B;border:none;border-radius:4px;padding:10px 12px;color:var(--t-strong);font-family:inherit;font-size:14px;resize:vertical;min-height:100px;outline:none;box-shadow:0 0 0 2px var(--t-blue)}
+.kdesc-acts{display:flex;gap:8px;margin-top:8px;align-items:center}
+.kdesc-acts .ok{background:var(--t-blue);color:#1D2125;border:none;border-radius:4px;padding:7px 14px;font-weight:600;font-size:14px;cursor:pointer}
+.kdesc-acts .ok:hover{background:#85B8FF}
+.kdesc-acts .x{background:none;border:none;color:var(--t-sub);font-size:14px;cursor:pointer;padding:6px 10px;border-radius:4px}
+.kdesc-acts .x:hover{background:var(--t-hover);color:var(--t-strong)}
+.kanexos-lista{display:flex;flex-direction:column;gap:6px}
+.kanexo{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--t-hover);border-radius:6px;font-size:13px}
+.kanexo-nome{flex:1;min-width:0;color:var(--t-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+.kanexo-nome:hover{text-decoration:underline}
+.kanexo-tam{color:var(--t-muted);font-size:11.5px;flex:0 0 auto;font-family:'JetBrains Mono',monospace}
+.kanexo-del{background:none;border:none;color:var(--t-sub);cursor:pointer;padding:2px 6px;border-radius:3px}
+.kanexo-del:hover{color:var(--t-red);background:var(--t-hover)}
+.kvazio{color:var(--t-muted);font-size:13px;font-style:italic;padding:4px 0}
+.kcom-form{margin-bottom:14px}
+.kcom-input{width:100%;background:#22272B;border:1px solid var(--t-line);border-radius:8px;padding:10px 12px;color:var(--t-strong);font-family:inherit;font-size:14px;resize:vertical;min-height:44px;outline:none}
+.kcom-input:focus{border-color:var(--t-blue);box-shadow:0 0 0 1px var(--t-blue)}
+.kcom-form .kdesc-acts{margin-top:8px}
+.kcom-lista{display:flex;flex-direction:column;gap:12px}
+.kcom{background:var(--t-hover);border-radius:8px;padding:10px 12px;position:relative}
+.kcom-txt{color:var(--t-text);font-size:14px;white-space:pre-wrap;padding-right:24px}
+.kcom-data{color:var(--t-muted);font-size:11.5px;margin-top:4px;font-family:'JetBrains Mono',monospace}
+.kcom-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t-sub);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:3px;line-height:1}
+.kcom-del:hover{color:var(--t-red);background:rgba(0,0,0,.25)}
+.kside{display:flex;flex-direction:column;gap:6px}
+.kside-lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--t-muted);font-weight:600;margin-bottom:2px}
+.kside-btn{display:flex;align-items:center;gap:8px;background:var(--t-hover);border:none;color:var(--t-strong);padding:8px 12px;border-radius:4px;font-family:inherit;font-size:13.5px;cursor:pointer;text-align:left;font-weight:500}
+.kside-btn:hover{background:rgba(255,255,255,.12)}
+.kside-btn.danger{color:var(--t-red)}
+.kside-btn.danger:hover{background:rgba(248,113,104,.14)}
+.kside-btn input{display:none}
 
 /* ── App ── */
 #andApp{flex:1;display:flex;flex-direction:column;min-height:0}
@@ -757,7 +816,7 @@ input:checked+.sl:before{transform:translateX(19px)}
   <!-- Tela de PIN -->
   <div class="and-lock" id="andLock">
     <div class="and-lock-card">
-      <div class="and-lock-mark">G</div>
+      <div class="and-lock-mark"><img src="favicon.png" alt="Grifo"></div>
       <h2>Área do Andrey</h2>
       <p>Digite o PIN para abrir seus quadros.</p>
       <input type="password" id="andPin" class="and-pin" placeholder="••••••" autocomplete="off"
@@ -772,7 +831,7 @@ input:checked+.sl:before{transform:translateX(19px)}
   <div id="andApp" class="and-hide">
 
     <div class="and-nav">
-      <div class="and-mark">G</div>
+      <div class="and-mark"><img src="favicon.png" alt="Grifo"></div>
       <div class="and-nav-title">Quadros</div>
       <div class="and-nav-sp"></div>
       <button class="and-btn and-btn-primary" onclick="criarQuadro()">Criar quadro</button>
@@ -850,6 +909,70 @@ input:checked+.sl:before{transform:translateX(19px)}
         <button class="and-tab" id="andTabPainel" onclick="mostrarPainel()">Painel</button>
         <button class="and-tab" onclick="abrirMenuQuadros(event)">Trocar quadro</button>
         <button class="and-tab" onclick="sairAndrey()">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal do cartão -->
+  <div class="kmodal-bg" id="kmodalBg" onclick="if(event.target===this)fecharCartao()">
+    <div class="kmodal">
+      <button class="kmodal-x" onclick="fecharCartao()" title="Fechar">&times;</button>
+      <div class="kmodal-head">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+        <textarea class="kmodal-title" id="kmodalTitle" rows="1" onblur="salvarTituloCartao()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();this.blur()}"></textarea>
+      </div>
+      <div class="kmodal-crumbs" id="kmodalCrumbs">na lista</div>
+      <div class="kmodal-body">
+        <div class="kmodal-main">
+          <div class="ksec">
+            <div class="ksec-head">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
+              Descrição
+            </div>
+            <div class="ksec-body" id="kdescBox"></div>
+          </div>
+          <div class="ksec">
+            <div class="ksec-head">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Anexos <span id="kanexosCount" style="color:var(--t-muted);font-weight:400"></span>
+            </div>
+            <div class="ksec-body">
+              <div class="kanexos-lista" id="kanexosLista"><div class="kvazio">Carregando…</div></div>
+            </div>
+          </div>
+          <div class="ksec">
+            <div class="ksec-head">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Comentários e atividade
+            </div>
+            <div class="ksec-body">
+              <div class="kcom-form">
+                <textarea class="kcom-input" id="kcomInput" rows="1" placeholder="Escrever um comentário…"
+                  onfocus="this.rows=3;document.getElementById('kcomActs').style.display='flex'"></textarea>
+                <div class="kdesc-acts" id="kcomActs" style="display:none">
+                  <button class="ok" onclick="salvarComentario()">Salvar</button>
+                  <button class="x" onclick="document.getElementById('kcomInput').value='';document.getElementById('kcomInput').rows=1;this.parentElement.style.display='none'">Cancelar</button>
+                </div>
+              </div>
+              <div class="kcom-lista" id="kcomLista"><div class="kvazio">Carregando…</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="kmodal-side">
+          <div class="kside">
+            <div class="kside-lbl">Adicionar</div>
+            <label class="kside-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Anexo
+              <input type="file" id="kanexoInput" onchange="enviarAnexo(this)">
+            </label>
+            <div class="kside-lbl" style="margin-top:12px">Ações</div>
+            <button class="kside-btn danger" onclick="apagarCartaoAtual()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+              Apagar cartão
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1937,6 +2060,7 @@ async function carregarConteudo() {
     cartoes = cs || [];
   } else cartoes = [];
   renderQuadro();
+  carregarContadoresCartoes();
 }
 
 // ── Render ────────────────────────────────────────────────
@@ -1977,15 +2101,21 @@ function renderQuadro() {
 }
 
 function cardHTMLAndrey(c) {
+  const nA = contAnexos[c.id] || 0;
+  const nC = contComentarios[c.id] || 0;
+  const temDesc = !!(c.descricao && c.descricao.trim());
+  const badges = (temDesc || nA || nC) ? `
+    <div class="and-card-badges">
+      ${temDesc ? '<span title="Tem descri&ccedil;&atilde;o">&#8801;</span>' : ''}
+      ${nA ? `<span title="Anexos">&#128206; ${nA}</span>` : ''}
+      ${nC ? `<span title="Coment&aacute;rios">&#128172; ${nC}</span>` : ''}
+    </div>` : '';
   return `<div class="and-card" data-id="${c.id}" draggable="true"
+       onclick="abrirCartao('${c.id}')"
        ondragstart="iniciarArraste(event,'${c.id}')" ondragend="fimArraste(event)">
     <button class="and-check ${c.concluido ? 'on' : ''}" title="${c.concluido ? 'Reabrir' : 'Concluir'}"
-            onclick="event.stopPropagation();alternarConcluido('${c.id}')">✓</button>
-    <div class="and-card-txt">${esc(c.titulo)}${c.descricao ? `<span class="and-card-desc">${esc(c.descricao)}</span>` : ''}</div>
-    <div class="and-card-acts">
-      <button onclick="event.stopPropagation();editarCard('${c.id}')" title="Editar">Editar</button>
-      <button class="del" onclick="event.stopPropagation();apagarCard('${c.id}')" title="Apagar">Apagar</button>
-    </div>
+            onclick="event.stopPropagation();alternarConcluido('${c.id}')">&#10003;</button>
+    <div class="and-card-txt">${esc(c.titulo)}${badges}</div>
   </div>`;
 }
 
@@ -2132,6 +2262,193 @@ async function alternarConcluido(id) {
     .update({ concluido: c.concluido, concluido_em: c.concluido_em }).eq('id', id);
   if (error) { toast('Erro ao salvar'); carregarConteudo(); }
 }
+
+// ── Modal do cartão ───────────────────────────────────────
+let cartaoAtual = null;
+let contAnexos = {}, contComentarios = {};
+
+async function abrirCartao(id) {
+  const c = cartoes.find(x => x.id === id); if (!c) return;
+  cartaoAtual = c;
+  const lista = listas.find(l => l.id === c.lista_id);
+  $a('kmodalTitle').value = c.titulo;
+  $a('kmodalCrumbs').textContent = 'na lista ' + (lista ? lista.nome : '—');
+  renderDescricao();
+  $a('kanexosLista').innerHTML = '<div class="kvazio">Carregando…</div>';
+  $a('kcomLista').innerHTML = '<div class="kvazio">Carregando…</div>';
+  $a('kcomInput').value = ''; $a('kcomInput').rows = 1; $a('kcomActs').style.display = 'none';
+  $a('kmodalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  await Promise.all([carregarAnexos(), carregarComentarios()]);
+}
+function fecharCartao() {
+  $a('kmodalBg').classList.remove('open');
+  document.body.style.overflow = '';
+  cartaoAtual = null;
+}
+
+function renderDescricao() {
+  const c = cartaoAtual; if (!c) return;
+  const box = $a('kdescBox');
+  const tem = c.descricao && c.descricao.trim();
+  box.innerHTML = tem
+    ? `<div class="kdesc-view" onclick="editarDescricao()">${esc(c.descricao)}</div>`
+    : `<div class="kdesc-view vazio" onclick="editarDescricao()">Adicione uma descrição mais detalhada…</div>`;
+}
+function editarDescricao() {
+  const c = cartaoAtual; if (!c) return;
+  $a('kdescBox').innerHTML = `<div class="kdesc-edit">
+    <textarea id="kdescInput">${esc(c.descricao || '')}</textarea>
+    <div class="kdesc-acts">
+      <button class="ok" onclick="salvarDescricao()">Salvar</button>
+      <button class="x" onclick="renderDescricao()">Cancelar</button>
+    </div></div>`;
+  $a('kdescInput').focus();
+}
+async function salvarDescricao() {
+  const c = cartaoAtual; if (!c) return;
+  const novo = $a('kdescInput').value.trim();
+  const { error } = await db.from('cartoes').update({ descricao: novo || null }).eq('id', c.id);
+  if (error) { toast('Erro ao salvar'); return; }
+  c.descricao = novo || null;
+  renderDescricao();
+  atualizarTextoCartao(c);
+}
+
+async function salvarTituloCartao() {
+  const c = cartaoAtual; if (!c) return;
+  const novo = $a('kmodalTitle').value.trim();
+  if (!novo || novo === c.titulo) { $a('kmodalTitle').value = c.titulo; return; }
+  const { error } = await db.from('cartoes').update({ titulo: novo }).eq('id', c.id);
+  if (error) { toast('Erro ao salvar'); $a('kmodalTitle').value = c.titulo; return; }
+  c.titulo = novo;
+  atualizarTextoCartao(c);
+}
+
+async function apagarCartaoAtual() {
+  const c = cartaoAtual; if (!c) return;
+  if (!confirm('Apagar este cartão?')) return;
+  const { error } = await db.from('cartoes').delete().eq('id', c.id);
+  if (error) { toast('Erro ao apagar'); return; }
+  fecharCartao(); carregarConteudo();
+}
+
+async function carregarAnexos() {
+  const c = cartaoAtual; if (!c) return;
+  const { data } = await db.from('anexos_cartao').select('*').eq('cartao_id', c.id).order('criado_em', { ascending: false });
+  const lista = data || [];
+  contAnexos[c.id] = lista.length;
+  $a('kanexosCount').textContent = lista.length ? `(${lista.length})` : '';
+  $a('kanexosLista').innerHTML = lista.length
+    ? lista.map(a => {
+        const kb = a.tamanho ? (a.tamanho < 1048576 ? Math.round(a.tamanho / 1024) + ' KB' : (a.tamanho / 1048576).toFixed(1) + ' MB') : '';
+        return `<div class="kanexo">
+          <span class="kanexo-nome" onclick="baixarAnexo('${a.arquivo}','${esc(a.nome).replace(/'/g,'&#39;')}')">${esc(a.nome)}</span>
+          <span class="kanexo-tam">${kb}</span>
+          <button class="kanexo-del" onclick="apagarAnexo('${a.id}','${a.arquivo}')" title="Apagar">&times;</button>
+        </div>`;
+      }).join('')
+    : '<div class="kvazio">Nenhum anexo ainda.</div>';
+  atualizarBadgeCartao(c.id);
+}
+
+async function baixarAnexo(caminho, nome) {
+  const { data, error } = await db.storage.from('cartao-anexos').createSignedUrl(caminho, 60);
+  if (error || !data) { toast('Erro ao gerar link'); return; }
+  const a = document.createElement('a');
+  a.href = data.signedUrl; a.download = nome; document.body.appendChild(a); a.click(); a.remove();
+}
+
+async function enviarAnexo(input) {
+  const c = cartaoAtual; if (!c || !input.files[0]) return;
+  const file = input.files[0];
+  input.value = '';
+  const safe = file.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_');
+  const caminho = `${c.id}/${Date.now()}_${safe}`;
+  toast('Enviando…');
+  const { error: upErr } = await db.storage.from('cartao-anexos').upload(caminho, file);
+  if (upErr) { toast('Erro no upload: ' + upErr.message); return; }
+  const { error } = await db.from('anexos_cartao').insert({ cartao_id: c.id, nome: file.name, arquivo: caminho, tamanho: file.size });
+  if (error) { toast('Erro ao registrar'); return; }
+  toast('Anexo salvo'); carregarAnexos();
+}
+
+async function apagarAnexo(id, caminho) {
+  if (!confirm('Apagar este anexo?')) return;
+  await db.storage.from('cartao-anexos').remove([caminho]);
+  const { error } = await db.from('anexos_cartao').delete().eq('id', id);
+  if (error) { toast('Erro ao apagar'); return; }
+  carregarAnexos();
+}
+
+async function carregarComentarios() {
+  const c = cartaoAtual; if (!c) return;
+  const { data } = await db.from('comentarios_cartao').select('*').eq('cartao_id', c.id).order('criado_em', { ascending: false });
+  const lista = data || [];
+  contComentarios[c.id] = lista.length;
+  $a('kcomLista').innerHTML = lista.length
+    ? lista.map(k => {
+        const d = new Date(k.criado_em);
+        const quando = d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+        return `<div class="kcom">
+          <button class="kcom-del" onclick="apagarComentario('${k.id}')" title="Apagar">&times;</button>
+          <div class="kcom-txt">${esc(k.texto)}</div>
+          <div class="kcom-data">${quando}</div>
+        </div>`;
+      }).join('')
+    : '<div class="kvazio">Nenhum comentário ainda.</div>';
+  atualizarBadgeCartao(c.id);
+}
+
+async function salvarComentario() {
+  const c = cartaoAtual; if (!c) return;
+  const txt = $a('kcomInput').value.trim();
+  if (!txt) return;
+  const { error } = await db.from('comentarios_cartao').insert({ cartao_id: c.id, texto: txt });
+  if (error) { toast('Erro ao salvar'); return; }
+  $a('kcomInput').value = ''; $a('kcomInput').rows = 1; $a('kcomActs').style.display = 'none';
+  carregarComentarios();
+}
+
+async function apagarComentario(id) {
+  if (!confirm('Apagar este comentário?')) return;
+  const { error } = await db.from('comentarios_cartao').delete().eq('id', id);
+  if (error) { toast('Erro ao apagar'); return; }
+  carregarComentarios();
+}
+
+function atualizarTextoCartao(c) {
+  const el = document.querySelector(`.and-card[data-id="${c.id}"] .and-card-txt`);
+  if (!el) return;
+  const nA = contAnexos[c.id] || 0, nC = contComentarios[c.id] || 0;
+  const temDesc = !!(c.descricao && c.descricao.trim());
+  const badges = (temDesc || nA || nC) ? `
+    <div class="and-card-badges">
+      ${temDesc ? '<span title="Tem descrição">&#8801;</span>' : ''}
+      ${nA ? `<span title="Anexos">&#128206; ${nA}</span>` : ''}
+      ${nC ? `<span title="Comentários">&#128172; ${nC}</span>` : ''}
+    </div>` : '';
+  el.innerHTML = esc(c.titulo) + badges;
+}
+function atualizarBadgeCartao(id) {
+  const c = cartoes.find(x => x.id === id); if (c) atualizarTextoCartao(c);
+}
+
+async function carregarContadoresCartoes() {
+  const ids = cartoes.map(c => c.id); if (!ids.length) { contAnexos = {}; contComentarios = {}; return; }
+  const [rA, rC] = await Promise.all([
+    db.from('anexos_cartao').select('cartao_id').in('cartao_id', ids),
+    db.from('comentarios_cartao').select('cartao_id').in('cartao_id', ids)
+  ]);
+  contAnexos = {}; contComentarios = {};
+  (rA.data || []).forEach(x => contAnexos[x.cartao_id] = (contAnexos[x.cartao_id] || 0) + 1);
+  (rC.data || []).forEach(x => contComentarios[x.cartao_id] = (contComentarios[x.cartao_id] || 0) + 1);
+  cartoes.forEach(c => atualizarTextoCartao(c));
+}
+
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape' && $a('kmodalBg')?.classList.contains('open')) fecharCartao();
+});
 
 // ── Arrastar e soltar ─────────────────────────────────────
 let arrastandoId = null;
