@@ -245,6 +245,104 @@ function fmtData(iso) {
 function parseData(iso) { return iso ? new Date(iso + 'T00:00:00') : null; }
 
 // ═══════════════════════════════════════════════════════════════
+// DATAS — máscara dd/mm/aaaa livre, com calendário opcional
+// ═══════════════════════════════════════════════════════════════
+function mascaraData(v) {
+  const d = String(v || '').replace(/\D/g, '').slice(0, 8);
+  if (d.length <= 2) return d;
+  if (d.length <= 4) return d.slice(0, 2) + '/' + d.slice(2);
+  return d.slice(0, 2) + '/' + d.slice(2, 4) + '/' + d.slice(4);
+}
+function dataToISO(txt) {
+  const s = String(txt || '').trim();
+  if (!s) return '';
+  // aceita dd/mm/aaaa
+  const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+  // ou aaaa-mm-dd
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  return '';
+}
+function isoToBR(iso) {
+  if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return '';
+  const [y, m, d] = iso.split('-');
+  return `${d}/${m}/${y}`;
+}
+function dataInput(id, isoAtual, onChangeCall) {
+  const brValue = isoToBR(isoAtual);
+  return `<div style="display:flex;gap:6px;align-items:stretch">
+    <input type="text" id="${id}" value="${esc(brValue)}" placeholder="dd/mm/aaaa"
+      style="flex:1"
+      oninput="this.value=mascaraData(this.value)"
+      onblur="${onChangeCall}(dataToISO(this.value))">
+    <input type="date" style="width:40px;padding:0;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer"
+      value="${esc(isoAtual || '')}"
+      onchange="const t=document.getElementById('${id}');t.value=isoToBR(this.value);${onChangeCall}(this.value)"
+      title="Abrir calendário">
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// VALOR POR EXTENSO
+// ═══════════════════════════════════════════════════════════════
+function numeroPorExtenso(n) {
+  if (n === 0) return 'zero';
+  if (n < 0) return 'menos ' + numeroPorExtenso(-n);
+  const un = ['','um','dois','três','quatro','cinco','seis','sete','oito','nove'];
+  const de10a19 = ['dez','onze','doze','treze','quatorze','quinze','dezesseis','dezessete','dezoito','dezenove'];
+  const dz = ['','','vinte','trinta','quarenta','cinquenta','sessenta','setenta','oitenta','noventa'];
+  const ct = ['','cento','duzentos','trezentos','quatrocentos','quinhentos','seiscentos','setecentos','oitocentos','novecentos'];
+  function ate999(v) {
+    if (v === 0) return '';
+    if (v === 100) return 'cem';
+    const c = Math.floor(v/100), d = Math.floor((v%100)/10), u = v%10;
+    const s = [];
+    if (c > 0) s.push(ct[c]);
+    if (d === 1) s.push(de10a19[u]);
+    else { if (d > 1) s.push(dz[d]); if (u > 0) s.push(un[u]); }
+    return s.filter(Boolean).join(' e ');
+  }
+  const bi = Math.floor(n/1e9), mi = Math.floor((n%1e9)/1e6), ml = Math.floor((n%1e6)/1e3), rs = n%1000;
+  const partes = [];
+  if (bi > 0) partes.push(ate999(bi) + (bi === 1 ? ' bilhão' : ' bilhões'));
+  if (mi > 0) partes.push(ate999(mi) + (mi === 1 ? ' milhão' : ' milhões'));
+  if (ml > 0) partes.push(ml === 1 ? 'mil' : ate999(ml) + ' mil');
+  if (rs > 0) partes.push(ate999(rs));
+  if (partes.length <= 1) return partes.join('');
+  let saida = partes[0];
+  for (let i = 1; i < partes.length; i++) {
+    const ultima = (i === partes.length - 1);
+    if (ultima && rs > 0 && (rs < 100 || rs % 100 === 0)) saida += ' e ' + partes[i];
+    else saida += ' ' + partes[i];
+  }
+  return saida;
+}
+function valorPorExtenso(v) {
+  if (v === 0) return 'zero reais';
+  const [i, c] = v.toFixed(2).split('.');
+  const inteiro = parseInt(i), centavos = parseInt(c);
+  let s = '';
+  if (inteiro > 0) s = numeroPorExtenso(inteiro) + (inteiro === 1 ? ' real' : ' reais');
+  if (centavos > 0) s += (inteiro > 0 ? ' e ' : '') + numeroPorExtenso(centavos) + (centavos === 1 ? ' centavo' : ' centavos');
+  return s;
+}
+function ordinalTextoFem(n) {
+  const t = ['','PRIMEIRA','SEGUNDA','TERCEIRA','QUARTA','QUINTA','SEXTA','SÉTIMA','OITAVA','NONA','DÉCIMA','DÉCIMA PRIMEIRA','DÉCIMA SEGUNDA'];
+  return t[n] || (n + 'ª');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UPDATE PONTUAL (evita re-render que perde foco)
+// ═══════════════════════════════════════════════════════════════
+function atualizarHintValor(bemId) {
+  const b = sucAtiva().bens.find(x => x.id === bemId);
+  if (!b) return;
+  const el = document.getElementById('hint_valor_' + bemId);
+  if (el) el.textContent = parseValor(b.valor) > 0 ? fmtBRL(parseValor(b.valor)) : '—';
+}
+
+
+// ═══════════════════════════════════════════════════════════════
 // TIPOS E NATUREZAS (do formulário anterior, adaptados)
 // ═══════════════════════════════════════════════════════════════
 const TIPOS_BEM = [
@@ -382,7 +480,7 @@ function renderCorpo() {
     <div class="grid g2">
       <div class="field">
         <label>Rótulo desta sucessão</label>
-        <input type="text" value="${esc(s.rotulo)}" oninput="atualizarSuc('rotulo', this.value); renderBar()">
+        <input type="text" value="${esc(s.rotulo)}" oninput="atualizarSuc('rotulo', this.value)" onblur="renderBar()">
       </div>
       <div class="field">
         <label>Nome completo</label>
@@ -390,7 +488,7 @@ function renderCorpo() {
       </div>
       <div class="field">
         <label>Data do óbito</label>
-        <input type="date" value="${esc(s.falecido.obito)}" oninput="atualizarFalecido('obito', this.value)">
+        ${dataInput('dt_fal_' + s.id, s.falecido.obito, 'setFalecidoObito')}
       </div>
       <div class="field">
         <label>Estado civil na data do óbito</label>
@@ -422,7 +520,7 @@ function renderCorpo() {
         </div>
         <div class="field">
           <label>Data do casamento / início da união</label>
-          <input type="date" value="${esc(s.conjuge.dataCasamento)}" oninput="atualizarConjuge('dataCasamento', this.value); renderCorpo()">
+          ${dataInput('dt_cas_' + s.id, s.conjuge.dataCasamento, 'setConjugeCasamento')}
         </div>
         <div class="field">
           <label>Regime de bens</label>
@@ -444,7 +542,7 @@ function renderCorpo() {
         ${conjFalecido ? `
         <div class="field">
           <label>Data do óbito do cônjuge</label>
-          <input type="date" value="${esc(s.conjuge.dataObito)}" oninput="atualizarConjuge('dataObito', this.value)">
+          ${dataInput('dt_conj_' + s.id, s.conjuge.dataObito, 'setConjugeObito')}
         </div>` : ''}
       </div>
       <label class="check" style="margin-top:12px">
@@ -532,7 +630,7 @@ function renderBens(s) {
       <div class="grid">
         <div class="field">
           <label>Número</label>
-          <input type="text" value="${esc(b.numero)}" oninput="setBem('${b.id}','numero',this.value); renderBens(sucAtiva())">
+          <input type="text" value="${esc(b.numero)}" oninput="setBem('${b.id}','numero',this.value)" onblur="renderBens(sucAtiva())">
         </div>
         <div class="field">
           <label>Tipo do bem</label>
@@ -554,12 +652,12 @@ function renderBens(s) {
         </div>
         <div class="field">
           <label>Valor (R$)</label>
-          <input type="text" value="${esc(b.valor)}" oninput="setBem('${b.id}','valor',this.value); renderBens(sucAtiva())" placeholder="0,00">
-          <div class="hint">${v > 0 ? fmtBRL(v) : '—'}</div>
+          <input type="text" value="${esc(b.valor)}" oninput="setBem('${b.id}','valor',this.value); atualizarHintValor('${b.id}')" onblur="renderBens(sucAtiva())" placeholder="0,00">
+          <div class="hint" id="hint_valor_${b.id}">${v > 0 ? fmtBRL(v) : '—'}</div>
         </div>
         <div class="field">
           <label>Data de aquisição pelo falecido</label>
-          <input type="date" value="${esc(b.dataAquisicao)}" oninput="setBem('${b.id}','dataAquisicao',this.value); renderBens(sucAtiva())">
+          ${dataInput('dt_aq_' + b.id, b.dataAquisicao, 'setBemDataAq_' + b.id)}
         </div>
         <div class="field">
           <label>Documento comprobatório <span class="opc">— tipo</span></label>
@@ -600,7 +698,7 @@ function renderFilhos(s) {
         </div>
       </div>
       <div class="grid">
-        <div class="field full"><label>Nome completo</label><input type="text" value="${esc(f.nome)}" oninput="setFilho('${f.id}','nome',this.value); renderFilhos(sucAtiva())"></div>
+        <div class="field full"><label>Nome completo</label><input type="text" value="${esc(f.nome)}" oninput="setFilho('${f.id}','nome',this.value)" onblur="renderFilhos(sucAtiva())"></div>
         <div class="field"><label>Situação</label>
           <select onchange="setFilho('${f.id}','situacao',this.value); renderFilhos(sucAtiva())">
             <option value="vivo" ${f.situacao === 'vivo' ? 'selected' : ''}>Vivo na abertura da sucessão</option>
@@ -609,7 +707,7 @@ function renderFilhos(s) {
           </select>
         </div>
         ${f.situacao !== 'vivo' ? `
-        <div class="field"><label>Data do óbito</label><input type="date" value="${esc(f.dataObito)}" oninput="setFilho('${f.id}','dataObito',this.value)"></div>` : ''}
+        <div class="field"><label>Data do óbito</label>${dataInput('dt_fi_' + f.id, f.dataObito, 'setFilhoObito_' + f.id)}</div>` : ''}
       </div>
       ${f.situacao === 'pre' ? `
         <div class="aninhado">
@@ -644,7 +742,7 @@ function renderAscendentes(s) {
         <button class="rm-btn" onclick="removerAscendente('${a.id}')">×</button>
       </div>
       <div class="grid">
-        <div class="field"><label>Nome</label><input type="text" value="${esc(a.nome)}" oninput="setAscendente('${a.id}','nome',this.value); renderAscendentes(sucAtiva())"></div>
+        <div class="field"><label>Nome</label><input type="text" value="${esc(a.nome)}" oninput="setAscendente('${a.id}','nome',this.value)" onblur="renderAscendentes(sucAtiva())"></div>
         <div class="field"><label>Grau</label>
           <select onchange="setAscendente('${a.id}','grau',this.value)">
             <option value="pai" ${a.grau === 'pai' ? 'selected' : ''}>Pai</option>
@@ -662,6 +760,32 @@ function renderAscendentes(s) {
 function atualizarSuc(campo, v)      { sucAtiva()[campo] = v; }
 function atualizarFalecido(campo, v) { sucAtiva().falecido[campo] = v; }
 function atualizarConjuge(campo, v)  { sucAtiva().conjuge[campo] = v; }
+function setFalecidoObito(iso) { sucAtiva().falecido.obito = iso; }
+function setConjugeCasamento(iso) { sucAtiva().conjuge.dataCasamento = iso; renderBens(sucAtiva()); }
+function setConjugeObito(iso) { sucAtiva().conjuge.dataObito = iso; }
+
+// Setters dinâmicos para bem/filho (por id, pra não precisar guardar em closure)
+function setBemDataAq_ID(iso, bemId) {
+  const b = sucAtiva().bens.find(x => x.id === bemId); if (!b) return;
+  b.dataAquisicao = iso;
+  renderBens(sucAtiva());
+}
+function setFilhoObito_ID(iso, filhoId) {
+  const f = sucAtiva().filhos.find(x => x.id === filhoId); if (f) f.dataObito = iso;
+}
+// Cria proxies dinâmicos globais no primeiro uso (evita escrever setter por id no HTML)
+new Proxy(window, {
+  get(target, prop) {
+    if (typeof prop !== 'string') return target[prop];
+    let m = prop.match(/^setBemDataAq_(x\d+)$/);
+    if (m) { const id = m[1]; return (iso) => setBemDataAq_ID(iso, id); }
+    m = prop.match(/^setFilhoObito_(x\d+)$/);
+    if (m) { const id = m[1]; return (iso) => setFilhoObito_ID(iso, id); }
+    return target[prop];
+  }
+});
+// (o Proxy acima faz window.setBemDataAq_xNN existir sob demanda)
+
 function alterarSituacaoConjuge(v) {
   const s = sucAtiva();
   s.conjuge.situacao = v;
@@ -1134,6 +1258,119 @@ function renderResultado(resultados) {
   box.innerHTML = h;
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// CONSTRUTOR DE BLOCOS DA PEÇA (compartilhado entre PDF e DOCX)
+// Cada bloco: { tipo, texto, bold? }
+//   tipos: caixa | h1 | h2 | h3 | p | p-indent | espaco
+// ═══════════════════════════════════════════════════════════════
+function naturezaCaixaAlta(codigo) {
+  const map = {
+    plena: 'DIREITO À PROPRIEDADE PLENA DO BEM',
+    direito_acao: 'DIREITO E AÇÃO SOBRE O BEM',
+    nua_prop: 'DIREITO À NUA-PROPRIEDADE DO BEM',
+    usufruto: 'DIREITO DE USUFRUTO SOBRE O BEM',
+    fracao: 'FRAÇÃO IDEAL DO BEM',
+    copropriedade: 'DIREITO SOBRE COPROPRIEDADE DO BEM',
+    posse: 'DIREITOS POSSESSÓRIOS SOBRE O BEM',
+    credito: 'DIREITO DE CRÉDITO',
+    outro: 'DIREITO SOBRE O BEM'
+  };
+  return map[codigo] || 'DIREITO SOBRE O BEM';
+}
+
+function descricaoBemComplemento(b) {
+  // Ex.: "DIREITO E AÇÃO SOBRE O BEM assim descrito: [descrição]; conforme RGI em index [preencher]."
+  let s = naturezaCaixaAlta(b.natureza) + ' assim descrito: ' + (b.descricao || '').trim();
+  if (b.tipoDoc) s += `, conforme ${b.tipoDoc} em index [preencher]`;
+  s = s.replace(/[\s.]*$/, '') + '.';
+  return s;
+}
+
+function fracaoComoTexto(f) {
+  // "1/2", "3/16" etc.  (já vem reduzida)
+  return Ffmt(f);
+}
+
+// Monta a lista de blocos para todas as sucessões calculadas
+function montarBlocos(resultados) {
+  const blocos = [];
+
+  resultados.forEach((r, idx) => {
+    const s = r.sucessao;
+    const bensProc = r.bensProc;
+    const totalGeral = bensProc.reduce((sum, b) => sum + b.valorNum, 0);
+    const totalGeralExt = valorPorExtenso(totalGeral);
+
+    // ─── Cabeçalho da sucessão ────────────────────
+    if (idx > 0) blocos.push({ tipo: 'quebra' });
+    blocos.push({ tipo: 'caixa', texto: `DA ${ordinalTextoFem(idx + 1)} SUCESSÃO` });
+    blocos.push({ tipo: 'h2', texto: `I. DO PLANO DE PARTILHA — ${idx + 1}ª SUCESSÃO:` });
+    blocos.push({ tipo: 'p', texto: `PLANO DE PARTILHA DOS BENS DEIXADOS POR ${(s.falecido.nome || '[nome do falecido]').toUpperCase()} — ${fmtBRL(totalGeral)}`, bold: true });
+
+    // ─── A) DO MONTE ──────────────────────────────
+    blocos.push({ tipo: 'h3', texto: 'A) DO MONTE:' });
+
+    bensProc.forEach(b => {
+      const linha = `${fmtBRL(b.valorNum)} — ${descricaoBemComplemento(b)}`;
+      blocos.push({ tipo: 'p-indent', texto: linha });
+    });
+
+    blocos.push({ tipo: 'p-indent', texto: `VALOR DO MONTE: ${fmtBRL(totalGeral)} (${totalGeralExt}).`, bold: true });
+
+    // ─── B) DO PAGAMENTO ──────────────────────────
+    blocos.push({ tipo: 'h3', texto: 'B) DO PAGAMENTO:' });
+
+    // Ordena: primeiro cônjuge (meeiro), depois herdeiros
+    const entries = Object.entries(r.distribuicoes);
+    const meeiro = entries.filter(([, d]) => d.papel.toLowerCase().includes('meeir'));
+    const outros = entries.filter(([, d]) => !d.papel.toLowerCase().includes('meeir'));
+    const ordenado = [...meeiro, ...outros];
+
+    ordenado.forEach(([pid, dist], i) => {
+      const letra = String.fromCharCode(49 + i); // 1, 2, 3, ...
+      const ehMeeiro = dist.papel.toLowerCase().includes('meeir') && !dist.papel.toLowerCase().includes('herdeir');
+      const ehEspolio = dist.papel === 'Espólio';
+      const ehAscendente = dist.papel === 'Ascendente';
+
+      // Fecho: RESERVA DA MEAÇÃO ou TOTAL DO PAGAMENTO
+      let intro;
+      if (ehMeeiro) {
+        intro = `Cabe a ${dist.nome.toUpperCase()}, na condição de cônjuge/companheiro(a) meeiro(a), a título de reserva de meação:`;
+      } else if (ehEspolio) {
+        intro = `Cabe ao ${dist.nome.toUpperCase()}, como pagamento do quinhão hereditário do de cujus (a integrar-se a nova partilha):`;
+      } else if (ehAscendente) {
+        intro = `Cabe a ${dist.nome.toUpperCase()}, na condição de ascendente, como pagamento de seu quinhão hereditário:`;
+      } else if (dist.papel.includes('representação') || dist.papel.startsWith('Neto')) {
+        intro = `Cabe a ${dist.nome.toUpperCase()}, por representação de estirpe, como pagamento de seu quinhão hereditário:`;
+      } else if (dist.papel.toLowerCase().includes('herdeir')) {
+        intro = `Cabe a ${dist.nome.toUpperCase()}, na condição de ${dist.papel.toLowerCase()}, como pagamento de seu quinhão hereditário:`;
+      } else {
+        intro = `Cabe a ${dist.nome.toUpperCase()} (${dist.papel}):`;
+      }
+
+      blocos.push({ tipo: 'p', texto: `B.${letra}) ${intro}` });
+
+      let totalPessoa = 0;
+      bensProc.forEach(b => {
+        const frac = dist.porBem[b.id];
+        if (!frac || Fzero(frac)) return;
+        const valor = b.valorNum * Fdec(frac);
+        totalPessoa += valor;
+        const fracTxt = fracaoComoTexto(frac);
+        const linha = `${fmtBRL(valor)} — correspondente a ${fracTxt} sobre o ${descricaoBemComplemento(b)}`;
+        blocos.push({ tipo: 'p-indent', texto: linha });
+      });
+
+      const totalExt = valorPorExtenso(totalPessoa);
+      const rotulo = ehMeeiro ? 'RESERVA DA MEAÇÃO' : 'TOTAL DO PAGAMENTO';
+      blocos.push({ tipo: 'p-indent', texto: `${rotulo}: ${fmtBRL(totalPessoa)} (${totalExt}).`, bold: true });
+    });
+  });
+
+  return blocos;
+}
+
 // ═══════════════════════════════════════════════════════════════
 // PDF
 // ═══════════════════════════════════════════════════════════════
@@ -1141,104 +1378,78 @@ function baixarPDF() {
   if (!ultimosResultados) return;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-  const margemX = 56, margemT = 60, margemB = 56;
+  const margemX = 68, margemT = 68, margemB = 60;
   const larg = doc.internal.pageSize.getWidth() - margemX * 2;
   const alt = doc.internal.pageSize.getHeight();
   let y = margemT;
 
   function garantir(h) { if (y + h > alt - margemB) { doc.addPage(); y = margemT; } }
-  function tit(t, tamanho) {
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(tamanho || 13);
-    garantir(24);
-    doc.text(t, margemX, y); y += 20;
-  }
-  function txt(t, opts = {}) {
-    doc.setFont('helvetica', opts.bold ? 'bold' : 'normal');
-    doc.setFontSize(opts.size || 11);
-    const linhas = doc.splitTextToSize(t, larg - (opts.indent || 0));
-    linhas.forEach(linha => { garantir(15); doc.text(linha, margemX + (opts.indent || 0), y); y += 14; });
-    y += (opts.after || 4);
-  }
-  function linha() {
-    garantir(8);
-    doc.setDrawColor(200); doc.setLineWidth(0.5);
-    doc.line(margemX, y, margemX + larg, y); y += 8;
-  }
 
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(18);
-  doc.text('PLANO DE PARTILHA', margemX, y); y += 24;
-  linha();
-
-  ultimosResultados.forEach((r, idx) => {
-    const s = r.sucessao;
-    if (idx > 0) { doc.addPage(); y = margemT; }
-
-    tit(s.rotulo.toUpperCase(), 14);
-
-    tit('Falecido');
-    txt(s.falecido.nome, { bold: true });
-    const dados = [];
-    if (s.falecido.obito) dados.push('Falecido em ' + fmtData(s.falecido.obito));
-    dados.push(labelEstado(s.falecido.estadoCivil));
-    txt(dados.join(' · '));
-    if (r.temConjuge) {
-      txt(`Cônjuge/companheiro(a): ${r.cNome}`);
-      txt(`Regime: ${labelRegime(r.regime)}` + (s.conjuge.dataCasamento ? ` · Casamento em ${fmtData(s.conjuge.dataCasamento)}` : ''));
-    } else if (s.falecido.estadoCivil === 'casado' || s.falecido.estadoCivil === 'uniao') {
-      txt(`Cônjuge/companheiro(a): ${s.conjuge.nome || '—'} (também falecido)`);
-    }
-    y += 4; linha();
-
-    tit('Bens do espólio');
-    let totalGeral = 0;
-    r.bensProc.forEach((b, i) => {
-      const natLabel = (NATUREZAS.find(x => x[0] === b.natureza) || [,''])[1];
-      const nBem = b.numero || String(i + 1).padStart(3, '0');
-      txt(`${nBem} — ${b.descricao}`, { bold: true });
-      const infoLinha = [b.tipo, natLabel, b.cls.classe].filter(Boolean).join(' · ');
-      txt(infoLinha, { size: 10, indent: 12 });
-      if (b.tipoDoc) txt(`Conforme ${b.tipoDoc} em index [preencher]`, { size: 10, indent: 12 });
-      txt(fmtBRL(b.valorNum), { bold: true, indent: 12, size: 11 });
-      totalGeral += b.valorNum;
+  function paragrafo(texto, opts = {}) {
+    const { bold = false, indent = 0, alinha = 'justificado', tamanho = 12, depois = 8 } = opts;
+    doc.setFont('times', bold ? 'bold' : 'normal');
+    doc.setFontSize(tamanho);
+    const larguraDisp = larg - indent;
+    const linhas = doc.splitTextToSize(texto, larguraDisp);
+    const alturaLinha = tamanho + 5;
+    linhas.forEach((linha) => {
+      garantir(alturaLinha);
+      let x = margemX + indent;
+      if (alinha === 'centro') {
+        const w = doc.getTextWidth(linha);
+        x = margemX + (larg - w) / 2;
+      }
+      doc.text(linha, x, y);
+      y += alturaLinha;
     });
-    y += 4;
-    txt(`Total do monte: ${fmtBRL(totalGeral)}`, { bold: true });
-    y += 6; linha();
+    y += depois;
+  }
 
-    const meacao = r.bensProc.reduce((sum, b) => b.cls.comum ? sum + b.valorNum / 2 : sum, 0);
-    if (r.temConjuge && meacao > 0) {
-      tit('Meação');
-      txt(`Cabe a ${r.cNome} a título de meação (metade dos bens comuns):`);
-      txt(fmtBRL(meacao), { bold: true, size: 12 });
-      y += 6; linha();
-    }
-
-    tit('Pagamento — quinhões');
-    Object.entries(r.distribuicoes).forEach(([pid, dist]) => {
-      let totalPessoa = 0;
-      txt(dist.nome, { bold: true, size: 12 });
-      txt(dist.papel, { size: 10 });
-      r.bensProc.forEach(b => {
-        const frac = dist.porBem[b.id];
-        if (!frac || Fzero(frac)) return;
-        const valor = b.valorNum * Fdec(frac);
-        totalPessoa += valor;
-        const docTxt = b.tipoDoc ? ` (conforme ${b.tipoDoc} em index [preencher])` : '';
-        txt(`• ${Ffmt(frac)} sobre "${b.descricao}"${docTxt} — ${fmtBRL(valor)}`, { indent: 12, size: 10 });
-      });
-      txt(`Total: ${fmtBRL(totalPessoa)}`, { bold: true, indent: 12 });
-      y += 6;
+  function caixa(texto) {
+    doc.setFont('times', 'bold'); doc.setFontSize(12);
+    const linhas = doc.splitTextToSize(texto, larg - 40);
+    const alturaTexto = linhas.length * 17 + 12;
+    garantir(alturaTexto + 14);
+    doc.setDrawColor(0); doc.setLineWidth(0.7);
+    doc.rect(margemX + 20, y - 4, larg - 40, alturaTexto);
+    linhas.forEach((linha, i) => {
+      const w = doc.getTextWidth(linha);
+      const x = margemX + (larg - w) / 2;
+      doc.text(linha, x, y + 14 + i * 17);
     });
-    linha();
+    y += alturaTexto + 14;
+  }
 
-    if (r.alertas.length) {
-      tit('Observações');
-      r.alertas.forEach(a => txt('• ' + a, { size: 10 }));
+  // Título geral
+  doc.setFont('times', 'bold'); doc.setFontSize(16);
+  const tituloGeral = 'PLANO DE PARTILHA';
+  const wt = doc.getTextWidth(tituloGeral);
+  doc.text(tituloGeral, (doc.internal.pageSize.getWidth() - wt) / 2, y);
+  y += 30;
+
+  const blocos = montarBlocos(ultimosResultados);
+  blocos.forEach(b => {
+    if (b.tipo === 'quebra') { doc.addPage(); y = margemT; return; }
+    if (b.tipo === 'espaco') { y += 10; return; }
+    if (b.tipo === 'caixa') { caixa(b.texto); return; }
+    if (b.tipo === 'h2') {
+      paragrafo(b.texto, { bold: true, tamanho: 12, depois: 10 });
+      return;
     }
+    if (b.tipo === 'h3') {
+      paragrafo(b.texto, { bold: true, tamanho: 12, depois: 6 });
+      return;
+    }
+    if (b.tipo === 'p-indent') {
+      paragrafo(b.texto, { bold: b.bold, indent: 48, tamanho: 11, depois: 8 });
+      return;
+    }
+    // p
+    paragrafo(b.texto, { bold: b.bold, tamanho: 11, depois: 10 });
   });
 
-  const nomeArquivo = 'plano-de-partilha-' + (sucessoes[0].falecido.nome || 'plano').replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
-  doc.save(nomeArquivo + '.pdf');
+  const nome = (sucessoes[0].falecido.nome || 'plano').replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  doc.save('plano-de-partilha-' + nome + '.pdf');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1246,100 +1457,58 @@ function baixarPDF() {
 // ═══════════════════════════════════════════════════════════════
 function baixarDOCX() {
   if (!ultimosResultados) return;
-  const { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, PageBreak } = window.docx;
+  const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle } = window.docx;
 
-  function p(texto, opts = {}) {
+  function par(texto, opts = {}) {
+    const { bold = false, indent = 0, alinha = 'both', tamanho = 24, depois = 160, caixa = false } = opts;
     return new Paragraph({
-      alignment: opts.center ? AlignmentType.CENTER : AlignmentType.LEFT,
-      spacing: { after: opts.after || 120 },
-      indent: opts.indent ? { left: opts.indent } : undefined,
-      children: [new TextRun({ text: texto, bold: opts.bold, size: opts.size || 22, font: 'Calibri' })]
-    });
-  }
-  function h(texto) {
-    return new Paragraph({
-      heading: HeadingLevel.HEADING_2,
-      spacing: { before: 240, after: 120 },
-      children: [new TextRun({ text: texto, bold: true, size: 28, font: 'Calibri' })]
+      alignment: alinha === 'centro' ? AlignmentType.CENTER : AlignmentType.JUSTIFIED,
+      spacing: { after: depois, line: 340 },
+      indent: indent ? { firstLine: indent, left: indent } : undefined,
+      border: caixa ? {
+        top:    { style: BorderStyle.SINGLE, size: 6, color: '000000' },
+        bottom: { style: BorderStyle.SINGLE, size: 6, color: '000000' },
+        left:   { style: BorderStyle.SINGLE, size: 6, color: '000000' },
+        right:  { style: BorderStyle.SINGLE, size: 6, color: '000000' },
+      } : undefined,
+      children: [new TextRun({ text: texto, bold, size: tamanho, font: 'Times New Roman' })]
     });
   }
 
   const paragrafos = [];
+
+  // Título geral
   paragrafos.push(new Paragraph({
     alignment: AlignmentType.CENTER,
-    spacing: { after: 300 },
-    children: [new TextRun({ text: 'PLANO DE PARTILHA', bold: true, size: 36, font: 'Calibri' })]
+    spacing: { after: 320 },
+    children: [new TextRun({ text: 'PLANO DE PARTILHA', bold: true, size: 32, font: 'Times New Roman' })]
   }));
 
-  ultimosResultados.forEach((r, idx) => {
-    const s = r.sucessao;
-    if (idx > 0) {
-      paragrafos.push(new Paragraph({ children: [new TextRun({ text: '', break: 1 })], pageBreakBefore: true }));
+  const blocos = montarBlocos(ultimosResultados);
+  blocos.forEach(b => {
+    if (b.tipo === 'quebra') {
+      paragrafos.push(new Paragraph({ children: [new TextRun('')], pageBreakBefore: true }));
+      return;
     }
-
-    paragrafos.push(new Paragraph({
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 240 },
-      children: [new TextRun({ text: s.rotulo.toUpperCase(), bold: true, size: 30, font: 'Calibri' })]
-    }));
-
-    paragrafos.push(h('Falecido'));
-    paragrafos.push(p(s.falecido.nome, { bold: true }));
-    const dados = [];
-    if (s.falecido.obito) dados.push('Falecido em ' + fmtData(s.falecido.obito));
-    dados.push(labelEstado(s.falecido.estadoCivil));
-    paragrafos.push(p(dados.join(' · ')));
-    if (r.temConjuge) {
-      paragrafos.push(p(`Cônjuge/companheiro(a): ${r.cNome}`));
-      paragrafos.push(p(`Regime: ${labelRegime(r.regime)}` + (s.conjuge.dataCasamento ? ` · Casamento em ${fmtData(s.conjuge.dataCasamento)}` : '')));
-    } else if (s.falecido.estadoCivil === 'casado' || s.falecido.estadoCivil === 'uniao') {
-      paragrafos.push(p(`Cônjuge/companheiro(a): ${s.conjuge.nome || '—'} (também falecido)`));
+    if (b.tipo === 'espaco') {
+      paragrafos.push(new Paragraph({ children: [new TextRun('')], spacing: { after: 200 } }));
+      return;
     }
-
-    paragrafos.push(h('Bens do espólio'));
-    let totalGeral = 0;
-    r.bensProc.forEach((b, i) => {
-      const natLabel = (NATUREZAS.find(x => x[0] === b.natureza) || [,''])[1];
-      const nBem = b.numero || String(i + 1).padStart(3, '0');
-      paragrafos.push(p(`${nBem} — ${b.descricao}`, { bold: true }));
-      paragrafos.push(p([b.tipo, natLabel, b.cls.classe].filter(Boolean).join(' · '), { size: 20, indent: 240 }));
-      if (b.tipoDoc) paragrafos.push(p(`Conforme ${b.tipoDoc} em index [preencher]`, { size: 20, indent: 240 }));
-      paragrafos.push(p(fmtBRL(b.valorNum), { bold: true, indent: 240 }));
-      totalGeral += b.valorNum;
-    });
-    paragrafos.push(p(`Total do monte: ${fmtBRL(totalGeral)}`, { bold: true }));
-
-    const meacao = r.bensProc.reduce((sum, b) => b.cls.comum ? sum + b.valorNum / 2 : sum, 0);
-    if (r.temConjuge && meacao > 0) {
-      paragrafos.push(h('Meação'));
-      paragrafos.push(p(`Cabe a ${r.cNome} a título de meação (metade dos bens comuns):`));
-      paragrafos.push(p(fmtBRL(meacao), { bold: true, size: 26 }));
+    if (b.tipo === 'caixa') {
+      paragrafos.push(par(b.texto, { bold: true, alinha: 'centro', caixa: true, depois: 240 }));
+      return;
     }
-
-    paragrafos.push(h('Pagamento — quinhões'));
-    Object.entries(r.distribuicoes).forEach(([pid, dist]) => {
-      let totalPessoa = 0;
-      paragrafos.push(p(dist.nome, { bold: true, size: 26 }));
-      paragrafos.push(p(dist.papel, { size: 20 }));
-      r.bensProc.forEach(b => {
-        const frac = dist.porBem[b.id];
-        if (!frac || Fzero(frac)) return;
-        const valor = b.valorNum * Fdec(frac);
-        totalPessoa += valor;
-        const docTxt = b.tipoDoc ? ` (conforme ${b.tipoDoc} em index [preencher])` : '';
-        paragrafos.push(p(`${Ffmt(frac)} sobre "${b.descricao}"${docTxt} — ${fmtBRL(valor)}`, { indent: 360, size: 20 }));
-      });
-      paragrafos.push(p(`Total: ${fmtBRL(totalPessoa)}`, { bold: true, indent: 360 }));
-    });
-
-    if (r.alertas.length) {
-      paragrafos.push(h('Observações'));
-      r.alertas.forEach(a => paragrafos.push(p('• ' + a, { size: 20 })));
+    if (b.tipo === 'h2') { paragrafos.push(par(b.texto, { bold: true, depois: 200 })); return; }
+    if (b.tipo === 'h3') { paragrafos.push(par(b.texto, { bold: true, depois: 160 })); return; }
+    if (b.tipo === 'p-indent') {
+      paragrafos.push(par(b.texto, { bold: b.bold, indent: 720, depois: 160 }));
+      return;
     }
+    paragrafos.push(par(b.texto, { bold: b.bold, depois: 200 }));
   });
 
   const doc = new Document({
-    styles: { default: { document: { run: { font: 'Calibri', size: 22 } } } },
+    styles: { default: { document: { run: { font: 'Times New Roman', size: 24 } } } },
     sections: [{
       properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
       children: paragrafos
@@ -1347,10 +1516,10 @@ function baixarDOCX() {
   });
 
   Packer.toBlob(doc).then(blob => {
-    const nomeArquivo = 'plano-de-partilha-' + (sucessoes[0].falecido.nome || 'plano').replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+    const nome = (sucessoes[0].falecido.nome || 'plano').replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = nomeArquivo + '.docx';
+    a.download = 'plano-de-partilha-' + nome + '.docx';
     document.body.appendChild(a);
     a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
