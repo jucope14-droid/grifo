@@ -587,7 +587,7 @@ input:checked+.sl:before{transform:translateX(19px)}
 .art-badge.pub{color:var(--t-green);border-color:var(--t-green)}
 .art-data{font-size:11px;color:var(--t-muted)}
 .art-vazio{padding:40px 0;text-align:center;color:var(--t-muted);font-size:14px;grid-column:1/-1}
-.art-editor{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.art-editor{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;position:relative;isolation:isolate}
 .art-top{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--t-nav);border-bottom:1px solid var(--t-line);flex-wrap:wrap}
 .art-titulo-inp{flex:1;min-width:150px;background:transparent;border:1px solid transparent;color:var(--t-strong);font-size:15px;font-weight:600;padding:6px 8px;border-radius:4px;font-family:inherit}
 .art-titulo-inp:hover{border-color:var(--t-line)}
@@ -606,9 +606,9 @@ input:checked+.sl:before{transform:translateX(19px)}
 .art-meta label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--t-muted);margin-bottom:4px}
 .art-meta input,.art-meta textarea{width:100%;background:var(--t-card);border:1px solid var(--t-line);color:var(--t-text);border-radius:4px;padding:7px 9px;font-size:13px;font-family:inherit;resize:vertical}
 .art-meta input:focus,.art-meta textarea:focus{outline:none;border-color:var(--t-blue)}
-.art-canvas{flex:1;overflow:auto;background:#3b3f45;padding:22px 10px 70px;display:flex;justify-content:center;align-items:flex-start}
-.art-folha{flex:0 0 auto;width:21cm;max-width:100%;min-height:29.7cm;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.45);padding:3cm 2cm 2cm 3cm}
-#artCorpo{min-height:24cm;outline:none;overflow-wrap:break-word;word-break:break-word;max-width:100%;color:#111;font-family:'Times New Roman',Times,serif;font-size:12pt;line-height:1.5;text-align:justify}
+.art-canvas{flex:1;overflow:auto;background:#3b3f45;padding:22px 10px 70px;display:flex;justify-content:center;align-items:flex-start;position:relative;transform:translateZ(0)}
+.art-folha{position:relative;flex:0 0 auto;width:21cm;max-width:100%;min-height:29.7cm;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.45);padding:3cm 2cm 2cm 3cm}
+#artCorpo{position:relative;z-index:1;display:block;min-height:24cm;outline:none;overflow-wrap:break-word;word-break:break-word;max-width:100%;color:#111;font-family:'Times New Roman',Times,serif;font-size:12pt;line-height:1.5;text-align:justify}
 #artCorpo p{margin:0 0 4pt}
 #artCorpo h1{font-size:16pt}
 #artCorpo h2{font-size:14pt}
@@ -1151,7 +1151,7 @@ input:checked+.sl:before{transform:translateX(19px)}
 
         <div class="art-canvas" id="artCanvas">
           <div class="art-folha" id="artFolha">
-            <div id="artCorpo" contenteditable="true" spellcheck="true"></div>
+            <div id="artCorpo" contenteditable="true" spellcheck="true" translate="no" autocorrect="off" autocapitalize="sentences" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false"></div>
           </div>
         </div>
 
